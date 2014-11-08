@@ -1,0 +1,72 @@
+/* CSS changes for mobile that differ 
+from the original style.css sheet*/
+
+.subheader {
+	margin-top: 52px;
+	margin-bottom: 15px;
+}
+
+#buttons {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.a-btn{
+    padding:10px 0 10px 34px;
+}
+
+.btn-symbol{
+    font-size:15px;
+    left:18px;
+    line-height:25px;
+}
+
+.btn-text {
+    font-size: 18px;
+    line-height:12px;
+}
+
+.sub-text {
+}
+
+#title > span {
+	font-size: 2.5em;
+}
+
+#cursive {
+	font-size: 1.4em;
+}
+
+.count {
+    left: 5px;
+    font-size: 1.3em;
+    line-height: 29px;
+    height: 30px;
+    padding: 0 8px 3px 8px;
+}
+
+.end {
+	/*padding-left: 30px;*/
+	font-size: 1em;
+}
+
+.start, .date, .time, .driver, .seats, .cost {
+    font-size: 0.7em;
+}
+
+
+.bdge {
+    right: 28px;
+}
+
+#openseats {
+	display: none;
+}
+
+.avatar {
+    margin-top: 45px;
+}
+
+.avatar img {
+    width: 110px;
+}
