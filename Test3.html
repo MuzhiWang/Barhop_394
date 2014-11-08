@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- files to be loaded first -->
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,300,700' rel='stylesheet' type='text/css' />
+        <script src="https://www.parsecdn.com/js/parse-1.2.18.min.js" type="text/javascript"></script>
+        <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>RideTogether</title>
+        <link rel="stylesheet" href="CSS/mobile.css" media="handheld,only screen and (max-device-width:480px)" />
+        <link rel="stylesheet" href="CSS/core.css" media="screen" />
+        <link rel="stylesheet" href="Plugins/FontAwesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="Plugins/Bootstrap/css/bootstrap.min.css">
+        
+        <script type="text/javascript" src="JS/autocomplete.js"></script>
+        <script type='application/javascript' src='JS/fastclick.js'></script>
+        <script type="text/javascript" src="Plugins/Bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="JS/timeline.js"></script>
+        <script type="text/javascript" src="JS/parse.js"></script>
+        <script type="text/javascript" src="JS/snap.js"></script>
+
+        <script type="text/javascript">
+          Parse.initialize("b0jfwJsQkNWPdoKnDgd8KJLufCLWNJpmc5vBTkqr", "X90Jzs3gzKceNOdkFmCle8ZiwsE0HGhyNF4N3Wcj");
+            $(document).ready(function() {
+                autoComplete();
+            });
+
+          // FAST CLICK CODE
+           window.addEventListener('load', function() {
+                  FastClick.attach(document.body);
+              }, false);
+
+           function show() {
+              $( '#filter' ).toggle( 'slow' );
+              $('.icon').find('i').toggleClass('fa-chevron-down fa-chevron-up');
+           }
+
+           function listShow() {
+              $('#friendsList').toggle('slow');
+           }
+
+           function list2Show() {
+              $('#friendsList2').toggle('slow');
+           }
+
+
+          // log out
+          function logout() {
+              Parse.User.logOut();
+              window.location.replace("rides.html");
+          }
+
+          // autocomplete for login modal
+          function autoComplete() {
+              autoCompleteStart = new google.maps.places.Autocomplete(
+                  (document.getElementById('start')),
+                  {types: []});
+              google.maps.event.addListener(autoCompleteStart, 'place_changed', function() {
+                  var startPlace = autoCompleteStart.getPlace();
+                  document.getElementById("startpointlat").value = startPlace.geometry.location.lat();
+                  document.getElementById("startpointlng").value = startPlace.geometry.location.lng();
+                  origin = "(" + document.getElementById("startpointlat").value  + ", " + document.getElementById("startpointlng").value + ")";   
+                  console.log(origin);      
+              });
+
+              autoCompleteEnd = new google.maps.places.Autocomplete(
+                 (document.getElementById('end')),
+                 {types: []});
+              google.maps.event.addListener(autoCompleteEnd, 'place_changed', function() {
+                  var endPlace = autoCompleteEnd.getPlace();
+                  document.getElementById("endpointlat").value = endPlace.geometry.location.lat();
+                  document.getElementById("endpointlng").value = endPlace.geometry.location.lng();
+                  destination = "(" + document.getElementById("endpointlat").value  + ", " + document.getElementById("endpointlng").value + ")";   
+                  console.log(destination);      
+              });
+          }
+        </script>
+    </head>
+
+
+    <body class="fancy">
+        <!-- SIDEBAR PANEL -->
+        <div class="snap-drawers">
+            <div class="snap-drawer snap-drawer-right">
+                <div>
+                    <div class="avatar"></div>
+                    <div id="profile"></div>
+                    <div class="links">
+                      <ul>
+                          <li><a href="index.html">Home</a></li>
+                          <li><a href="#" id="post" onclick='snapper.close();' data-toggle="modal" data-target="#postride">Post a Ride</a></li>
+                          <!-- <li><a href="#">Ride History</a></li> -->
+                          <li><a href="#" id="logout" onclick="logout();">Logout</a></li>
+                          <!-- <li><a href="#">Messages</a></li> -->
+                      </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BODY CONTENT -->
+        <div id="wrapper" class="snap-content" style="background-image: url(111111.png); position:fixed;">
+            
+            <!-- HEADER -->
+            <div class="header">
+              <h1>Bar <span id="cursive">Hop</span> Nearby
+                <span>
+                  <a href="index.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
+                  <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a>
+                  <!-- <a href="#" id="rides" onclick='notify();'><i class="fa fa-pencil-square-o fa-lg"></i><span class="bdge" id="n-badge"></span></a> -->
+                  <!-- <p>Menu</p> -->
+                </span>
+              </h1>     
+            </div>
+
+            <!-- REGISTERED RIDE NOTIFICATON -->
+            <div id="notification">
+              <div id="submit">
+                <p><span><i class="fa fa-check"></i>  Ride reservation successful</span></p>
+                <p><span><i class="fa fa-spinner fa-spin"></i>  Pending driver confirmation</span></p>
+              </div>
+            </div>
+
+
+            <!-- AVAILABLE RIDES LIST -->
+            <div class="barList transparent-form" style="margin-top:50px;">
+              <!-- <div class="count">counter</div> -->
+              <form id="barList-form" class="form-horizontal">
+                <p class="end">Bar Louie Evanston<span>
+                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> join them!</span></a></span>
+                </p>
+                <p class="start"><span style="color:blue">Hoster: </span>Tony</p>
+                <p class="date"><span style="color:blue">Party Date: </span>07/11/2014</p>
+                <p class="time"><span style="color:blue">Start Time: </span>7:00 PM</p>
+                <p class="time"><span style="color:blue">End Time: </span>12:00 PM</p>
+                <p class="driver"><span style="color:blue">Number of members: </span>7</p>
+                <p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p>
+                <!-- <p class="cost"><span style="color:blue">Trip Cost: </span>cost </p> -->
+                <a class="more" href="#" onclick="listShow()">show member list</a>
+              </form>
+            </div> 
+
+            <div class="filter transparent-form" id="friendsList">
+              <div id="friendList-div">
+                <form id="friendsList-form" class="form-horizontal">
+                <p class="cost"><span style="color:blue">Tony </span>check-in </p>
+                <p class="cost"><span style="color:blue">Marc </span>check-in </p>
+                <p class="cost"><span style="color:blue">Ajay </span>check-in </p>
+                <p class="cost"><span style="color:red">Kathryn </span>uncheck </p>
+                <p class="cost"><span style="color:red">Michael </span>uncheck </p>
+                <!-- <p class="cost"><span style="color:blue">Tony </span>check-in </p> -->
+                </form>
+              </div>
+            </div>
+
+            <div class="barList transparent-form" style="margin-top:20px;">
+              <!-- <div class="count">counter</div> -->
+              <form class="form-horizontal">
+                <p class="end">Prairie Moon<span>
+                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> join them!</span></a></span>
+                </p>
+                <p class="start"><span style="color:blue">Hoster: </span>Marc</p>
+                <p class="date"><span style="color:blue">Party Date: </span>09/11/2014</p>
+                <p class="time"><span style="color:blue">Start Time: </span>6:30 PM</p>
+                <p class="time"><span style="color:blue">End Time: </span>10:30 PM</p>
+                <p class="driver"><span style="color:blue">Number of members: </span>7</p>
+                <p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p>
+                <!-- <p class="cost"><span style="color:blue">Trip Cost: </span>cost </p> -->
+                <a class="more" href="#" onclick="list2Show()">show member list</a>
+              </form>
+            </div> 
+
+            <div class="filter transparent-form" id="friendsList2">
+              <div>
+                <form class="form-horizontal">
+                <p class="cost"><span style="color:blue">Tony </span>check-in </p>
+                <p class="cost"><span style="color:blue">Marc </span>check-in </p>
+                <p class="cost"><span style="color:blue">Ajay </span>check-in </p>
+                <p class="cost"><span style="color:red">Kathryn </span>uncheck </p>
+                <p class="cost"><span style="color:red">Michael </span>uncheck </p>
+                <!-- <p class="cost"><span style="color:blue">Tony </span>check-in </p> -->
+                </form>
+              </div>
+            </div>
+
+
+          </div>
+
+        <!-- LOGIN MODAL -->
+        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- BODY -->
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <!-- Email -->
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="usernamelogin" name="UserNameLogin"
+                                    placeholder="Email">
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="password" class="form-control" id="passwordlogin" name="PasswordLogin"
+                                    placeholder="Password">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-default" onclick="login()">Login</button>
+                        <div id="alert1" class="alert alert-danger">
+                            <strong>Error:</strong> Invalid username and password pair. Please try again.
+                        </div>
+                        <div id="alert2" class="alert alert-danger">
+                            <strong>Error:</strong> User's account isn't verified. Please look for an email from "no-reply@parseapps.com" and click the link in the email
+                        </div>
+                        <div id="alert3" class="alert alert-danger">
+                            <strong>Error:</strong> Invalid login parameters. Please check that you have registered for an account and that your email address has been verified. Then, try again.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- JAVASCRIPT FUNCTIONS -->
+        <script type="text/javascript">
+
+        var snapper = new Snap({
+            element: document.getElementById('wrapper'),
+            disable: 'left'
+          });
+
+
+          /*  create cross-browser event handler. */
+          var addEvent = function addEvent(element, eventName, func) {
+              if (element.addEventListener) {
+                  return element.addEventListener(eventName, func, false);
+              } else if (element.attachEvent) {
+                  return element.attachEvent("on" + eventName, func);
+              }
+          };
+
+          /* when the element with id 'open-left' is clicked, use the public snapper.open() method to slide the content div rightward, to reveal the LEFT menu */
+          addEvent(document.getElementById('menu'), 'click', function() {
+              snapper.open('right');
+          });
+
+          var menu = document.getElementById('menu');
+
+          menu.addEventListener('click', function(){
+              if( snapper.state().state=="right" ){
+                  snapper.close();
+              } else {
+                  snapper.open('right');
+              }
+
+          });
+
+
+        </script>
+        
+    </body>
+
+</html>
