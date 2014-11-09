@@ -42,6 +42,7 @@
                       success: function(user) {
                         // Hooray! Let them use the app now.
                         alert("registered");
+                        window.location.href("./BarList.html");
                       },
                       error: function(user, error) {
                         // Show the error message somewhere and let the user try again.
@@ -57,6 +58,7 @@
                   success: function(user) {
                     // Do stuff after successful login.
                     alert("login done");
+                    window.location.href("./BarList.html");
                   },
                   error: function(user, error) {
                     // The login failed. Check error to see why.
@@ -79,12 +81,12 @@
 
             <!-- MAIN BUTTONS -->
              <div id="buttons">
-                <a href="rides.html" class="a-btn">
+                <a href="./BarList.html" class="a-btn">
                     <span class="btn-symbol"><i class="fa fa-search fa-lg"></i></span>
                     <span class="btn-text">Find a BarHop</span> 
                     <span class="sub-text">to join friends party</span>
                 </a>
-                <a href="postride.html" class="a-btn">
+                <a href="./post.html" class="a-btn">
                     <span class="btn-symbol"><i class="fa fa-user fa-lg"></i></span>
                     <span class="btn-text">Post a event</span> 
                     <span class="sub-text">to gether some friend</span>
