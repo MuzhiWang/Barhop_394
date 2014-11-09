@@ -2,125 +2,70 @@
 <html>
     <head>
         <!-- files to be loaded first -->     
-         <link href='https://fonts.googleapis.com/css?family=Covered+By+Your+Grace|Open+Sans:400italic,400,300,700' rel='stylesheet' type='text/css' />
-        <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+         
+<script src="http://www.parsecdn.com/js/parse-1.3.1.min.js"></script>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script> 
+
+
+        <link rel="stylesheet" href="CSS/core.css" media="screen" /> 
+         <link rel="stylesheet" href="Plugins/FontAwesome/css/font-awesome.min.css" /> 
+         <link rel="stylesheet" href="Plugins/Bootstrap/css/bootstrap.min.css"> 
+         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-        <title>RideTogether</title>
-        
-        <link rel="stylesheet" href="CSS/mobile.css" media="handheld,only screen and (max-device-width:480px)" />
-        <link rel="stylesheet" href="CSS/core.css" media="screen" />
-        <link rel="stylesheet" href="Plugins/FontAwesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="Plugins/Bootstrap/css/bootstrap.min.css">
-
-        <script type="text/javascript" src="JS/autocomplete.js"></script>
-        <script type='application/javascript' src='JS/fastclick.js'></script>
         <script type="text/javascript" src="Plugins/Bootstrap/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="JS/parse.js"></script>
-    
+
+        <link rel="stylesheet" href="CSS/mobile.css" media="handheld,only screen and (max-device-width:480px)" />
+        
+                <title>BarHop</title>
+
         <script type="text/javascript">
-          Parse.initialize("b0jfwJsQkNWPdoKnDgd8KJLufCLWNJpmc5vBTkqr", "X90Jzs3gzKceNOdkFmCle8ZiwsE0HGhyNF4N3Wcj");
-            $(document).ready(function() {
-                $('#users').html('<a href="#" data-toggle="modal" data-target="#register">Register</a>' +
-                                     '  |  ' + '<a href="#" data-toggle="modal" data-target="#login">Login</a>');
-                
-                autoComplete();
+          Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");      
+            var user = Parse.Object.extend("User");
 
-                var currentUser = Parse.User.current();
-
-                if (currentUser) {
-                    var verified = currentUser.get('emailVerified');
-                    if (verified == true) {
-                        // console.log(currentUser);
-                        $('#users').html('<p>Welcome, ' + currentUser.get('Name') + '    ' +
-                        '<a href="#" id="logout" onclick="logout();">Logout</a>' + '</p>');
-                    }
-                }
-                else {
-                    $('#users').html('<a href="#" data-toggle="modal" data-target="#register">Register</a>' +
-                                     '  |  ' + '<a href="#" data-toggle="modal" data-target="#login" id="loginmodal">Login</a>');
-                }
-            });
-
-            function enroll(){
-                // security measure -->
-                // check to make sure that the submitted email
-                // is a u.northwestern.edu email account
-                var email = $("input[name=Email]").val();
-                var end = "@u.northwestern.edu";
-                var len = email.length;                 // length of inputted email
-                var len2 = end.length;                  // length of u.northw.....
-                var pos = len - len2;                   // start of slice - the part with @u.....
-                var ending = email.slice(pos, len);     // supposed to be the @u.northw.... ending
-
-                if (email == "") {
-                    $('#alert1').show();
-                    setTimeout( "jQuery('#alert1').hide();", 7000 );
-                }
-
-                else if (ending != end) {
-                    $('#alert1').show();
-                    setTimeout( "jQuery('#alert1').hide();", 7000 );
-                }
-
-                else {
-                    var password = $("input[name=Password]").val();
-                    var name = $("input[name=Name]").val();
-                    var cartype = $("#type").val();
-                    var homeaddress = $("input[name=HomeAddress]").val();
-                    var num = Math.floor((Math.random()*4)+1);
-
+            function myFunctionRegister(){
                     var user = new Parse.User();    
-                    user.signUp({username: email.toLowerCase(), password: password.toLowerCase(), email: email.toLowerCase(), Name: name, CarType: cartype, HomeAddress: homeaddress, DriverRating: num, Avatar: num}, {
-                        success: function(rideposter){
-                            console.log("save succeeded");
-                            $('#register-form').hide();
-                            $('#submit-close').hide();
-                            $('#s-alert1').show();
-                            setTimeout( "jQuery('#signup').modal('hide');", 7000 );
-                        },
-                        error: function(rideposter, error){
-                            console.log("Error: ", error);
-                            if (error.code == '202') {
-                                $('#alert4').show();
-                                setTimeout( "jQuery('#alert4').hide();", 7000 );
-                            }
+                    
+                    var username=$("#username").val();
+                    var password=$("#password").val();
+                    var email=$("#email").val();
+                    user.set("username",username);
+                    user.set("password",password);
+                    user.set("email",email);
 
-                            if (error.code == '-1') {
-                                $('#alert5').show();
-                                setTimeout( "jQuery('#alert5').hide();", 7000 );
-                            }
-                        }
-                    });
-                }
+                    user.signUp(null, {
+                      success: function(user) {
+                        // Hooray! Let them use the app now.
+                        alert("registered");
+                      },
+                      error: function(user, error) {
+                        // Show the error message somewhere and let the user try again.
+                        alert("Error: " + error.code + " " + error.message);
+                      }
+                    });     
             }
 
-            // fastclick.js code
-            window.addEventListener('load', function() {
-                FastClick.attach(document.body);
-            }, false);
-
-            // log out
-            function logout() {
-              Parse.User.logOut();
-              window.location.replace("index.html");
-            }
-
-            // autocomplete for login modal
-            function autoComplete() {
-                autoCompleteHome = new google.maps.places.Autocomplete(
-                    (document.getElementById('home')),
-                    {types: []});
-                    google.maps.event.addListener(autoCompleteHome, 'place_changed', function(){
-                    var homeaddress = autoCompleteHome.getPlace();
+            function myFunctionLogin() {
+                var username=$("#usernamelogin").val();
+                var password=$("#passwordlogin").val();
+                Parse.User.logIn(username, password, {
+                  success: function(user) {
+                    // Do stuff after successful login.
+                    alert("login done");
+                  },
+                  error: function(user, error) {
+                    // The login failed. Check error to see why.
+                    alert("login failed");
+                  }
                 });
             }
+
+            
         </script>
     </head>
 
@@ -128,149 +73,94 @@
         <div class="wrapper">
             <!-- TITLE -->
             <div id="title">
-                <span>Ride<span id="cursive">Together</span></span>
-                <p>Wanna get away?</p>
+                <span><span id="cursive">BarHop</span></span>
+                <p>Let's BarHop Now !</p>
             </div>
 
             <!-- MAIN BUTTONS -->
-            <div id="buttons">
+             <div id="buttons">
                 <a href="rides.html" class="a-btn">
                     <span class="btn-symbol"><i class="fa fa-search fa-lg"></i></span>
-                    <span class="btn-text">Find a ride</span> 
-                    <span class="sub-text">and request to join</span>
+                    <span class="btn-text">Find a BarHop</span> 
+                    <span class="sub-text">to join friends party</span>
                 </a>
                 <a href="postride.html" class="a-btn">
                     <span class="btn-symbol"><i class="fa fa-user fa-lg"></i></span>
-                    <span class="btn-text">Post a ride</span> 
-                    <span class="sub-text">and make some cash</span>
+                    <span class="btn-text">Post a event</span> 
+                    <span class="sub-text">to gether some friend</span>
                 </a>
-                <div id="users">
-                    <!--<a href="#" id="small" data-toggle="modal" data-target="#register">Don't have an account? Register here</a> [>this link triggers the signup modal<]-->
-                    <!--<a href="#" id="small2" data-toggle="modal" data-target="#login">log in</a> -->
-                </div>
+
+
+                <a href="#" data-toggle="modal" data-target="#login" class="a-btn">
+                    <span class="btn-symbol"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text">New User ?</span> 
+                    <span class="sub-text">to gether your own group</span>
+                </a>
             </div>
+
+
 
             <!-- LOGIN MODAL -->
-            <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
+           
+
+            <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="false">
                 <div class="modal-dialog">
                     <div class="modal-content">
 
-                        <!-- BODY -->
                         <div class="modal-body">
                             <form class="form-horizontal" role="form">
-                                <!-- Email -->
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="usernamelogin" name="UserNameLogin" placeholder="Email">
+                                        <input type="text" class="form-control" id="usernamelogin" name="UserNameLogin" placeholder="username">
                                     </div>
                                 </div>
 
-                                <!-- Password -->
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <input type="password" class="form-control" id="passwordlogin" name="PasswordLogin"placeholder="Password">
+                                        <input type="password" class="form-control" id="passwordlogin"name="PasswordLogin"placeholder="Password">
                                     </div>
                                 </div>
 
+                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-default" onclick="myFunctionLogin();">Login</button>
+                                </div>
+                            </form>
+                                          
+
+                       
+
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="email" class="form-control" id="email" placeholder="Email">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" id="username" placeholder="Userame">
+                                    </div>
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button id="submitButton2" class="btn btn-default" onclick="myFunctionRegister()">Sign Up</button>
+                                </div>
+                                
                             </form>
                         </div>
 
-                        <!-- FOOTER -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-default" onclick="login();">Login</button>
-                            <div class="alert alert-danger">
-                                <strong>Error:</strong> Invalid username and password pair. Please try again.
-                            </div>
-                            <div id="alert2" class="alert alert-danger">
-                                <strong>Error:</strong> User's account isn't verified. Please look for an email from "no-reply@parseapps.com" and click the link in the email
-                            </div> 
-                            <div id="alert3" class="alert alert-danger">
-                                <strong>Error:</strong> Invalid login parameters. Please check that you have registered for an account and that your email address has been verified. Then, try again.
-                            </div> 
-                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- SIGN UP MODAL -->
-            <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="signup" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-
-                        <!-- BODY -->
-                        <div class="modal-body">
-                            <form id="register-form" class="form-horizontal" role="form">
-                                <!-- email -->
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input type="email" class="form-control" id="email" name="Email" placeholder="Email">
-                                    </div>
-                                </div>
-
-                                <!-- password -->
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input type="password" class="form-control" id="password" name="Password" placeholder="Password">
-                                    </div>
-                                </div>
-
-                                <!-- name -->
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="name" name="Name" placeholder="Name">
-                                    </div>
-                                </div>
-
-                                <!-- car type -->
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <select class="form-control" id="type" name="CarType">
-                                            <option>Car Type - choose one only if you plan to offer rides</option>
-                                            <option>Sedan</option>
-                                            <option>Coupe</option>
-                                            <option>SUV</option>
-                                            <option>Truck</option>
-                                        </select>
-                                    </div>  
-                                </div>
-
-                                <!-- home address -->
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="home" name="HomeAddress" placeholder="Home Address">
-                                    </div>
-                                </div>
-                            </form>
-
-                            <div id="s-alert1" class="alert alert-success">
-                                <strong>Success!</strong> To verify your account, please look for an email from "no-reply@parseapps.com" and click the link in the email.
-                            </div>
-                        </div>
-
-                        <!-- FOOTER -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" id="submit-close" class="btn btn-default" onclick="enroll()">Sign Up</button>
-                            <div id="alert1" class="alert alert-danger">
-                                <strong>Error:</strong> Please enter a @u.northwestern.edu email address and try again.
-                            </div>
-                            <div id="alert4" class="alert alert-danger">
-                                <strong>Error:</strong> Username/email is already registered 
-                                <ul style="text-align: left; padding-left: 15px; ">
-                                    <li><strong>Forgot your password? </strong><a href="#">Click here</a> to send it to your email address</li>
-                                    <li><strong>Not your account? </strong>If you have reason to believe an account was falsely created under your name, <a href="#">contact us here</a></li>
-                                </ul>
-                            </div>
-                            <div id="alert5" class="alert alert-danger">
-                                <strong>Error:</strong> Please enter a password
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
+            </div> 
+        </div>  
     </body>
 </html>
