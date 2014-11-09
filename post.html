@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- files to be loaded first -->
+        <link href='https://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here|Open+Sans' rel='stylesheet' type='text/css' />
+        <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>PostTheEvent</title>
+        
+        <link href="CSS/mobile.css" rel="stylesheet" media="handheld,only screen and (max-device-width:480px)" />
+        <link href="CSS/core.css" rel="stylesheet" media="screen" />
+        <link rel="stylesheet" href="Plugins/FontAwesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="Plugins/Bootstrap/css/bootstrap.min.css">
+
+        <script type="text/javascript" src="JS/autocomplete.js"></script>
+        <script type='application/javascript' src='JS/fastclick.js'></script>
+        <script type="text/javascript" src="Plugins/Bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="JS/timeline.js"></script>
+        <script type="text/javascript" src="JS/parse.js"></script>
+
+        <script type="text/javascript">
+           Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
+			var user = Parse.Object.extend("User");
+            var origin;
+            var destination;  
+            var currentUser;
+            var isVerified;
+
+            function enroll(frm)
+		{
+              
+              var name = $("input[name=txtName]").val();
+              var theme = $("#theme").val();
+			  var address = $("#address").val();
+			  var time = $("#time").val();
+			  var date = $("#date").val();
+			  var description = $("#description").val();
+
+              
+
+             
+			  var user = new Parse.User();
+			  
+				user.set("name", name);
+				user.set("theme", theme);
+				user.set("address", address);
+				user.set("time", time);
+				user.set("date", date);
+				user.set("description", description);
+				user.signUp(null, {
+				success: function(user) {
+					// Hooray! Let them use the app now.
+					window.location.href="./MapTesting.html";
+					},
+						error: function(user, error) {
+						// Show the error message somewhere and let the user try again.
+						alert("Error: " + error.code + " " + error.message);
+					}
+					
+  });
+  
+        }
+		</script>
+		<header>
+		<div data-role="panel" id="formPanel" data-position="right" data-display="overlay">
+			<p>Heyy Invite your friends here!!</p>
+		
+		</div>
+		</header>
+    </head>
+
+    <body class="fancy"> 
+        
+        <!-- HEADER -->
+        <div class="header">
+          <h1>Create your Own Hop Event
+            <span>
+              <a href="index.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
+              <!-- <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
+            </span>
+          </h1>     
+        </div>
+
+        <!-- POST RIDE FORM -->
+        <div class="signup">
+            <form action= "#formPanel" class="form-horizontal" role="form" id="postrideForm" >
+                <!-- name -->
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Name of the Event</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="name" name="txtName" placeholder="Name">
+                    </div>
+                </div>
+
+                
+
+                <!-- theme type -->
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">Theme</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="theme" name="theme">
+                            <option>Formals</option>
+                            <option>Casuals</option>
+                            <option>Halloween</option>
+                            <option>Hawai</option>
+                            <option>Retro</option>
+                        </select>
+                    </div>  
+                </div>
+
+                
+                
+                <!-- start address -->
+                <div class="form-group">
+                    <label for="start" class="col-sm-2 control-label">Starting Point</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="address" name="txtStartAddress" placeholder="ex: 2255 Ridge Ave, Plex, Tech, etc">
+                      <input type="hidden" class="form-control" id="startpointlat" name="txtStartPointLat">
+                      <input type="hidden" class="form-control" id="startpointlng" name="txtStartPointLng">
+                    </div>
+                </div>
+				
+				 <!-- Departure time -->
+                <div class="form-group">
+                    <label for="departuretime" class="col-sm-2 control-label">Departure Time</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="time" name="txtDepartureTime" placeholder="ex: 1:00">
+
+                      <!-- radio buttons -->
+                      <div class="radio radio-inline">
+                        <label>
+                          <input type="radio" name="durselect" id="durselect1" value="AM">
+                          AM
+                        </label>
+                      </div>
+                      <div class="radio radio-inline">
+                        <label>
+                          <input type="radio" name="durselect" id="durselect2" value="PM">
+                          PM
+                        </label>
+                      </div>
+
+                    </div>
+                </div>
+
+
+                <!-- date -->
+                <div class="form-group">
+                    <label for="date" class="col-sm-2 control-label">Date</label>
+                    <div class="col-sm-10">
+                      <input type="date" class="form-control" id="date" name="date" placeholder="Enter trip date">
+                    </div>
+                </div>
+				 <!-- description -->
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">Description</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+                    </div>
+                </div>
+
+                
+                
+                <!-- submit button -->
+                <div class="form-group" id="submit-post">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <a href ="#formPanel" class="ui-btn ui-btn-inline" class="btn btn-default" onClick="enroll(this.form)">Invite Friends</a>
+                  </div>
+                </div>
+            </form>
+        </div>
+		
+		
+		
+        
+    </body>
+</html>
