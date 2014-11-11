@@ -41,6 +41,7 @@
               $('.icon').find('i').toggleClass('fa-chevron-down fa-chevron-up');
            }
 
+           /**** List show ****/
            function listShow() {
               $('#friendsList').toggle('slow');
            }
@@ -49,6 +50,13 @@
               $('#friendsList2').toggle('slow');
            }
 
+           /*** next bar show ****/
+           
+           function nextBarShow() {
+              $('#barListDiv').replaceWith('  <form id="barList-form" class="form-horizontal"><p class="end">Lalalala<span><button class="showNextBar" onclick="listShow()"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Next bar</span></button></span><a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> Join them!</span></a></span></p><p class="start"><span style="color:blue">Hoster: </span>Tony</p><p class="date"><span style="color:blue">Party Date: </span>07/11/2014</p><p class="time"><span style="color:blue">Start Time: </span>7:00 PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM</p><p class="driver"><span style="color:blue">Number of members: </span>7<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></span></p><p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p><a class="more" href="#" onclick="listShow()">show member list</a></form>');
+
+              $('#friendsList').replaceWith('<div id="friendList-div"><form id="friendsList-form" class="form-horizontal"><p class="cost"><span style="color:red">Tony </span>uncheck-in </p><p class="cost"><span style="color:red">Marc </span>uncheck-in </p><p class="cost"><span style="color:red">Ajay </span>uncheck-in </p><p class="cost"><span style="color:blue">Kathryn </span>check-in </p><p class="cost"><span style="color:blue">Michael </span>check-in </p></form></div>');
+           }
 
           // log out
           function logout() {
@@ -131,19 +139,24 @@
             <!-- AVAILABLE RIDES LIST -->
             <div class="barList transparent-form" style="margin-top:50px;">
               <!-- <div class="count">counter</div> -->
+              <div id="barListDiv">
               <form id="barList-form" class="form-horizontal">
                 <p class="end">Bar Louie Evanston<span>
-                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> join them!</span></a></span>
+                  <button class="showNextBar" onclick="nextBarShow()"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Next bar</span></button></span>
+                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> Join them!</span></a></span>
                 </p>
                 <p class="start"><span style="color:blue">Hoster: </span>Tony</p>
                 <p class="date"><span style="color:blue">Party Date: </span>07/11/2014</p>
                 <p class="time"><span style="color:blue">Start Time: </span>7:00 PM</p>
                 <p class="time"><span style="color:blue">End Time: </span>12:00 PM</p>
-                <p class="driver"><span style="color:blue">Number of members: </span>7</p>
+                <p class="driver"><span style="color:blue">Number of members: </span>7
+                  <a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></span>
+                </p>
                 <p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p>
                 <!-- <p class="cost"><span style="color:blue">Trip Cost: </span>cost </p> -->
                 <a class="more" href="#" onclick="listShow()">show member list</a>
               </form>
+              </div>
             </div> 
 
             <div class="filter transparent-form" id="friendsList">
@@ -163,13 +176,15 @@
               <!-- <div class="count">counter</div> -->
               <form class="form-horizontal">
                 <p class="end">Prairie Moon<span>
-                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> join them!</span></a></span>
+                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> Join them!</span></a></span>
                 </p>
                 <p class="start"><span style="color:blue">Hoster: </span>Marc</p>
                 <p class="date"><span style="color:blue">Party Date: </span>09/11/2014</p>
                 <p class="time"><span style="color:blue">Start Time: </span>6:30 PM</p>
                 <p class="time"><span style="color:blue">End Time: </span>10:30 PM</p>
-                <p class="driver"><span style="color:blue">Number of members: </span>7</p>
+                <p class="driver"><span style="color:blue">Number of members: </span>7
+                  <a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></span>
+                </p>
                 <p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p>
                 <!-- <p class="cost"><span style="color:blue">Trip Cost: </span>cost </p> -->
                 <a class="more" href="#" onclick="list2Show()">show member list</a>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script
+src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+</script>
+
+        <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        
+        <link href="CSS/mobile.css" rel="stylesheet" media="handheld,only screen and (max-device-width:480px)" />
+        <link href="CSS/core.css" rel="stylesheet" media="screen" />
+        <link rel="stylesheet" href="Plugins/FontAwesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="Plugins/Bootstrap/css/bootstrap.min.css">
+
+        <script type='application/javascript' src='JS/fastclick.js'></script>
+        <script type="text/javascript" src="Plugins/Bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="JS/timeline.js"></script>
+        <script type="text/javascript" src="JS/parse.js"></script>
+
+<script>
+var myCenter=new google.maps.LatLng(42.05059,-87.67660);
+var bar1=new google.maps.LatLng(42.05525,-87.67497);
+var bar2=new google.maps.LatLng(42.05416,-87.67480);
+var bar3=new google.maps.LatLng(42.05569,-87.67291);
+
+function initialize()
+{
+var mapProp = {
+  center:myCenter,
+  zoom:15,
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+var marker=new google.maps.Marker({
+  position:myCenter,
+  animation:google.maps.Animation.BOUNCE,
+  });
+
+marker.setMap(map);
+
+var marker2=new google.maps.Marker({
+  position:bar1,
+  });
+
+marker2.setMap(map);
+
+var marker3=new google.maps.Marker({
+  position:bar2,
+  });
+
+marker3.setMap(map);
+
+var marker4=new google.maps.Marker({
+  position:bar3,
+  });
+
+marker4.setMap(map);
+
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+    <header>
+    <div data-role="panel" id="formPanel" data-position="right" data-display="overlay">
+      <p>Bar map page</p>
+    
+    </div>
+    </header>
+</head>
+
+<body class="fancy">
+  <!-- HEADER -->
+        <div class="header">
+          <h1>Bars nearby
+            <span>
+              <a href="./BarList.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
+              <!-- <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
+            </span>
+          </h1>     
+        </div>
+
+<div id="googleMap" style="margin-top:20px; height:568px;"></div>
+
+</body>
+</html>

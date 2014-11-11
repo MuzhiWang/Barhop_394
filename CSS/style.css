@@ -376,7 +376,7 @@ h2, p, ol, ul, li {
 	.form-horizontal {
         clear: both;
         margin-bottom: 25px;
-		margin-left: 20px;
+		margin-left: 30px;
 		margin-right: 20px;
         background-color: white;
     }
@@ -445,6 +445,26 @@ h2, p, ol, ul, li {
         float: right;
         z-index: 20;
     }
+	
+    .goToMap {
+        font-size: 1.3em;
+        padding-right: 7px;
+        float: right;
+        z-index: 20;
+    }	
+	
+    .showNextBar {
+		border-bottom: black solid 1px;
+        font-size: 0.7em;
+        padding-right: 10px;
+		margin-left: 10px;
+		margin-right: 50px;
+		margin-bottom: 5px;
+        float: middle;
+        z-index: 20;
+    }	
+        
+	
     /*.row p, #label p {
         width:22%;
         display:inline-block;
