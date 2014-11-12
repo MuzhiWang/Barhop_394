@@ -75,7 +75,7 @@ h2, p, ol, ul, li {
 }
 
 .signup {
-    width: 80%;
+    width: 90%;
     margin: auto;
     margin-top: 50px;
     text-align: left;
@@ -89,7 +89,7 @@ h2, p, ol, ul, li {
 }*/
 
 .fancy {
-    background-image: url('../Images/bg.png');
+    /* background-image: url('../Images/bg.png'); */
     background-attachment: fixed;
 }
 

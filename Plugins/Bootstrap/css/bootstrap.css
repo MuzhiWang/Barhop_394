@@ -1740,7 +1740,8 @@ input[type="date"] {
 .form-group {
   margin-bottom: 15px;
 }
-.radio,
+.radio, 
+.radio-two,
 .checkbox {
   display: block;
   min-height: 20px;
@@ -1749,12 +1750,14 @@ input[type="date"] {
   margin-bottom: 10px;
 }
 .radio label,
+.radio-two label,
 .checkbox label {
   display: inline;
   font-weight: normal;
   cursor: pointer;
 }
 .radio input[type="radio"],
+.radio input[type="radio-two"],
 .radio-inline input[type="radio"],
 .checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
@@ -1766,6 +1769,7 @@ input[type="date"] {
   margin-top: -5px;
 }
 .radio-inline,
+.radio-two-inline,
 .checkbox-inline {
   display: inline-block;
   padding-left: 20px;

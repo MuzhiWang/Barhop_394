@@ -6,6 +6,11 @@
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
         <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.css">
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script>
+        <!--  -->
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -102,10 +107,10 @@
                 
 
                 <!-- theme type -->
-                <div class="form-group">
-                    <label for="type" class="col-sm-2 control-label">Theme</label>
-                    <div class="col-sm-10">
-                        <select class="form-control" id="theme" name="theme">
+                <div>
+                    <label>Theme</label>
+                    <div>
+                        <select id="theme" name="theme">
                             <option>Formals</option>
                             <option>Casuals</option>
                             <option>Halloween</option>
@@ -134,20 +139,18 @@
                       <input type="text" class="form-control" id="time" name="txtDepartureTime" placeholder="ex: 1:00">
 
                       <!-- radio buttons -->
-                      <div class="radio radio-inline">
-                        <label>
-                          <input type="radio" name="durselect" id="durselect1" value="AM">
-                          AM
-                        </label>
-                      </div>
-                      <div class="radio radio-inline">
-                        <label>
-                          <input type="radio" name="durselect" id="durselect2" value="PM">
-                          PM
-                        </label>
-                      </div>
-
+                      <form>
+                          <fieldset data-role="controlgroup" data-type="horizontal">
+                              <input type="radio" name="radio-choice-h-2" id="daytimeAM" value="AM" checked="checked">
+                              <label for="daytimeAM">AM</label>
+                              <input type="radio" name="radio-choice-h-2" id="daytimePM" value="PM">
+                              <label for="daytimePM">PM</label>
+                          </fieldset>
+                      </form>
                     </div>
+
+
+
                 </div>
 
 
@@ -169,15 +172,43 @@
                 
                 
                 <!-- submit button -->
-                <div class="form-group" id="submit-post">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <a href ="#formPanel" class="ui-btn ui-btn-inline" class="btn btn-default" onClick="enroll(this.form)">Invite Friends</a>
-                  </div>
+                <div id="submit-post">
+                    <a href ="#overlayPanel" class="a-btn" class="btn btn-default">Invite Friends</a>
                 </div>
             </form>
         </div>
 		
-		
+        <!--  friends check list form  -->
+        <div data-role="panel" id="overlayPanel" data-display="overlay" data-position="right"> 
+            <div class="background2">
+            <h2>Friends List</h2>
+            <form method="post" action="">
+              <fieldset data-role="controlgroup" data-iconpos="right">
+                <legend>Course nearby:</legend>
+                <input type="checkbox" name="interest" id="eecs214" value="off">
+                <label for="eecs214">Tony</label>
+                <input type="checkbox" name="interest" id="eecs336" value="off">
+                <label for="eecs336">Marc</label>
+                <input type="checkbox" name="interest" id="eecs355" value="off">
+                <label for="eecs355">Ajay</label>
+                <input type="checkbox" name="interest" id="eecs361" value="off">
+                <label for="eecs361">Kathryn</label>
+                <input type="checkbox" name="interest" id="eecs394" value="off">
+                <label for="eecs394">Michael</label>
+                <!-- <input type="checkbox" name="interest" id="eecs453" value="off">
+                <label for="eecs453">EECS 453</label> -->
+              </fieldset>
+
+                <div class="pos_right">
+                  <input id="clear_button" href="#" type="reset" data-inline="true" value="Clear">
+                  <a id="done_button" href="./BarList.html" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Post!</a>
+                </div>      
+              </form>
+              </div>
+        </div> 
+        		
+
+
 		
         
     </body>
