@@ -41,7 +41,6 @@
               $('.icon').find('i').toggleClass('fa-chevron-down fa-chevron-up');
            }
 
-           /**** List show ****/
            function listShow() {
               $('#friendsList').toggle('slow');
            }
@@ -50,13 +49,6 @@
               $('#friendsList2').toggle('slow');
            }
 
-           /*** next bar show ****/
-           
-           function nextBarShow() {
-              $('#barListDiv').replaceWith('  <form id="barList-form" class="form-horizontal"><p class="end">Lalalala<span></span><a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> Join them!</span></a></span></p><p class="start"><span style="color:blue">Hoster: </span>Tony</p><p class="date"><span style="color:blue">Party Date: </span>07/14/2014</p><p class="time"><span style="color:blue">Start Time: </span>8:00 PM</p><p class="time"><span style="color:blue">End Time: </span>11:00 PM</p><p class="driver"><span style="color:blue">Number of members: </span>5<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></span></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / 5</p><a class="more" href="#" onclick="listShow()">show member list</a></form>');
-
-              $('#friendsListDiv').replaceWith('<div class="filter" id="friendsList"><form id="friendsList-form" class="form-horizontal"><p class="cost"><span style="color:red">Tony </span>uncheck-in </p><p class="cost"><span style="color:red">Marc </span>uncheck-in </p><p class="cost"><span style="color:red">Ajay </span>uncheck-in </p><p class="cost"><span style="color:blue">Kathryn </span>check-in </p><p class="cost"><span style="color:blue">Michael </span>check-in </p></form></div>');
-           }
 
           // log out
           function logout() {
@@ -113,7 +105,7 @@
         </div>
 
         <!-- BODY CONTENT -->
-        <div id="wrapper" class="snap-content" style="background-image: url(111111.png); position:fixed;">
+        <div id="wrapper" class="snap-content" style="background-image: url(barhop_background.png); position:fixed;">
             
             <!-- HEADER -->
             <div class="header">
@@ -139,73 +131,84 @@
             <!-- AVAILABLE RIDES LIST -->
             <div class="barList transparent-form" style="margin-top:50px;">
               <!-- <div class="count">counter</div> -->
-              <div id="barListDiv">
               <form id="barList-form" class="form-horizontal">
                 <p class="end">Bar Louie Evanston<span>
-                  <button class="showNextBar" onclick="nextBarShow()"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Next bar</span></button></span>
-                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> Join them!</span></a></span>
+                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> join them!</span></a></span>
                 </p>
                 <p class="start"><span style="color:blue">Hoster: </span>Tony</p>
                 <p class="date"><span style="color:blue">Party Date: </span>07/11/2014</p>
                 <p class="time"><span style="color:blue">Start Time: </span>7:00 PM</p>
                 <p class="time"><span style="color:blue">End Time: </span>12:00 PM</p>
-                <p class="driver"><span style="color:blue">Number of members: </span>7
-                  <a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></span>
-                </p>
+                <p class="driver"><span style="color:blue">Number of members: </span>7</p>
                 <p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p>
                 <!-- <p class="cost"><span style="color:blue">Trip Cost: </span>cost </p> -->
                 <a class="more" href="#" onclick="listShow()">show member list</a>
               </form>
-              </div>
             </div> 
 
-            <div class="transparent-form" id="friendsListDiv">
-              <div class="filter" id="friendsList">
+            <div class="filter transparent-form" id="friendsList">
+              <div id="friendList-div">
                 <form id="friendsList-form" class="form-horizontal">
-                <p class="cost"><span style="color:blue">Tony </span>check-in </p>
-                <p class="cost"><span style="color:blue">Marc </span>check-in </p>
-                <p class="cost"><span style="color:blue">Ajay </span>check-in </p>
-                <p class="cost"><span style="color:red">Kathryn </span>uncheck </p>
-                <p class="cost"><span style="color:red">Michael </span>uncheck </p>
-                <!-- <p class="cost"><span style="color:blue">Tony </span>check-in </p> -->
+
+                <a href="#" data-toggle="modal" data-target="#count" class="a-btn">
+                    <span class="btn-symbol"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text">Tony</span> 
+                </a>
+
+                <a href="#" data-toggle="modal" data-target="#count" class="a-btn">
+                    <span class="btn-symbol"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text">Michael</span> 
+                </a>
+
+                <a href="#" data-toggle="modal" data-target="#count" class="a-btn">
+                    <span class="btn-symbol"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text">Marc</span> 
+                </a>
+
+                
+
+                <!-- <p class="cost"><span style="color:blue">Tony </span>check-in </p> 
+
+                    <p class="cost"><span style="color:blue">Marc </span>check-in </p>
+                    <p class="cost"><span style="color:red">Michael </span>uncheck </p>
+                    
+                    <a href="./testCount.html" data-toggle="modal" class="a-btn">
+                      <span class="btn-symbol"><i class="fa fa-search fa-lg"></i></span>
+                      <span class="btn-text">testCount</span> 
+                    </a>
+                -->
                 </form>
               </div>
             </div>
-
-            <div class="barList transparent-form" style="margin-top:20px;">
-              <!-- <div class="count">counter</div> -->
-              <form class="form-horizontal">
-                <p class="end">Prairie Moon<span>
-                  <a href="mailto:email?subject=RideTogether - Id like to join your ride!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> Join them!</span></a></span>
-                </p>
-                <p class="start"><span style="color:blue">Hoster: </span>Marc</p>
-                <p class="date"><span style="color:blue">Party Date: </span>09/11/2014</p>
-                <p class="time"><span style="color:blue">Start Time: </span>6:30 PM</p>
-                <p class="time"><span style="color:blue">End Time: </span>10:30 PM</p>
-                <p class="driver"><span style="color:blue">Number of members: </span>7
-                  <a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></span>
-                </p>
-                <p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p>
-                <!-- <p class="cost"><span style="color:blue">Trip Cost: </span>cost </p> -->
-                <a class="more" href="#" onclick="list2Show()">show member list</a>
-              </form>
-            </div> 
-
-            <div class="transparent-form">
-              <div class="filter" id="friendsList2">
-                <form class="form-horizontal">
-                <p class="cost"><span style="color:blue">Tony </span>check-in </p>
-                <p class="cost"><span style="color:blue">Marc </span>check-in </p>
-                <p class="cost"><span style="color:blue">Ajay </span>check-in </p>
-                <p class="cost"><span style="color:red">Kathryn </span>uncheck </p>
-                <p class="cost"><span style="color:red">Michael </span>uncheck </p>
-                <!-- <p class="cost"><span style="color:blue">Tony </span>check-in </p> -->
-                </form>
-              </div>
-            </div>
-
-
           </div>
+
+        <!-- count MODAL -->
+        <div class="modal fade" id="count" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- BODY -->
+                    <span class="btn-text">Beers</span> 
+                    <div id="num1">0</div>
+                      <input type="button" id="add1" value="+" />
+                      <input type="button" id="jian1" value="-" />
+
+
+                    <span class="btn-text">Wine</span> 
+                    <div id="num2">0</div>
+                      <input type="button" id="add2" value="+" />
+                      <input type="button" id="jian2" value="-" />
+
+                    <!-- FOOTER -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-default" onclick="gotoCount()">Count !</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
         <!-- LOGIN MODAL -->
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
@@ -236,8 +239,8 @@
 
                     <!-- FOOTER -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-default" onclick="login()">Login</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close ~</button>
+                        <button type="submit" class="btn btn-default" onclick="login()">Login !</button>
                         <div id="alert1" class="alert alert-danger">
                             <strong>Error:</strong> Invalid username and password pair. Please try again.
                         </div>
@@ -252,6 +255,33 @@
             </div>
         </div>
 
+        <script>        
+          $(document).ready(function(){        
+            $("#add1").click(function(){        
+              var n1=$("#num1").html();      
+              var num1=parseInt(n1)+1;         
+              if(num1==0){alert("cc");}      
+              $("#num1").html(num1);    });        
+              $("#jian1").click(function(){        
+                var n=$("#num1").html();      
+                var num1=parseInt(n)-1;           
+                if(num1==0){alert("不能为0!"); return}      
+                $("#num1").html(num1);      
+              });        
+         
+            $("#add2").click(function(){        
+              var n2=$("#num2").html();      
+              var num2=parseInt(n2)+1;         
+              if(num2==0){alert("cc");}      
+              $("#num2").html(num2);    });        
+              $("#jian2").click(function(){        
+                var n=$("#num2").html();      
+                var num2=parseInt(n2)-1;           
+                if(num2==0){alert("不能为0!"); return}      
+                $("#num2").html(num2);      
+              });        
+            });   
+          </script> 
 
         <!-- JAVASCRIPT FUNCTIONS -->
         <script type="text/javascript">
