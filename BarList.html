@@ -174,7 +174,7 @@
               <div id="barListDiv">
               <form id="barList-form" class="form-horizontal">
                 <p class="end">Bar Louie Evanston<span>
-                  <button class="showNextBar" onclick="nextBarShow()"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Next bar</span></button></span>
+                  <a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i>Modify BarHop</span></a></span>
                   <a href="mailto:email?subject=BarHop - Id like to join your BarHop!&body=message" class="join"><span margin-left="50px"><i class="fa fa-share-square-o"></i> Join them!</span></a></span>
                 </p>
                 <p class="start"><span style="color:blue">Hoster: </span>Tony</p>
@@ -252,6 +252,119 @@
               </div>
             </div>
           </div>
+
+
+        <!--  Modify the BarHop pop up page  -->
+        <div class="modal fade" id="modifyBarhop" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                <!-- BODY -->
+                    <!--  bar nearby list  -->
+                    <div>
+                        <label>Bar nearby</label>
+                        <div>
+                            <select id="barNearbyList" name="barNearbyList">
+                                <option>bar1</option>
+                                <option>bar2</option>
+                                <option>bar3</option>
+                                <option>bar4</option>
+                                <option>bar5</option>
+                            </select>
+                        </div>  
+                    </div>
+
+
+                    <!-- theme type -->
+                    <div>
+                        <label>Theme</label>
+                        <div>
+                            <select id="theme" name="theme">
+                                <option>Formals</option>
+                                <option>Casuals</option>
+                                <option>Halloween</option>
+                                <option>Hawai</option>
+                                <option>Retro</option>
+                            </select>
+                        </div>  
+                    </div>
+            
+                    <!-- Departure time -->
+                    <div class="form-group">
+                        <label for="departuretime" class="col-sm-2 control-label">Departure Time</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="time" name="txtDepartureTime" placeholder="ex: 1:00">
+
+                          <!-- radio buttons -->
+                          <form>
+                              <fieldset data-role="controlgroup" data-type="horizontal">
+                                  <input type="radio" name="radio-choice-h-2" id="daytimeAM" value="AM" checked="checked">
+                                  <label for="daytimeAM">AM</label>
+                                  <input type="radio" name="radio-choice-h-2" id="daytimePM" value="PM">
+                                  <label for="daytimePM">PM</label>
+                              </fieldset>
+                          </form>
+                        </div>
+                    </div>
+
+
+                    <!-- date -->
+                    <div class="form-group">
+                        <label for="date" class="col-sm-2 control-label">Date</label>
+                        <div class="col-sm-10">
+                          <input type="date" class="form-control" id="date" name="date" placeholder="Enter trip date">
+                        </div>
+                    </div>
+
+                    <!-- description -->
+                    <div class="form-group">
+                        <label for="name" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+                        </div>
+                    </div>
+
+                    <!-- submit button -->
+                    <div id="inviteFriends">
+                        <center><a href="#" data-toggle="modal" data-target="#friendsListPage" class="modifyBar-btn-small" style="position:center">Invite</a><button class="btn btn-default" data-dismiss="modal" onclick="nextBarShow()">Post!</button>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--   Friends list pop up page  -->
+        <div class="modal fade" id="friendsListPage" tabindex="-2" role="dialog" aria-labelledby="signin" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                  <h2>Friends List</h2>
+                  <form method="post" action="">
+                    <fieldset data-role="controlgroup" data-iconpos="right">
+                      <input type="checkbox" name="interest" id="eecs214" value="off">
+                      <label for="eecs214">Tony</label>
+                      <input type="checkbox" name="interest" id="eecs336" value="off">
+                      <label for="eecs336">Marc</label>
+                      <input type="checkbox" name="interest" id="eecs355" value="off">
+                      <label for="eecs355">Ajay</label>
+                      <input type="checkbox" name="interest" id="eecs361" value="off">
+                      <label for="eecs361">Kathryn</label>
+                      <input type="checkbox" name="interest" id="eecs394" value="off">
+                      <label for="eecs394">Michael</label>
+                      <!-- <input type="checkbox" name="interest" id="eecs453" value="off">
+                      <label for="eecs453">EECS 453</label> -->
+                    </fieldset>
+
+                      <div class="pos_right">
+                        <input id="clear_button" href="#" type="reset" data-inline="true" value="Clear">
+                        <!-- <a id="done_button" href="#" onclick="nextBarShow()" data-rel="close" class="modifyBar-btn-small">Post!</a> -->
+                        <button class="btn btn-default" data-dismiss="modal">Invite!</button>
+                      </div>      
+                  </form>
+                </div>
+            </div>
+        </div>
+
 
 
         <!-- count MODAL -->
