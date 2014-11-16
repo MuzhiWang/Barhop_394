@@ -307,6 +307,18 @@ h2, p, ol, ul, li {
         -o-transition:opacity 0.3s ease-in-out;
         transition:opacity 0.3s ease-in-out;
     }
+	
+    .btn-symbol-small_checkin{
+        font-size:8px;
+        color:rgba(12,179,83, 1);
+        position:absolute;
+        left:8px;
+        line-height:12px;
+        -webkit-transition:opacity 0.3s ease-in-out;
+        -moz-transition:opacity 0.3s ease-in-out;
+        -o-transition:opacity 0.3s ease-in-out;
+        transition:opacity 0.3s ease-in-out;
+    }
 
     .btn-text{
         font-size:20px;

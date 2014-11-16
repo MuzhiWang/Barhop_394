@@ -59,6 +59,7 @@
            }
 
            /*****  Drink num calculation  *****/
+          /*****  Drink num calculation  *****/
           $(document).ready(function(){        
               $("#add1").click(function(){        
                 var n1=$("#num1").html();      
@@ -88,9 +89,41 @@
                 $("#num2").html(num2);      
               });
 
+              $("#add3").click(function(){        
+                var n3=$("#num3").html();      
+                var num3=parseInt(n3)+1;         
+                if(num3==0){alert("cc");}      
+                $("#num3").html(num3);    
+              });        
+              
+              $("#jian3").click(function(){        
+                var n3=$("#num3").html();      
+                var num3=parseInt(n3)-1;           
+                if(num3==-1){alert("can not be -1!"); return}      
+                $("#num3").html(num3);      
+              });
+
+               $("#add4").click(function(){        
+                var n4=$("#num4").html();      
+                var num4=parseInt(n4)+1;         
+                if(num4==0){alert("cc");}      
+                $("#num4").html(num4);    
+              });        
+              
+              $("#jian4").click(function(){        
+                var n4=$("#num4").html();      
+                var num4=parseInt(n4)-1;           
+                if(num4==-1){alert("can not be -1!"); return}      
+                $("#num4").html(num4);      
+              });
+
+
               $("#checkin_btn1").click(function(){
-                 $("#checkin_btn1").text("checked");
+                 $("#checkin_btn1").text("Checked");
+                 $("#icon_person1").addClass("btn-symbol-small_checkin");
+                 $("#person1").css("color", "blue");
                  $("#checkin").text("Enjoy your BarHop !");
+
               });
             }); 
 
@@ -191,37 +224,26 @@
               </div>
             </div>
 
+            <!--  friends List page pop up -->
             <div class="transparent-form" id="friendsListDiv">
               <div class="filter" id="friendsList">
                 <form id="friendsList-form" class="form-horizontal">
-                <a href="#" data-toggle="modal" data-target="#count" class="people-btn-small">
-                    <span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span>
-                    <span class="btn-text-small" style="margin-left:30%; color:blue;">Tony</span></a>
-                <a href="#" data-toggle="modal" data-target="#count" class="people-btn-small">
-                    <span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span>
-                    <span class="btn-text-small" style="margin-left:30%; color:blue;">Michael</span></a>
-                <a href="#" data-toggle="modal" data-target="#count" class="people-btn-small">
-                    <span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span>
-                    <span class="btn-text-small" style="margin-left:30%; color:red;">Marc</span></a>
+                <a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small">
+                    <span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">Tony</span></a>
+
+                <a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small">
+                    <span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Michael</span></a>
+                
+                <a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small">
+                    <span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Marc</span></a>
                 </form>
               </div>
             </div>
-
-
-<!--             <div class="transparent-form" id="friendsListDiv">
-              <div class="filter" id="friendsList">
-                <form id="friendsList-form" class="form-horizontal">
-                <p class="cost"><span style="color:blue">Tony </span>check-in </p>
-                <p class="cost"><span style="color:blue">Marc </span>check-in </p>
-                <p class="cost"><span style="color:blue">Ajay </span>check-in </p>
-                <p class="cost"><span style="color:red">Kathryn </span>uncheck </p>
-                <p class="cost"><span style="color:red">Michael </span>uncheck </p>
-                </form>
-              </div>
-            </div>
- -->
+<!-- 
             <div class="barList transparent-form" style="margin-top:50px;">
-              <!-- <div class="count">counter</div> -->
               <div>
               <form class="form-horizontal">
                 <p class="end">Bar Louie <a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p>
@@ -229,14 +251,10 @@
                 <p class="start"><span style="color:blue">Hoster: </span>Tony<span style="float: right; margin-right:25px;">Next Bar</span></p>
 
                 <p class="date"><span style="color:blue">Party Date: </span>07/11/2014<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">Prairie Moon</a></p>
-
-                <!-- <a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">Prairie Moon</a> -->
-
                 <p class="time"><span style="color:blue">Start Time: </span>7:00 PM</p>
                 <p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">7:30</span></p>
                 <p class="driver"><span style="color:blue">Number of members: </span>7<button class="showNextBar" onclick="nextBarShow()" style="float: right; margin-right:10px;"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p>
                 <p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p>
-                <!-- <p class="cost"><span style="color:blue">Trip Cost: </span>cost </p> -->
                 <a class="more" href="#" onclick="listShow()">show member list</a>
               </form>
               </div>
@@ -250,12 +268,11 @@
                 <p class="cost"><span style="color:blue">Ajay </span>check-in </p>
                 <p class="cost"><span style="color:red">Kathryn </span>uncheck </p>
                 <p class="cost"><span style="color:red">Michael </span>uncheck </p>
-                <!-- <p class="cost"><span style="color:blue">Tony </span>check-in </p> -->
                 </form>
               </div>
             </div>
           </div>
-
+ -->
 
         <!--  Modify the BarHop pop up page  -->
         <div class="modal fade" id="modifyBarhop" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
@@ -337,7 +354,7 @@
         </div>
 
 
-        <!--   Friends list pop up page  -->
+        <!--  invite Friends list pop up page  -->
         <div class="modal fade" id="friendsListPage" tabindex="-2" role="dialog" aria-labelledby="signin" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -371,13 +388,15 @@
 
 
         <!-- count MODAL -->
-        <div class="modal fade" id="count" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
+        <div class="modal fade" id="count1" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
 
+
                     <!-- BODY -->
-                    <p id="checkin"><span id="cursive">You haven 't check in</span><p>
-                    <button class="a-btn-small" id="checkin_btn1" style="margin-left:25%"><span id="cursive"> Please Check In Here </span></button>
+                    
+                    <!-- <p id="checkin"><span id="form-horizontal">You haven 't check in</span><p> -->
+                    <center> <button class="a-btn-small" id="checkin_btn1"><span id="cursive"> Please Check In Here </span></button> </center>
 
                     <div>
                     <span class="count" style="margin-left:15%">Beers</span> 
@@ -389,13 +408,31 @@
                     <div>
                     <span class="count" style="margin-left:15%">Wine</span> 
                     <span id="num2" class="count" style="margin-left:40%">0</span>
-                      <input type="button" id="add2" value="+" style="margin-left:35%; margin-top:15px "/>
-                      <input type="button" id="jian2" value="-" style="margin-top:15px" />
+                      <input type="button" id="add2" value="+" style="margin-left:35%; margin-top:20px "/>
+                      <input type="button" id="jian2" value="-" style="margin-top:20px" />
                     </div>
+
+                    
+                    <div>
+                    <span class="count" style="margin-left:15%">Shots</span> 
+                    <span id="num3" class="count" style="margin-left:40%">0</span>
+                      <input type="button" id="add3" value="+" style="margin-left:35%; margin-top:20px "/>
+                      <input type="button" id="jian3" value="-" style="margin-top:20px" />
+                    </div>
+
+
+                    <div>
+                    <span class="count" style="margin-left:10%">Cocktail</span> 
+                    <span id="num4" class="count" style="margin-left:40%">0</span>
+                      <input type="button" id="add4" value="+" style="margin-left:35%; margin-top:20px "/>
+                      <input type="button" id="jian4" value="-" style="margin-top:20px" />
+                    </div>
+
+                    
                     <!-- FOOTER -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-default" data-dismiss="modal">Count !</button>
+                        <button type="submit" class="btn btn-default" data-dismiss="modal">Save</button>
                     </div>
                 </div>
             </div>
