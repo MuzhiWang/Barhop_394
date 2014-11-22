@@ -25,10 +25,104 @@
         <script type="text/javascript" src="JS/parse.js"></script>
         <script type="text/javascript" src="JS/snap.js"></script>
 
+        <!--  parse connection and get data  -->
         <script type="text/javascript">
-          Parse.initialize("b0jfwJsQkNWPdoKnDgd8KJLufCLWNJpmc5vBTkqr", "X90Jzs3gzKceNOdkFmCle8ZiwsE0HGhyNF4N3Wcj");
+           Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
+            var product = Parse.Object.extend("Product");
+
+            var query = new Parse.Query('Product');
+            //var date = new Date(Date.now());
+            //query.lessThan("updatedAt", Date.now());
+            //query.ascending("TimeStamp");
+            //query.equalTo("name", "Leo");
+            var barListId = [];
+            var friendsListId = [];
+            var onClickId = [];
+            query.find({
+              success: function(results) {
+                
+                for (var i = results.length - 1; i >= 0; i--) { 
+                    var q = $('#backend');
+                    var theme = results[i].get('theme');
+                    var time = results[i].get('time');
+                    var address = results[i].get('address');
+                    var description = results[i].get('description');
+                    var name = results[i].get('name');
+                    var date = results[i].get('date');
+                    var invited = []; 
+                    invited = results[i].get('invited');
+                    var invitedNum = invited.length;
+
+                    barListId[i] = "barListDiv" + i;
+                    friendsListId[i] = "friendsList" + i;
+                    onClickId[i] = i;
+                    //console.log(invitedNum);
+                    
+                    //alert(friendsListId[i]);
+                    // console.log(tripdate);
+                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i]+ '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
+
+                    
+
+                    q.append('<div class="transparent-form"><div class="filter" id="' + friendsListId[i] + '"><form id="friendsList-form" class="form-horizontal"></form></div></div>');
+
+                    var friendsArray = [];
+                    var q2 = $('#' + friendsListId[i] + '');
+                    for (var j = 0; j < invitedNum; j++) {
+                      friendsArray[j] = invited[j];
+                      var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + friendsArray[j] + '</span></a>';
+                        q2.append(eachFriendDiv);
+                      //alert(friendsArray[j]);
+                    }
+
+                  }
+
+
+                // for (var i=0; i < results.length; i++){
+                  
+                //   var tripdate = results[i].get('Date');
+                //   tripdate.setHours(tripdate.getHours()+5);
+                //   // console.log(tripdate);
+                //   tripdate = String(tripdate);
+                //   tripdate = tripdate.substr(0, 15);
+                //   var time = results[i].get('TravelTime');
+                //   var am_pm = results[i].get('DepartureAMPM');
+                //   time = time.concat(" " + am_pm);
+                //   var driver = results[i].get('Name');
+                //   var email = results[i].get('Email');
+                //   var seats = results[i].get('OpenSeats');
+                //   var cost = results[i].get('TripCost');
+                //   var costtype = results[i].get('CostType');
+                //   var destination = results[i].get('Destination');
+                //   var dest = destination.split(',').slice(0,3).join();
+                //   var start = results[i].get('StartAddress');
+                //   var star = start.split(',').slice(0,2).join();
+                //   var end = results[i].get('EndAddress');
+                //   var truncDate = String(tripdate);
+                //   truncDate = truncDate.substr(0, 15);
+                //   counter += 1;
+                //   // var btn1 = "<a href='#'><i class='fa fa-link btn-email'>  connect with driver</i></a>";
+                //   var message="Hi "+driver+",%0D%0DI'd like to join your ride from "+start.split(',').slice(0,3).join()+" to "+destination.split(',').slice(0,3).join()+" on "+truncDate +" at " + time +". Please let me know if I can join.%0D%0DThanks,%0D";
+                //   var btn2 = '<a href="mailto:'+email+'?subject=RideTogether - Id like to join your ride!&body='+message+'" class="join"><span><i class="fa fa-share-square-o"></i> join ride</span></a>';
+                //   // var DateTime = date + " " + results[i].get('TravelTime'); 
+                //   q.append('<div class="ride" data-date="'+tripdate+'" data-time="'+time+'" data-start="'+start+'" data-end="'+destination+'" data-attribute="'+results[i].id+ '"><div class="count">'+counter+'</div><div class="content-shown"><p class="end">'+dest+'<span>'+btn2+'</span></p><p class="start"><span>Leaving From: </span>'+start+'</p><p class="date"><span>Trip Date: </span>'+tripdate+'</p><p class="time"><span>Time: </span>'+time+'</p><p class="driver"><span>Driver: </span>'+driver+'</p><p class="seats"><span>Available seats: </span>'+seats+'</p><p class="cost"><span>Trip Cost: </span>'+cost+' ('+costtype+')</p><a class="more">click to display more info</a></div><div class="timeline"><div class="waypoint"><div class="circle"></div><p>Start</p></div><div class="line line-drive"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>Arrive</p></div><div class="line line-dest"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>Leave</p></div><div class="line line-drive"><div class="piece"></div><p></p></div><div class="waypoint"><div class="circle"></div><p>End</p></div></div></div>');  
+                // },
+              },
+              error: function(error) {
+                console.log('error')
+              }
+            });
+
+
+
+
+
+
+
+
             $(document).ready(function() {
-                autoComplete();
+                //autoComplete();
+                //alert("start testing");
             });
 
           // FAST CLICK CODE
@@ -42,12 +136,17 @@
            }
 
            /**** List show ****/
-           function listShow() {
-              $('#friendsList').toggle('slow');
+           function listShow(ele) {
+              var id = ele.id;
+              var divId = "friendsList" + id;
+              //alert(divId);
+              $('#' + divId + '').toggle('slow');
+              //document.getElementById('friendsListIdNum').toggle('slow');
            }
 
            function list2Show() {
               $('#friendsList2').toggle('slow');
+              //document.getElementById('friendsList2').toggle('slow');
            }
 
            /*** next bar show ****/
@@ -199,9 +298,11 @@
               </div>
             </div>
 
-
+            <!-- Test Barhop from backend -->
+            <div id="backend" style="margin-top:45px;">
+            </div>
             
-            <!-- AVAILABLE RIDES LIST -->
+            <!-- AVAILABLE BarHop LIST -->
             <div class="barList transparent-form" style="margin-top:50px;">
               <!-- <div class="count">counter</div> -->
               <div id="barListDiv">
