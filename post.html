@@ -41,13 +41,19 @@
             var query_friend = new Parse.Query('User');
             var friend_invite_id = [];
             var friends_invite_list = $('#friend_list_fieldset');
+            var ss = $('#friend_list_fieldset').html();
             query_friend.find({
                 success: function(results) {
                 
                 for (var i = results.length-1; i >= 0; i--) { 
                     var friend_steam = results[i].get('username');
-                    friends_invite_list.append('<input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam   + '</label> ');
+                    // alert(friend_steam);
+                    ss += '<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam  + '</label></div> ';
+                
+                    // friends_invite_list.append('<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam  + '</label></div> ');
                   }
+                  $('#friend_list_fieldset').html(ss);
+                  console.log($("#friend_list_fieldset").html());
               },
               error: function(error) {
                 console.log('error')
