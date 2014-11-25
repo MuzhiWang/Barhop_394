@@ -40,20 +40,27 @@
             var friend_invite = Parse.Object.extend("User");
             var query_friend = new Parse.Query('User');
             var friend_invite_id = [];
-            var friends_invite_list = $('#friend_list_fieldset');
-            var ss = $('#friend_list_fieldset').html();
+            //var friends_invite_list = $('#friend_list_fieldset');
+            //var ss = $('#friend_list_fieldset').html();
+            var friendListDivSet = $('#friendListDiv');
+            //var field = '<fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">';
+            var field = "";
             query_friend.find({
                 success: function(results) {
                 
-                for (var i = results.length-1; i >= 0; i--) { 
+                for (var i = 0; i < results.length ; i++) { 
                     var friend_steam = results[i].get('username');
                     // alert(friend_steam);
-                    ss += '<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam  + '</label></div> ';
+                    field += '<input type="checkbox" id="' + friend_steam + '" value="off" onClick="myclick(this.id)"><label for="' + friend_steam +'">' + friend_steam  + '</label> ';
+
+                    // <input type="checkbox" id="Tony" value="off">
+                    // <label for="Tony">Tony</label>
                 
                     // friends_invite_list.append('<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam  + '</label></div> ');
                   }
-                  $('#friend_list_fieldset').html(ss);
-                  console.log($("#friend_list_fieldset").html());
+                  //field += '</fieldset>';
+                  $('#friendListDiv').html('<h2>Friends List</h2><form method="post" action="" id="friendListForm"><fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">' + field + '</fieldset><div class="pos_right"><a id="done_button" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a></div></form>');
+                  console.log($("#overlayPanel").html());
               },
               error: function(error) {
                 console.log('error')
@@ -107,23 +114,23 @@
   
             }
 
-            $(document).ready(function(){
-                $('#Tony').click(function(){
-                    myclick(this.id);
-                })
-                $('#Marc').click(function(){
-                    myclick(this.id);
-                })
-                $('#Ajay').click(function(){
-                    myclick(this.id);
-                })
-                $('#Kathryn').click(function(){
-                    myclick(this.id);
-                })
-                $('#Michael').click(function(){
-                    myclick(this.id);
-                })
-            })
+            // $(document).ready(function(){
+            //     $('#Tony').click(function(){
+            //         myclick(this.id);
+            //     })
+            //     $('#Marc').click(function(){
+            //         myclick(this.id);
+            //     })
+            //     $('#Ajay').click(function(){
+            //         myclick(this.id);
+            //     })
+            //     $('#Kathryn').click(function(){
+            //         myclick(this.id);
+            //     })
+            //     $('#Michael').click(function(){
+            //         myclick(this.id);
+            //     })
+            // })
 
             function myclick(id){
                 array[arrayIndex] = id;
@@ -260,10 +267,10 @@
         
         
         <div data-role="panel" id="overlayPanel" data-display="overlay" data-position="right"> 
-            <div class="background2">
+            <div class="background2" id="friendListDiv">
             <h2>Friends List</h2>
-                <form method="post" action="">
-                <fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">
+                <form method="post" action="" id="friendListForm">
+                <!-- <fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">
                     <input type="checkbox" id="Tony" value="off">
                     <label for="Tony">Tony</label>
                     <input type="checkbox" id="Marc" value="off">
@@ -274,15 +281,11 @@
                     <label for="Kathryn">Kathryn</label>
                     <input type="checkbox" id="Michael" value="off">
                     <label for="Michael">Michael</label>
-                <!-- <input type="checkbox" name="interest" id="eecs453" value="off">
-                <label for="eecs453">EECS 453</label> -->
-                </fieldset>
+                </fieldset> -->
 
-                <div class="pos_right">
-                  <!-- <input id="clear_button" href="#" type="reset" data-inline="true" value="Clear"> -->
-                  <!-- <a id="done_button" href="./BarList.html" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a> -->
+                <!-- <div class="pos_right">
                     <a id="done_button" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a>
-                </div>      
+                </div>  -->     
               </form>
             </div>
         </div> 
