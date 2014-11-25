@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,7 +41,7 @@
             query.find({
               success: function(results) {
                 
-                for (var i = results.length-1; i >= 0; i--) { 
+                for (var i = 0; i < results.length; i++) { 
                     var q = $('#backend');
                     var theme = results[i].get('theme');
                     var time = results[i].get('time');
@@ -300,9 +299,12 @@
             </div>
 
             <!-- Test Barhop from backend -->
-            <div id="backend" style="margin-top:45px;"></div>
+            <div id="backend" style="margin-top:45px;">
+            </div>
             
             <!-- AVAILABLE BarHop LIST -->
+
+            
           </div>
 
 
@@ -314,71 +316,71 @@
                 <!-- BODY -->
                     <!--  bar nearby list  -->
                     <div>
-                        <label>Next Bar Will be</label>
-                        
-                            <select id="barNearbyList" style="margin-left: 5px; margin-top:10px" name="barNearbyList">
-                                <option>Ward Eight</option>
-                                <option>Bar Louie</option>
-                                <option>World of Beer</option>
-                                <option>Tommy Nevin's Pub</option>
-                                <option>BlueStone</option>
+                        <label>Bar nearby</label>
+                        <div>
+                            <select id="barNearbyList" name="barNearbyList">
+                                <option>bar1</option>
+                                <option>bar2</option>
+                                <option>bar3</option>
+                                <option>bar4</option>
+                                <option>bar5</option>
                             </select>
-                        
+                        </div>  
                     </div>
 
 
                     <!-- theme type -->
                     <div>
                         <label>Theme</label>
-                            <select id="theme" style="margin-left: 70px; margin-top:10px" name="theme">
-                                <option>Formal</option>
-                                <option>Casual</option>
+                        <div>
+                            <select id="theme" name="theme">
+                                <option>Formals</option>
+                                <option>Casuals</option>
                                 <option>Halloween</option>
-                                <option>Hawaii</option>
+                                <option>Hawai</option>
                                 <option>Retro</option>
                             </select>
+                        </div>  
                     </div>
             
                     <!-- Departure time -->
                     <div class="form-group">
-                        <label for="departuretime" style="marigin-top:10px" class="col-sm-2 control-label">Leaving Time : </label>
+                        <label for="departuretime" class="col-sm-2 control-label">Departure Time</label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="time" name="txtDepartureTime" placeholder="ex: 8:00 pm">
+                          <input type="text" class="form-control" id="time" name="txtDepartureTime" placeholder="ex: 1:00">
 
                           <!-- radio buttons -->
-                          <!-- <form>
-                              <fieldset data-role="controlgroup" data-type="horizontal">
-                                  <input type="radio" name="radio-choice-h-2" id="daytimeAM" value="AM" checked="checked">
-                                  <label for="daytimeAM">AM</label>
-                                  <input type="radio" name="radio-choice-h-2" id="daytimePM" value="PM">
-                                  <label for="daytimePM">PM</label>
-                              </fieldset>
+                          <form>
+                              <fieldset data-role="controlgroup" data-type="horizontal">
+                                  <input type="radio" name="radio-choice-h-2" id="daytimeAM" value="AM" checked="checked">
+                                  <label for="daytimeAM">AM</label>
+                                  <input type="radio" name="radio-choice-h-2" id="daytimePM" value="PM">
+                                  <label for="daytimePM">PM</label>
+                              </fieldset>
                           </form>
- -->                    </div>
+                        </div>
                     </div>
 
 
                     <!-- date -->
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label for="date" class="col-sm-2 control-label">Date</label>
                         <div class="col-sm-10">
                           <input type="date" class="form-control" id="date" name="date" placeholder="Enter trip date">
                         </div>
                     </div>
- -->
+
                     <!-- description -->
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Description</label>
                         <div class="col-sm-10">
                           <input type="text" class="form-control" id="description" name="description" placeholder="Description">
                         </div>
                     </div>
- -->
+
                     <!-- submit button -->
                     <div id="inviteFriends">
-                        <center>
-                          <button href="#" data-toggle="modal" style="margin-right:10%; margin-top:10px" data-target="#friendsListPage" class="btn btn-default">Invite Friends</button>
-                          <button class="btn btn-default" style="margin-right:10%; margin-buttom: 10px; margin-top:10px" data-dismiss="modal" onclick="nextBarShow()">Go !</button>
+                        <center><a href="#" data-toggle="modal" data-target="#friendsListPage" class="modifyBar-btn-small" style="position:center">Invite</a><button class="btn btn-default" data-dismiss="modal" onclick="nextBarShow()">Post!</button>
                         </center>
                     </div>
                 </div>
@@ -460,9 +462,6 @@
                       <input type="button" id="jian4" value="-" style="margin-top:20px" />
                     </div>
 
-                    <div style="margin-top:10px" class="col-sm-10">
-                        <input type="text" class="form-control" id="peoplecomments" name="peoplecomments" placeholder="ex: Comments Here">
-                    </div>
                     
                     <!-- FOOTER -->
                     <div class="modal-footer">

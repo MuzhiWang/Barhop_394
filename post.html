@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,7 +34,27 @@
 
         <script type="text/javascript">
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
-			var Prod = Parse.Object.extend("Product");
+            var Prod = Parse.Object.extend("Product");
+            
+
+            var friend_invite = Parse.Object.extend("User");
+            var query_friend = new Parse.Query('User');
+            var friend_invite_id = [];
+            var friends_invite_list = $('#friend_list_fieldset');
+            query_friend.find({
+                success: function(results) {
+                
+                for (var i = results.length-1; i >= 0; i--) { 
+                    var friend_steam = results[i].get('username');
+                    friends_invite_list.append('<input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam   + '</label> ');
+                  }
+              },
+              error: function(error) {
+                console.log('error')
+              }
+
+            });
+
             var origin;
             var destination;  
             var currentUser;
@@ -42,40 +63,40 @@
             var arrayIndex = 0;
 
             function enroll(frm)
-		      {
+              {
               
               var name = $("input[name=txtName]").val();
               var theme = $("#theme").val();
-			  var address = $("#address").val();
-			  var time = $("#time").val();
-			  var date = $("#date").val();
-			  var description = $("#description").val();
+              var address = $("#address").val();
+              var time = $("#time").val();
+              var date = $("#date").val();
+              var description = $("#description").val();
               
               
 
              
-			  var Product = new Prod();
-			  
-				Product.set("name", name);
-				Product.set("theme", theme);
-				Product.set("address", address);
-				Product.set("time", time);
-				Product.set("date", date);
-				Product.set("description", description);
+              var Product = new Prod();
+              
+                Product.set("name", name);
+                Product.set("theme", theme);
+                Product.set("address", address);
+                Product.set("time", time);
+                Product.set("date", date);
+                Product.set("description", description);
                 Product.set("invited", array);
-				Product.save(null, {
-				success: function(Product) {
-				alert("Your make your Barhop successful !");
-					// Hooray! Let them use the app now.
-					array = [];
+                Product.save(null, {
+                success: function(Product) {
+                alert("New Barhop successfully created !");
+                    // Hooray! Let them use the app now.
+                    array = [];
                     arrayIndex = 0;
                     window.location.href = "BarList.html";
-					},
-						error: function(Product, error) {
-						// Show the error message somewhere and let the user try again.
-						alert("Error: " + error.code + " " + error.message);
-					}
-					
+                    },
+                        error: function(Product, error) {
+                        // Show the error message somewhere and let the user try again.
+                        alert("Error: " + error.code + " " + error.message);
+                    }
+                    
                 });
   
             }
@@ -103,13 +124,13 @@
                 arrayIndex = arrayIndex + 1;
             }
 
-		</script>
-		<header>
-		<div data-role="panel" id="formPanel" data-position="right" data-display="overlay">
-			<p>Let's go Barhop !</p>
-		
-		</div>
-		</header>
+        </script>
+        <header>
+        <div data-role="panel" id="formPanel" data-position="right" data-display="overlay">
+            <p>Let's go Barhop !</p>
+        
+        </div>
+        </header>
     </head>
 
     <body class="fancy"> 
@@ -178,8 +199,8 @@
                       <input type="hidden" class="form-control" id="startpointlng" name="txtStartPointLng">
                     </div>
                 </div> -->
-				
-				 <!-- Departure time -->
+                
+                 <!-- Departure time -->
                 <div class="form-group">
                     <label for="departuretime" class="col-sm-2 control-label">Departure Time</label>
                     <div class="col-sm-10">
@@ -199,7 +220,7 @@
                       <input type="date" class="form-control" id="date" name="date" placeholder="Enter trip date">
                     </div>
                 </div>
-				 <!-- description -->
+                 <!-- description -->
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-10">
@@ -230,13 +251,13 @@
 
             </form>
         </div>
-		
-		
-		<div data-role="panel" id="overlayPanel" data-display="overlay" data-position="right"> 
+        
+        
+        <div data-role="panel" id="overlayPanel" data-display="overlay" data-position="right"> 
             <div class="background2">
             <h2>Friends List</h2>
                 <form method="post" action="">
-                <fieldset data-role="controlgroup" data-iconpos="right">
+                <fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">
                     <input type="checkbox" id="Tony" value="off">
                     <label for="Tony">Tony</label>
                     <input type="checkbox" id="Marc" value="off">
