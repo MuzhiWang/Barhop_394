@@ -29,8 +29,10 @@
         <!--  parse connection and get data  -->
         <script type="text/javascript">
         /******  Variables  ******/
-          var array = [];
+          var newFriendArray = [];
           var arrayIndex = 0;
+          var friendNum = 0;
+          var fullFriendsList = [];
 
 
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
@@ -96,11 +98,13 @@
             var friends_field = "";
             query_friend.find({
                 success: function(results) {
-                
+                friendNum = results.length;
+                alert(friendNum);
                 for (var i = 0; i < results.length ; i++) { 
                     var friend_steam = results[i].get('username');
+                    fullFriendsList[i] = results[i].get('username');
                     // alert(friend_steam);
-                    friends_field += '<input type="checkbox" id="' + friend_steam + '" value="off" onclick="myclick(this.id)"><label style="margin-right:10px" for="' + friend_steam +'">' + friend_steam  + '</label>';
+                    friends_field += '<input type="checkbox" id="' + friend_steam + '" value="off"><label style="margin-right:10px" for="' + friend_steam +'">' + friend_steam  + '</label>';
                   }
                   $('#friends_fieldset').html(friends_field);
                   console.log($("#friendsListPage").html());
@@ -146,10 +150,19 @@
            }
 
            /****** friend selection click ******/
-           function myclick(id){
-                array[arrayIndex] = id;
-                alert(array[arrayIndex]);
-                arrayIndex = arrayIndex + 1;
+           function myclick(){
+              for (var i = 0; i < friendNum; i++) {
+                var x = document.getElementById(fullFriendsList[i]).checked;
+                if (x == true) {
+                  newFriendArray[arrayIndex] = fullFriendsList[i];
+                  alert(newFriendArray[arrayIndex]);
+                  arrayIndex++;
+                }
+              }
+
+                // newFriendArray[arrayIndex] = id;
+                // alert(array[arrayIndex]);
+                // arrayIndex = arrayIndex + 1;
             }
 
            /*** next bar show ****/
@@ -379,7 +392,7 @@
                     <!-- submit button -->
                     <div id="inviteFriends">
                         <center>
-                          <button href="#" data-toggle="modal" style="margin-right:10%; margin-top:10px" data-target="#friendsListPage" class="btn btn-default">Invite Friends</button>
+                          <button href="#" data-toggle="modal" style="margin-right:10%; margin-top:10px" data-target="#friendsListPage" class="btn btn-default" onclick="myclick()">Invite Friends</button>
                           <button class="btn btn-default" style="margin-right:10%; margin-buttom: 10px; margin-top:10px" data-dismiss="modal" onclick="nextBarShow()">Go !</button>
                         </center>
                     </div>
