@@ -100,7 +100,7 @@
                 for (var i = 0; i < results.length ; i++) { 
                     var friend_steam = results[i].get('username');
                     // alert(friend_steam);
-                    friends_field += '<input type="checkbox" id="' + friend_steam + '" value="off" onClick="myclick(this.id)"><label style="margin-right:10px" for="' + friend_steam +'">' + friend_steam  + '</label>';
+                    friends_field += '<input type="checkbox" id="' + friend_steam + '" value="off" onclick="myclick(this.id)"><label style="margin-right:10px" for="' + friend_steam +'">' + friend_steam  + '</label>';
                   }
                   $('#friends_fieldset').html(friends_field);
                   console.log($("#friendsListPage").html());
@@ -148,7 +148,7 @@
            /****** friend selection click ******/
            function myclick(id){
                 array[arrayIndex] = id;
-                alert(array[arrayIndex]);
+                //alert(array);
                 arrayIndex = arrayIndex + 1;
             }
 
