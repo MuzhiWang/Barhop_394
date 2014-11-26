@@ -59,7 +59,8 @@
                     // friends_invite_list.append('<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam  + '</label></div> ');
                   }
                   //field += '</fieldset>';
-                  $('#friendListDiv').html('<h2>Friends List</h2><form method="post" action="" id="friendListForm"><fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">' + field + '</fieldset><div class="pos_right"><a id="done_button" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a></div></form>');
+                  $('#overlayPanel').html('<h2>Friends List</h2><form method="post" action="" id="friendListForm"><fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">' + field + '</fieldset><div class="pos_right"><a id="done_button" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a></div></form>');
+                  $('#friendListDiv').removeClass("ui-panel-inner");
                   console.log($("#overlayPanel").html());
               },
               error: function(error) {
