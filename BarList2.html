@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,32 +27,10 @@
 
         <!--  parse connection and get data  -->
         <script type="text/javascript">
-        /******  Variables  ******/
-          var newFriendArray = [];
-          var arrayIndex = 0;
-          var friendNum = 0;
-          var fullFriendsList = [];
-          var newTheme;
-          var leavingTime;
-          var nextBarName; 
-
-          var theme;
-          var time;
-          var address;
-          var description;
-          var name;
-          var date;
-          var invited = []; 
-          var invitedNum;
-
-
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
             var product = Parse.Object.extend("Product");
             var query = new Parse.Query('Product');
-
-            var friend_invite = Parse.Object.extend("User");
-            var query_friend = new Parse.Query('User');
-            var friend_invite_id = [];
+            
             //var date = new Date(Date.now());
             //query.lessThan("updatedAt", Date.now());
             //query.ascending("TimeStamp");
@@ -61,20 +38,22 @@
             var barListId = [];
             var friendsListId = [];
             var onClickId = [];
+            var invited = [];
             query.find({
               success: function(results) {
                 
                 for (var i = results.length-1; i >= 0; i--) { 
                     var q = $('#backend');
-                    theme = results[i].get('theme');
-                    time = results[i].get('time');
-                    address = results[i].get('address');
-                    description = results[i].get('description');
-                    name = results[i].get('name');
-                    date = results[i].get('date');
+                    var theme = results[i].get('theme');
+                    var time = results[i].get('time');
+                    var address = results[i].get('address');
+                    var description = results[i].get('description');
+                    var name = results[i].get('name');
+                    var date = results[i].get('date');
                     invited = []; 
                     invited = results[i].get('invited');
-                    invitedNum = invited.length;
+                    alert(invited);
+                    var invitedNum = invited.length;
 
                     barListId[i] = "barListDiv" + i;
                     friendsListId[i] = "friendsList" + i;
@@ -83,7 +62,7 @@
                     
                     //alert(friendsListId[i]);
                     // console.log(tripdate);
-                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i] + '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
+                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i]+ '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
 
                     
 
@@ -91,41 +70,68 @@
 
                     var friendsArray = [];
                     var q2 = $('#' + friendsListId[i] + '');
+                    var show_count = [];
+                    var show_count_personal = "";
+                    
+
+                    // people_query.find({
+                    //   success: function(results) {
+                    //     for (var j = 0; j < results.length; j++) {
+                    //       var x = results[j].get('username');
+                    //       alert(x);
+                    //     }
+                    //   }
+                    // }); 
+                    
+
                     for (var j = 0; j < invitedNum; j++) {
-                      friendsArray[j] = invited[j];
-                      var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + friendsArray[j] + '</span></a>';
-                        q2.append(eachFriendDiv);
+                      var people = Parse.Object.extend("User");
+                      var people_query = new Parse.Query(people);
+                      friendsArray[j] = invited[j]; 
+
+                      alert("before success: "+friendsArray[j]+" before "+invited[j]);
+                      
+
+                      people_query.equalTo("username", invited[j]);
+                      people_query.find({
+                        success: function(people_com) {
+                          //var PP = people_com.get('username');
+                          //alert(PP); 
+                          //alert("success!!");
+                          alert("after success: "+friendsArray[j]+"before"+invited[j]);                         
+                           if(people_com[0]){                                                  // comments now contains the comments for myPost
+                            var people_comment = people_com[0].get("Comment");
+                          alert("after if: " + invited[j]);
+                          alert(people_comment);
+                          var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#show_count'+j+'" class="people-btn-small"><span class="btn-symbol-small" id="icon_person'+j+'"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + invited[j] + '</span>'+people_comment+'</a>';
+                          q2.append(eachFriendDiv);
                       //alert(friendsArray[j]);
+                          show_count_personal = '<div class="modal fade" id="show_count'+j+'" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><center> <button class="a-btn-small" id="checkin_btn'+j+'"><span id="cursive"> Please Check In Here </span></button> </center><div><span class="count" style="margin-left:15%;">Beers</span><span id="num1" class="count" style="margin-left:40%">0</span><input type="button" id="add1'+j+'" value="+" style="margin-left:35%;margin-top:20px"/><input type="button" id="jian1'+j+'" value="-" style="margin-top:20px"/></div><div><span class="count" style="margin-left:15%">Wine</span> <span id="num2'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add2'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian2'+j+'" value="-" style="margin-top:20px" /></div><div><span class="count" style="margin-left:15%">Shots</span><span id="num3'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add3'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian3'+j+'" value="-" style="margin-top:20px" /></div><div><span class="count" style="margin-left:10%">Cocktail</span><span id="num4'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add4'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian4'+j+'" value="-" style="margin-top:20px" /></div><div style="margin-top:20px" class="col-sm-10"><input type="text" class="form-control" id="peoplecomments'+j+'"name="peoplecomments" placeholder="ex: Comments Here"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="submit" class="btn btn-default" data-dismiss="modal">Save</button></div></div></div></div></div>';
+                          show_count[j] = show_count_personal;
+                          // $('#show_count'+j+'').append(show_count_personal);
+                          $("#count1").append(show_count_personal);
+                          alert($("#friendsList0").html());
+                          //alert(show_count[j]);
+                        }
+                        },
+                        error: function(error) {
+                             // There was an error.
+                             console.log('error');
+                        }
+                      });
+                      
+
+                      //console.log($("#count1").html());
+
                     }
 
                   }
-                  //console.log(q);
               },
               error: function(error) {
-                console.log('error')
+                console.log('error');
               }
             });
 
-            
-            /******** Query friend list from "User" *********/
-            var friends_field = "";
-            query_friend.find({
-                success: function(results) {
-                friendNum = results.length;
-                //alert(friendNum);
-                for (var i = 0; i < results.length ; i++) { 
-                    var friend_steam = results[i].get('username');
-                    fullFriendsList[i] = results[i].get('username');
-                    // alert(friend_steam);
-                    friends_field += '<input type="checkbox" id="' + friend_steam + '" value="off"><label style="margin-right:10px" for="' + friend_steam +'">' + friend_steam  + '</label>';
-                  }
-                  $('#friends_fieldset').html(friends_field);
-                  //console.log($("#friendsListPage").html());
-              },
-              error: function(error) {
-                console.log('error')
-              }
-            });
 
 
 
@@ -162,80 +168,12 @@
               //document.getElementById('friendsList2').toggle('slow');
            }
 
-           /****** friend selection click ******/
-           function myclick(){
-              for (var i = 0; i < friendNum; i++) {
-                var x = document.getElementById(fullFriendsList[i]).checked;
-                if (x == true) {
-                  newFriendArray[arrayIndex] = fullFriendsList[i];
-                  alert(newFriendArray[arrayIndex]);
-                  arrayIndex++;
-                }
-              }
-
-                // newFriendArray[arrayIndex] = id;
-                // alert(array[arrayIndex]);
-                // arrayIndex = arrayIndex + 1;
-            }
-
-            /****** Leaving click button  *******/
-            function leavingClick() {
-              alert(nextBarName);
-              if (nextBarName) {
-                // newTheme = $("#theme").val();
-                // leavingTime = $("#leavingTime").val();
-                // nextBarName = $("#barNearbyList").val();
-                //alert(newTheme + " " + leavingTime + " " + nextBarName);
-                var i = 0;
-                $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + nextBarName + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + leavingTime + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + arrayIndex + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + arrayIndex + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
-
-                $("#friendsList0").remove();
-
-                $("#barListDiv0").append('<div class="transparent-form"><div class="filter" id="friendsList0"><form id="friendsList-form" class="form-horizontal"></form></div></div>');
-
-                $("#friendsList-form").remove();
-                var friendsArray = [];
-                var q2 = $("#friendsList0");
-                var eachFriendDiv = '<form id="friendsList-form" class="form-horizontal">';
-                    for (var j = 0; j < arrayIndex; j++) {
-                      friendsArray[j] = newFriendArray[j];
-                      eachFriendDiv += '<a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + friendsArray[j] + '</span></a>';
-                        //q2.append(eachFriendDiv);
-                    }
-                eachFriendDiv += "</form>";
-                q2.html(eachFriendDiv);
-                //q2.replaceWith(eachFriendDiv);
-
-                address = nextBarName;
-                time = leavingTime;
-                theme = newTheme;
-
-                arrayIndex = 0;
-                newFriendArray = [];
-                newTheme = "";
-                leavingTime = "";
-                nextBarName = "";
-              } else {
-                alert("No next bar !");
-              }
-
-            }
-
            /*** next bar show ****/
            
            function nextBarShow() {
-              newTheme = $("#theme").val();
-              leavingTime = $("#leavingTime").val();
-              nextBarName = $("#barNearbyList").val();
-              alert(newTheme + " " + leavingTime + " " + nextBarName);
-              var i = 0;
-              $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + nextBarName + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leavingTime + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
+              $('#barListDiv').replaceWith('<form id="barList-form" class="form-horizontal"><p class="end">Prairie Moon<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Hoster: </span>Tony<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>07/11/2014<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>7:00 PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>7<button class="showNextBar" style="float: right; margin-right:10px;"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p><a class="more" href="#" onclick="listShow()">show member list</a></form>');
 
-              //console.log($("#barListDiv0").html());
-              // $('#friendsListDiv').replaceWith('<div class="filter" id="friendsList"><form id="friendsList-form" class="form-horizontal"><a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">Tony</span></a><a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small"><span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Michael</span></a><a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small"><span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Marc</span></a></form></div>');
-
-              // arrayIndex = 0;
-              // newFriendArray = [];
+              $('#friendsListDiv').replaceWith('<div class="filter" id="friendsList"><form id="friendsList-form" class="form-horizontal"><a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">Tony</span></a><a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small"><span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Michael</span></a><a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small"><span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Marc</span></a></form></div>');
            }
 
            /*****  Drink num calculation  *****/
@@ -423,16 +361,16 @@
                     <div class="form-group">
                         <label for="departuretime" style="marigin-top:10px" class="col-sm-2 control-label">Leaving Time : </label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="leavingTime" name="txtDepartureTime" placeholder="ex: 8:00 pm">
+                          <input type="text" class="form-control" id="time" name="txtDepartureTime" placeholder="ex: 8:00 pm">
 
                           <!-- radio buttons -->
                           <!-- <form>
-                              <fieldset data-role="controlgroup" data-type="horizontal">
-                                  <input type="radio" name="radio-choice-h-2" id="daytimeAM" value="AM" checked="checked">
-                                  <label for="daytimeAM">AM</label>
-                                  <input type="radio" name="radio-choice-h-2" id="daytimePM" value="PM">
-                                  <label for="daytimePM">PM</label>
-                              </fieldset>
+                              <fieldset data-role="controlgroup" data-type="horizontal">
+                                  <input type="radio" name="radio-choice-h-2" id="daytimeAM" value="AM" checked="checked">
+                                  <label for="daytimeAM">AM</label>
+                                  <input type="radio" name="radio-choice-h-2" id="daytimePM" value="PM">
+                                  <label for="daytimePM">PM</label>
+                              </fieldset>
                           </form>
  -->                    </div>
                     </div>
@@ -472,8 +410,8 @@
                 <div class="modal-content">
                   <h2>Friends List</h2>
                   <form method="post" action="">
-                    <fieldset data-role="controlgroup" data-iconpos="right" id="friends_fieldset">
-                      <!-- <input type="checkbox" name="interest" id="eecs214" value="off">
+                    <fieldset data-role="controlgroup" data-iconpos="right">
+                      <input type="checkbox" name="interest" id="eecs214" value="off">
                       <label for="eecs214">Tony</label>
                       <input type="checkbox" name="interest" id="eecs336" value="off">
                       <label for="eecs336">Marc</label>
@@ -482,13 +420,15 @@
                       <input type="checkbox" name="interest" id="eecs361" value="off">
                       <label for="eecs361">Kathryn</label>
                       <input type="checkbox" name="interest" id="eecs394" value="off">
-                      <label for="eecs394">Michael</label> -->
+                      <label for="eecs394">Michael</label>
+                      <!-- <input type="checkbox" name="interest" id="eecs453" value="off">
+                      <label for="eecs453">EECS 453</label> -->
                     </fieldset>
 
                       <div class="pos_right">
                         <input id="clear_button" href="#" type="reset" data-inline="true" value="Clear">
                         <!-- <a id="done_button" href="#" onclick="nextBarShow()" data-rel="close" class="modifyBar-btn-small">Post!</a> -->
-                        <button class="btn btn-default" data-dismiss="modal" onclick="myclick()">Invite!</button>
+                        <button class="btn btn-default" data-dismiss="modal">Invite!</button>
                       </div>      
                   </form>
                 </div>
@@ -498,124 +438,8 @@
 
 
         <!-- count MODAL -->
-        <div class="modal fade" id="count1" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-
-                    <!-- BODY -->
-                    
-                    <!-- <p id="checkin"><span id="form-horizontal">You haven 't check in</span><p> -->
-                    <center> <button class="a-btn-small" id="checkin_btn1"><span id="cursive"> Please Check In Here </span></button> </center>
-
-                    <div>
-                    <span class="count" style="margin-left:15%;">Beers</span> 
-                    <span id="num1" class="count" style="margin-left:40%">0</span>
-                      <input type="button" id="add1" value="+" style="margin-left:35%;margin-top:20px"/>
-                      <input type="button" id="jian1" value="-" style="margin-top:20px"/>
-                    </div>
-
-                    <div>
-                    <span class="count" style="margin-left:15%">Wine</span> 
-                    <span id="num2" class="count" style="margin-left:40%">0</span>
-                      <input type="button" id="add2" value="+" style="margin-left:35%; margin-top:20px "/>
-                      <input type="button" id="jian2" value="-" style="margin-top:20px" />
-                    </div>
-
-                    
-                    <div>
-                    <span class="count" style="margin-left:15%">Shots</span> 
-                    <span id="num3" class="count" style="margin-left:40%">0</span>
-                      <input type="button" id="add3" value="+" style="margin-left:35%; margin-top:20px "/>
-                      <input type="button" id="jian3" value="-" style="margin-top:20px" />
-                    </div>
-
-
-                    <div>
-                    <span class="count" style="margin-left:10%">Cocktail</span> 
-                    <span id="num4" class="count" style="margin-left:40%">0</span>
-                      <input type="button" id="add4" value="+" style="margin-left:35%; margin-top:20px "/>
-                      <input type="button" id="jian4" value="-" style="margin-top:20px" />
-                    </div>
-
-                    <div style="margin-top:10px" class="col-sm-10">
-                        <input type="text" class="form-control" id="peoplecomments" name="peoplecomments" placeholder="ex: Comments Here">
-                    </div>
-                    
-                    <!-- FOOTER -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-default" data-dismiss="modal">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="count2" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-
-                    <!-- BODY -->
-                    
-                    <!-- <p id="checkin"><span id="form-horizontal">You haven 't check in</span><p> -->
-                    <center> <button class="a-btn-small" id="checkin_btn1"><span id="cursive"> Please Check In Here </span></button> </center>
-
-                    <div>
-                    <span class="count" style="margin-left:15%">Beers</span> 
-                    <span id="num1" class="count" style="margin-left:40%">0</span>
-                      <input type="button" id="add1" value="+" style="margin-left:35%;margin-top:20px"/>
-                      <input type="button" id="jian1" value="-" style="margin-top:20px"/>
-                    </div>
-
-                    <div>
-                    <span class="count" style="margin-left:15%">Wine</span> 
-                    <span id="num2" class="count" style="margin-left: 40%">0</span>
-                      <input type="button" id="add2" value="+" style="margin-left:35%; margin-top:20px "/>
-                      <input type="button" id="jian2" value="-" style="margin-top:20px" />
-                    </div>
-                    <!-- FOOTER -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-default" data-dismiss="modal">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="count3" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-
-                    <!-- BODY -->
-                    
-                    <!-- <p id="checkin"><span id="form-horizontal">You haven 't check in</span><p> -->
-                    <center> <button class="a-btn-small" id="checkin_btn1"><span id="cursive"> Please Check In Here </span></button> </center>
-
-                    <div>
-                    <span class="count" style="margin-left:15%">Beers</span> 
-                    <span id="num1" class="count" style="margin-left:40%">0</span>
-                      <input type="button" id="add1" value="+" style="margin-left:35%;margin-top:20px"/>
-                      <input type="button" id="jian1" value="-" style="margin-top:20px"/>
-                    </div>
-
-                    <div>
-                    <span class="count" style="margin-left:15%">Wine</span> 
-                    <span id="num2" class="count" style="margin-left:40%">0</span>
-                      <input type="button" id="add2" value="+" style="margin-left:35%; margin-top:15px "/>
-                      <input type="button" id="jian2" value="-" style="margin-top:15px" />
-                    </div>
-                    <!-- FOOTER -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-default" data-dismiss="modal">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+        
+        <div class="modal fade" id="count1" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true"> </div>
 
         <!-- LOGIN MODAL -->
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
