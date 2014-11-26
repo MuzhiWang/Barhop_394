@@ -42,7 +42,7 @@
             var friend_invite_id = [];
             //var friends_invite_list = $('#friend_list_fieldset');
             //var ss = $('#friend_list_fieldset').html();
-            var friendListDivSet = $('#friendListDiv');
+            //var friendListDivSet = $('#friendListDiv');
             //var field = '<fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">';
             var field = "";
             query_friend.find({
@@ -51,7 +51,7 @@
                 for (var i = 0; i < results.length ; i++) { 
                     var friend_steam = results[i].get('username');
                     // alert(friend_steam);
-                    field += '<input type="checkbox" id="' + friend_steam + '" value="off" onClick="myclick(this.id)"><label for="' + friend_steam +'">' + friend_steam  + '</label> ';
+                    field += '<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off" onClick="myclick(this.id)"><label for="' + friend_steam +'">' + friend_steam  + '</label></div>';
 
                     // <input type="checkbox" id="Tony" value="off">
                     // <label for="Tony">Tony</label>
@@ -59,8 +59,9 @@
                     // friends_invite_list.append('<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam  + '</label></div> ');
                   }
                   //field += '</fieldset>';
-                  $('#overlayPanel').html('<h2>Friends List</h2><form method="post" action="" id="friendListForm"><fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">' + field + '</fieldset><div class="pos_right"><a id="done_button" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a></div></form>');
-                  $('#friendListDiv').removeClass("ui-panel-inner");
+                  // $('#friend_list_fieldset').html('<h2>Friends List</h2><form method="post" action="" id="friendListForm"><fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">' + field + '</fieldset><div class="pos_right"><a id="done_button" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a></div></form>');
+                  $('#friend_list_fieldset').html(field);
+                  //$('#friend_list_fieldset').removeClass("ui-panel-inner");
                   console.log($("#overlayPanel").html());
               },
               error: function(error) {
@@ -272,8 +273,8 @@
             <div class="background2" id="friendListDiv">
             <h2>Friends List</h2>
                 <form method="post" action="" id="friendListForm">
-                <!-- <fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">
-                    <input type="checkbox" id="Tony" value="off">
+                <fieldset id="friend_list_fieldset" data-role="controlgroup" data-iconpos="right">
+                    <!-- <input type="checkbox" id="Tony" value="off">
                     <label for="Tony">Tony</label>
                     <input type="checkbox" id="Marc" value="off">
                     <label for="Marc">Marc</label>
@@ -282,12 +283,12 @@
                     <input type="checkbox" id="Kathryn" value="off">
                     <label for="Kathryn">Kathryn</label>
                     <input type="checkbox" id="Michael" value="off">
-                    <label for="Michael">Michael</label>
-                </fieldset> -->
+                    <label for="Michael">Michael</label> -->
+                </fieldset>
 
-                <!-- <div class="pos_right">
+                <div class="pos_right">
                     <a id="done_button" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a>
-                </div>  -->     
+                </div>      
               </form>
             </div>
         </div> 
