@@ -36,6 +36,9 @@
           var newTheme;
           var leavingTime;
           var nextBarName; 
+          var fullBarList = [];
+          var fullBarListIndex = 0;
+          var newFriendsInParse = [];
 
           var theme;
           var time;
@@ -61,8 +64,14 @@
             var barListId = [];
             var friendsListId = [];
             var onClickId = [];
+            //query.containedIn("NextBar", ["BlueStone", "World of Beer", "Ward Eight", "Tommy Nevin's Pub", "Bar Louie"]);
             query.find({
               success: function(results) {
+                var firstEvent = results[0];
+                fullBarListIndex = firstEvent.get("BarList").length;
+                newFriendsInParse = firstEvent.get("NewInvited");
+                alert("new invited: " + newFriendsInParse);
+                //alert(fullBarListIndex);
                 
                 for (var i = results.length-1; i >= 0; i--) { 
                     var q = $('#backend');
@@ -79,11 +88,20 @@
                     barListId[i] = "barListDiv" + i;
                     friendsListId[i] = "friendsList" + i;
                     onClickId[i] = i;
+
+                    var next_bar = results[i].get("NextBar");
+                    var leaving_time = results[i].get("LeavingTime");
+                    alert(next_bar + " " + leaving_time);
                     //console.log(invitedNum);
-                    
+                    if (!leaving_time) {
+                      leaving_time = "";
+                    }
                     //alert(friendsListId[i]);
                     // console.log(tripdate);
-                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i] + '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
+
+
+
+                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i] + '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + next_bar + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leaving_time + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
 
                     
 
@@ -173,51 +191,124 @@
                 }
               }
 
-                // newFriendArray[arrayIndex] = id;
-                // alert(array[arrayIndex]);
-                // arrayIndex = arrayIndex + 1;
+              query.find({
+                success: function(result) {
+                  var firstEvent = result[0];
+                  var newFriendInParse = firstEvent.get("NewInvited");
+                  alert(newFriendInParse);
+                  if (!newFriendInParse) {
+                    firstEvent.set("NewInvited", newFriendArray);
+                    firstEvent.save();
+                    //alert();
+                  } else {
+                    alert("Next bar existed.You should first leave and update!");  
+                  }
+                },
+                error: function(error) {
+                  console.log('error')
+                }
+              });
+
             }
 
             /****** Leaving click button  *******/
             function leavingClick() {
-              alert(nextBarName);
-              if (nextBarName) {
-                // newTheme = $("#theme").val();
-                // leavingTime = $("#leavingTime").val();
-                // nextBarName = $("#barNearbyList").val();
-                //alert(newTheme + " " + leavingTime + " " + nextBarName);
-                var i = 0;
-                $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + nextBarName + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + leavingTime + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + arrayIndex + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + arrayIndex + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
+              //alert(nextBarName);
+              //query.equalTo("address", address);
+              query.find({
+                success: function(result) {
+                  // result[0].set("NextBar", nextBarName);
+                  // result[0].set("LeavingTime", leavingTime);
+                  // result[0].save();
+                  var next_bar_leave = result[0].get("NextBar");
+                  var leave_time = result[0].get("LeavingTime");
+                  arrayIndex = newFriendsInParse.length;
+                  if (next_bar_leave) {
+                    // newTheme = $("#theme").val();
+                    // leavingTime = $("#leavingTime").val();
+                    // nextBarName = $("#barNearbyList").val();
+                    //alert(newTheme + " " + leavingTime + " " + nextBarName);
+                    //alert(next_bar_leave + " " + leave_time);
+                    var i = 0;
+                    $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + next_bar_leave + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + leave_time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + arrayIndex + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + arrayIndex + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
 
-                $("#friendsList0").remove();
+                    $("#friendsList0").remove();
 
-                $("#barListDiv0").append('<div class="transparent-form"><div class="filter" id="friendsList0"><form id="friendsList-form" class="form-horizontal"></form></div></div>');
+                    $("#barListDiv0").append('<div class="transparent-form"><div class="filter" id="friendsList0"><form id="friendsList-form" class="form-horizontal"></form></div></div>');
 
-                $("#friendsList-form").remove();
-                var friendsArray = [];
-                var q2 = $("#friendsList0");
-                var eachFriendDiv = '<form id="friendsList-form" class="form-horizontal">';
-                    for (var j = 0; j < arrayIndex; j++) {
-                      friendsArray[j] = newFriendArray[j];
-                      eachFriendDiv += '<a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + friendsArray[j] + '</span></a>';
-                        //q2.append(eachFriendDiv);
-                    }
-                eachFriendDiv += "</form>";
-                q2.html(eachFriendDiv);
-                //q2.replaceWith(eachFriendDiv);
+                    $("#friendsList-form").remove();
+                    var friendsArray = [];
+                    var q2 = $("#friendsList0");
+                    var eachFriendDiv = '<form id="friendsList-form" class="form-horizontal">';
+                        for (var j = 0; j < newFriendsInParse.length; j++) {
+                          friendsArray[j] = newFriendsInParse[j];
+                          alert(friendsArray[j]);
+                          eachFriendDiv += '<a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + friendsArray[j] + '</span></a>';
+                            //q2.append(eachFriendDiv);
+                        }
+                    eachFriendDiv += "</form>";
+                    q2.html(eachFriendDiv);
+                    //q2.replaceWith(eachFriendDiv);
 
-                address = nextBarName;
-                time = leavingTime;
-                theme = newTheme;
+                    address = nextBarName;
+                    time = leavingTime;
+                    theme = newTheme;
 
-                arrayIndex = 0;
-                newFriendArray = [];
-                newTheme = "";
-                leavingTime = "";
-                nextBarName = "";
-              } else {
-                alert("No next bar !");
-              }
+                    arrayIndex = 0;
+                    newFriendArray = [];
+                    newTheme = "";
+                    leavingTime = "";
+                    nextBarName = "";
+
+                    result[0].set("NextBar", null);
+                    result[0].set("LeavingTime", null);
+                    result[0].set("NewInvited", null);
+                    result[0].save();
+                  } else {
+                    alert("No next bar !");
+
+                  }
+
+                },
+                error: function(error) {
+                  alert("not success, error");
+                  console.log('error');
+                }
+              });
+
+              // if (nextBarName) {
+              //   var i = 0;
+              //   $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + nextBarName + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + leavingTime + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + arrayIndex + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + arrayIndex + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
+
+              //   $("#friendsList0").remove();
+
+              //   $("#barListDiv0").append('<div class="transparent-form"><div class="filter" id="friendsList0"><form id="friendsList-form" class="form-horizontal"></form></div></div>');
+
+              //   $("#friendsList-form").remove();
+              //   var friendsArray = [];
+              //   var q2 = $("#friendsList0");
+              //   var eachFriendDiv = '<form id="friendsList-form" class="form-horizontal">';
+              //       for (var j = 0; j < arrayIndex; j++) {
+              //         friendsArray[j] = newFriendArray[j];
+              //         eachFriendDiv += '<a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + friendsArray[j] + '</span></a>';
+              //           //q2.append(eachFriendDiv);
+              //       }
+              //   eachFriendDiv += "</form>";
+              //   q2.html(eachFriendDiv);
+              //   //q2.replaceWith(eachFriendDiv);
+
+              //   address = nextBarName;
+              //   time = leavingTime;
+              //   theme = newTheme;
+
+              //   arrayIndex = 0;
+              //   newFriendArray = [];
+              //   newTheme = "";
+              //   leavingTime = "";
+              //   nextBarName = "";
+              // } else {
+              //   alert("No next bar !");
+              // }
 
             }
 
@@ -227,15 +318,41 @@
               newTheme = $("#theme").val();
               leavingTime = $("#leavingTime").val();
               nextBarName = $("#barNearbyList").val();
-              alert(newTheme + " " + leavingTime + " " + nextBarName);
-              var i = 0;
-              $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + nextBarName + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leavingTime + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
 
-              //console.log($("#barListDiv0").html());
-              // $('#friendsListDiv').replaceWith('<div class="filter" id="friendsList"><form id="friendsList-form" class="form-horizontal"><a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">Tony</span></a><a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small"><span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Michael</span></a><a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small"><span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Marc</span></a></form></div>');
+              //query.equalTo("address", address);
+              query.find({
+                success: function(result) {
+                  //alert("nextBarName: " + nextBarName);
+                  //var t = result[0].get("address");
+                  //alert(result[0] + " " + t);
+                  var nextBarTest = result[0].get("NextBar");
+                  if (!nextBarTest) {
+                    result[0].set("NextBar", nextBarName);
+                    result[0].set("LeavingTime", leavingTime);
+                    result[0].save();
 
-              // arrayIndex = 0;
-              // newFriendArray = [];
+                    var i = 0;
+                    $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + nextBarName + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leavingTime + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
+
+
+                  } else {
+                    alert("Next bar existed.You should first leave and update!");
+                    return;
+                  }
+                  
+                  //alert("next bar updated !");
+                },
+                error: function(error) {
+                  // There was an error.
+                  alert("not success, error");
+                  console.log('error');
+                }
+              });
+
+              //alert(newTheme + " " + leavingTime + " " + nextBarName);
+              // var i = 0;
+              // $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + nextBarName + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leavingTime + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
+
            }
 
            /*****  Drink num calculation  *****/
