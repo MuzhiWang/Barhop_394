@@ -30,7 +30,7 @@
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
             var product = Parse.Object.extend("Product");
             var query = new Parse.Query('Product');
-            var people = Parse.Object.extend("User");
+            var people = Parse.Object.extend("userTest");
 
             //妈的全局变量设起来
             
@@ -90,7 +90,7 @@
 
                    
                       //people = Parse.Object.extend("User");
-                      var people_query = new Parse.Query("User");
+                      var people_query = new Parse.Query("userTest");
                       //friendsArray[j] = invited[j]; 
 
                       //alert("before success: "+friendsArray[j]+" before "+invited[j]);
@@ -137,7 +137,7 @@
               function myclickfunction123(id){
                     alert("pass people's id: " + id);
                     //var people_in = Parse.Object.extend("User");
-                    var people_in_query = new Parse.Query("User");
+                    var people_in_query = new Parse.Query("userTest");
                     global_id = id;
 
                     people_in_query.equalTo("username", id);
@@ -161,7 +161,7 @@
 
               function myclickSave123(){
                     //var people_save = Parse.Object.extend("User");
-                    var people_in_save = new Parse.Query("User");
+                    var people_in_save = new Parse.Query("userTest");
                     people_in_save.equalTo("username", global_id);
 
                         //   people_in_save.save(null, {
@@ -185,13 +185,19 @@
                         alert("parse connet to id:" + savePeople.get("username"));
                         var passBeers = $("#num1").html();
                         var passBeersNum = parseInt(passBeers, 10);
-                        alert("the pass beers are: " + passBeersNum);
-                        alert(savePeople.get("Beers"));
+                        var passWine = $("#num2").html();
+                        var passWineNum = parseInt(passWine, 10);
+                        var passShots = $("#num3").html();
+                        var passShotsNum = parseInt(passShots, 10);
+                        var passCocktail = $("#num4").html();
+                        var passCocktailNum = parseInt(passCocktail, 10);
+                        //alert("the pass beers are: " + passBeersNum);
+                        //alert(savePeople.get("Beers"));
                         savePeople.set("Beers", passBeersNum);
-                        //result[0].set("Wine", document.getElementById("num2").innerHTML);
-                        //result[0].set("Shots", document.getElementById("num3").innerHTML);
-                        //result[0].set("Cocktail", document.getElementById("num4").innerHTML);
-                        //savePeople.set("Comment", null);
+                        savePeople.set("Wine", passWineNum);
+                        savePeople.set("Shots", passShotsNum);
+                        savePeople.set("Cocktail", passCocktailNum);
+                        
                         savePeople.save();
 
                         alert("success pass the value!");
