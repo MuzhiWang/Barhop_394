@@ -30,7 +30,12 @@
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
             var product = Parse.Object.extend("Product");
             var query = new Parse.Query('Product');
+            var people = Parse.Object.extend("User");
+
+            //妈的全局变量设起来
             
+            var global_id;
+
             //var date = new Date(Date.now());
             //query.lessThan("updatedAt", Date.now());
             //query.ascending("TimeStamp");
@@ -38,7 +43,6 @@
             var barListId = [];
             var friendsListId = [];
             var onClickId = [];
-            var invited = [];
             query.find({
               success: function(results) {
                 
@@ -50,9 +54,9 @@
                     var description = results[i].get('description');
                     var name = results[i].get('name');
                     var date = results[i].get('date');
-                    invited = []; 
+                    var invited = []; 
                     invited = results[i].get('invited');
-                    alert(invited);
+                    alert("Invited people: " + invited);
                     var invitedNum = invited.length;
 
                     barListId[i] = "barListDiv" + i;
@@ -84,47 +88,43 @@
                     // }); 
                     
 
-                    for (var j = 0; j < invitedNum; j++) {
-                      var people = Parse.Object.extend("User");
-                      var people_query = new Parse.Query(people);
-                      friendsArray[j] = invited[j]; 
+                   
+                      //people = Parse.Object.extend("User");
+                      var people_query = new Parse.Query("User");
+                      //friendsArray[j] = invited[j]; 
 
-                      alert("before success: "+friendsArray[j]+" before "+invited[j]);
+                      //alert("before success: "+friendsArray[j]+" before "+invited[j]);
                       
 
-                      people_query.equalTo("username", invited[j]);
-                      people_query.find({
-                        success: function(people_com) {
-                          //var PP = people_com.get('username');
-                          //alert(PP); 
-                          //alert("success!!");
-                          alert("after success: "+friendsArray[j]+"before"+invited[j]);                         
-                           if(people_com[0]){                                                  // comments now contains the comments for myPost
-                            var people_comment = people_com[0].get("Comment");
-                          alert("after if: " + invited[j]);
-                          alert(people_comment);
-                          var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#show_count'+j+'" class="people-btn-small"><span class="btn-symbol-small" id="icon_person'+j+'"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + invited[j] + '</span>'+people_comment+'</a>';
-                          q2.append(eachFriendDiv);
-                      //alert(friendsArray[j]);
-                          show_count_personal = '<div class="modal fade" id="show_count'+j+'" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><center> <button class="a-btn-small" id="checkin_btn'+j+'"><span id="cursive"> Please Check In Here </span></button> </center><div><span class="count" style="margin-left:15%;">Beers</span><span id="num1" class="count" style="margin-left:40%">0</span><input type="button" id="add1'+j+'" value="+" style="margin-left:35%;margin-top:20px"/><input type="button" id="jian1'+j+'" value="-" style="margin-top:20px"/></div><div><span class="count" style="margin-left:15%">Wine</span> <span id="num2'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add2'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian2'+j+'" value="-" style="margin-top:20px" /></div><div><span class="count" style="margin-left:15%">Shots</span><span id="num3'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add3'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian3'+j+'" value="-" style="margin-top:20px" /></div><div><span class="count" style="margin-left:10%">Cocktail</span><span id="num4'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add4'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian4'+j+'" value="-" style="margin-top:20px" /></div><div style="margin-top:20px" class="col-sm-10"><input type="text" class="form-control" id="peoplecomments'+j+'"name="peoplecomments" placeholder="ex: Comments Here"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="submit" class="btn btn-default" data-dismiss="modal">Save</button></div></div></div></div></div>';
-                          show_count[j] = show_count_personal;
-                          // $('#show_count'+j+'').append(show_count_personal);
-                          $("#count1").append(show_count_personal);
-                          alert($("#friendsList0").html());
-                          //alert(show_count[j]);
-                        }
-                        },
-                        error: function(error) {
-                             // There was an error.
-                             alert("not success, error");
-                             console.log('error');
-                        }
-                      });
-                      
+                        people_query.containedIn("username", invited);
+                          people_query.find({
+                          success: function(people_com) {
+                            //var PP = people_com.get('username');
+                            //alert(PP); 
+                            //alert("success!!");
+                            
+                             for (var j = 0; j < people_com.length; j++) {                                                    
+                                var people_comment = people_com[j].get("Comment");
+                                //alert(people_comment);
+                                var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
+                                q2.append(eachFriendDiv);
+                    
+                                // show_count_personal = '<div class="modal fade" id="show_count'+j+'" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><center> <button class="a-btn-small" id="checkin_btn'+j+'"><span id="cursive"> Please Check In Here </span></button> </center><div><span class="count" style="margin-left:15%;">Beers</span><span id="num1" class="count" style="margin-left:40%">0</span><input type="button" id="add1'+j+'" value="+" style="margin-left:35%;margin-top:20px"/><input type="button" id="jian1'+j+'" value="-" style="margin-top:20px"/></div><div><span class="count" style="margin-left:15%">Wine</span> <span id="num2'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add2'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian2'+j+'" value="-" style="margin-top:20px" /></div><div><span class="count" style="margin-left:15%">Shots</span><span id="num3'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add3'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian3'+j+'" value="-" style="margin-top:20px" /></div><div><span class="count" style="margin-left:10%">Cocktail</span><span id="num4'+j+'" class="count" style="margin-left:40%">0</span><input type="button" id="add4'+j+'" value="+" style="margin-left:35%; margin-top:20px "/><input type="button" id="jian4'+j+'" value="-" style="margin-top:20px" /></div><div style="margin-top:20px" class="col-sm-10"><input type="text" class="form-control" id="peoplecomments'+j+'"name="peoplecomments" placeholder="ex: Comments Here"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="submit" class="btn btn-default" data-dismiss="modal">Save</button></div></div></div></div></div>';
+                                
+                                //show_count[j] = show_count_personal;
+                                // $('#show_count'+j+'').append(show_count_personal);
+                                //$("#count1").append(show_count_personal);
+                                //alert($("#friendsList0").html());
+                                //alert(show_count[j]);
+                              }
 
-                      //console.log($("#count1").html());
 
-                    }
+
+                          },
+                          error: function(error) {
+                               console.log('error');
+                          }
+                        });
 
                   }
               },
@@ -134,10 +134,77 @@
             });
 
 
+              function myclickfunction123(id){
+                    alert("pass people's id: " + id);
+                    //var people_in = Parse.Object.extend("User");
+                    var people_in_query = new Parse.Query("User");
+                    global_id = id;
+
+                    people_in_query.equalTo("username", id);
+                          people_in_query.first({
+                          success: function(people_wine_count) {
+                            //var PP = people_com.get('username');
+                            //alert("success get the people: " + PP);       
+                            
+                            //var get_num1 = people_wine_count[0].get("Beers");
+                            document.getElementById("num1").innerHTML = people_wine_count.get("Beers");
+                            document.getElementById("num2").innerHTML = people_wine_count.get("Wine");
+                            document.getElementById("num3").innerHTML = people_wine_count.get("Shots");
+                            document.getElementById("num4").innerHTML = people_wine_count.get("Cocktail");
+                          },
+                          error: function(error) {
+                               console.log('error');
+                          }
+                        });
+
+              }
+
+              function myclickSave123(){
+                    //var people_save = Parse.Object.extend("User");
+                    var people_in_save = new Parse.Query("User");
+                    people_in_save.equalTo("username", global_id);
+
+                        //   people_in_save.save(null, {
+                        //   success: function(people_wine_count_save) {
+                        //     alert("cao zhe dou neng cheng gong???");       
+                        //     people_wine_count_save.set("Beers", $("#num1").html());
+                        //     people_wine_count_save.set("Wine", document.getElementById("num2").innerHTML);
+                        //     people_wine_count_save.set("Shots", document.getElementById("num3").innerHTML);
+                        //     people_wine_count_save.set("Cocktail", document.getElementById("num4").innerHTML);
+                        //     people_in_save.save();
+
+                        //   },
+                        //   error: function(error) {
+                        //        console.log('error');
+                        //   }
+                        // });
+
+                    people_in_save.find({
+                      success: function(result) {
+                        var savePeople = result[0];
+                        alert("parse connet to id:" + savePeople.get("username"));
+                        var passBeers = $("#num1").html();
+                        var passBeersNum = parseInt(passBeers, 10);
+                        alert("the pass beers are: " + passBeersNum);
+                        alert(savePeople.get("Beers"));
+                        savePeople.set("Beers", passBeersNum);
+                        //result[0].set("Wine", document.getElementById("num2").innerHTML);
+                        //result[0].set("Shots", document.getElementById("num3").innerHTML);
+                        //result[0].set("Cocktail", document.getElementById("num4").innerHTML);
+                        //savePeople.set("Comment", null);
+                        savePeople.save();
+
+                        alert("success pass the value!");
+                      },
+                      error: function(error) {
+                        console.log('error');
+                      }
+                    });
+                    
+                    //people_in_save.save();
 
 
-
-
+              }
 
 
             $(document).ready(function() {
@@ -246,6 +313,7 @@
             }); 
 
 
+          
           // log out
           function logout() {
               Parse.User.logOut();
@@ -440,7 +508,45 @@
 
         <!-- count MODAL -->
         
-        <div class="modal fade" id="count1" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true"> </div>
+        <div class="modal fade" id="count1" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true"> 
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <center> <button class="a-btn-small" id="checkin_btn1"><span id="cursive"> Please Check In Here </span></button> </center>
+                        <div>
+                            <span class="count" style="margin-left:15%;">Beers</span> 
+                            <span id="num1" class="count" style="margin-left:40%"></span>
+                              <input type="button" id="add1" value="+" style="margin-left:35%;margin-top:20px"/>
+                              <input type="button" id="jian1" value="-" style="margin-top:20px"/>
+                        </div>
+                        <div>
+                            <span class="count" style="margin-left:15%">Wine</span> 
+                            <span id="num2" class="count" style="margin-left:40%"></span>
+                              <input type="button" id="add2" value="+" style="margin-left:35%; margin-top:20px "/>
+                              <input type="button" id="jian2" value="-" style="margin-top:20px" />
+                        </div>
+                        <div>
+                            <span class="count" style="margin-left:15%">Shots</span> 
+                            <span id="num3" class="count" style="margin-left:40%"></span>
+                              <input type="button" id="add3" value="+" style="margin-left:35%; margin-top:20px "/>
+                              <input type="button" id="jian3" value="-" style="margin-top:20px" />
+                        </div>
+                        <div>
+                            <span class="count" style="margin-left:10%">Cocktail</span> 
+                            <span id="num4" class="count" style="margin-left:40%"></span>
+                              <input type="button" id="add4" value="+" style="margin-left:35%; margin-top:20px "/>
+                              <input type="button" id="jian4" value="-" style="margin-top:20px" />
+                        </div>
+                        <div style="margin-top:20px" class="col-sm-10">
+                            <input type="text" class="form-control" id="peoplecomments" name="peoplecomments" placeholder="ex: Comments Here">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" onclick="myclickSave123()" class="btn btn-default" data-dismiss="modal">Save</button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
 
         <!-- LOGIN MODAL -->
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true">
