@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- files to be loaded first -->     
+         
+<script src="http://www.parsecdn.com/js/parse-1.3.1.min.js"></script>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.4/jquery.mobile-1.4.4.min.js"></script> 
+
+
+        <link rel="stylesheet" href="CSS/core.css" media="screen" /> 
+         <link rel="stylesheet" href="Plugins/FontAwesome/css/font-awesome.min.css" /> 
+         <link rel="stylesheet" href="Plugins/Bootstrap/css/bootstrap.min.css"> 
+         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <script type="text/javascript" src="Plugins/Bootstrap/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" href="CSS/mobile.css" media="handheld,only screen and (max-device-width:480px)" />
+        
+                <title>BarHop</title>
+
+        <script type="text/javascript">
+          Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");      
+            var userTest = Parse.Object.extend("userTest");
+
+            function myFunctionRegister(){
+                    var user = new userTest();    
+                    
+                    var username=$("#username").val();
+                    var password=$("#password").val();
+                    var email=$("#email").val();
+                    user.set("username",username);
+                    user.set("password",password);
+                    user.set("email",email);
+                    user.set("checkin", false);
+                    user.set("Beers", 0);
+                    user.set("Wine", 0);
+                    user.set("Shots", 0);
+                    user.set("Cocktail", 0);
+
+                    user.save(null, {
+                      success: function(user) {
+                        // Hooray! Let them use the app now.
+                        alert("registered");
+                        window.location.href="./BarListNew.html";
+                      },
+                      error: function(user, error) {
+                        // Show the error message somewhere and let the user try again.
+                        alert("Error: " + error.code + " " + error.message);
+                      }
+                    });     
+            }
+
+            function myFunctionLogin() {
+                var username=$("#usernamelogin").val();
+                var password=$("#passwordlogin").val();
+                Parse.User.logIn(username, password, {
+                  success: function(user) {
+                    // Do stuff after successful login.
+                    alert("login done");
+                    window.location.href="./BarListNew.html";
+                  },
+                  error: function(user, error) {
+                    // The login failed. Check error to see why.
+                    alert("login failed");
+                  }
+                });
+            }
+
+            
+        </script>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <!-- TITLE -->
+            <div id="title">
+                <span><span id="cursive">BarHop</span></span>
+                <p>Let's BarHop Now !</p>
+            </div>
+
+            <!-- MAIN BUTTONS -->
+             <div id="buttons">
+                <a href="./BarListNew.html" data-toggle="modal" class="a-btn">
+                    <span class="btn-symbol"><i class="fa fa-search fa-lg"></i></span>
+                    <span class="btn-text">Join a Hop</span> 
+                    <!-- <span class="sub-text">to join friends party</span> -->
+                </a>
+                <a href="./post.html" data-toggle="modal" class="a-btn">
+                    <span class="btn-symbol"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text">Create a Hop</span> 
+                    <!-- <span class="sub-text">to gether some friend</span> -->
+                </a>
+
+
+                <a href="#" data-toggle="modal" data-target="#login" class="a-btn">
+                    <span class="btn-symbol"><i class="fa fa-user fa-lg"></i></span>
+                    <span class="btn-text">Sign Up</span> 
+                    <!-- <span class="sub-text">to gether your own group</span> -->
+                </a>
+            </div>
+
+
+
+            <!-- LOGIN MODAL -->
+           
+
+            <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <!-- <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" id="usernamelogin" name="UserNameLogin" placeholder="username">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="password" class="form-control" id="passwordlogin"name="PasswordLogin"placeholder="Password">
+                                    </div>
+                                </div>
+
+                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-default" onclick="myFunctionLogin();">Login</button>
+                                </div>
+                            </form>
+ -->                                          
+
+                       
+
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="email" class="form-control" id="email" placeholder="Email">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control" id="username" placeholder="Userame">
+                                    </div>
+                                </div>
+
+
+                                <div class="modal-footer">
+                                    <button class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button id="submitButton2" class="btn btn-default" onclick="myFunctionRegister()">Sign Up</button>
+                                </div>
+                                
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div> 
+        </div>  
+    </body>
+</html>

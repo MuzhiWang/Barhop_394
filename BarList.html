@@ -52,6 +52,7 @@
 
           var global_id;
           var check_flag = false;
+          var checkin_num = 0;
 
 
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
@@ -107,7 +108,7 @@
 
 
 
-                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i] + '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + next_bar + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leaving_time + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
+                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i] + '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + next_bar + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leaving_time + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p id="checkinNum" class="seats"><span style="color:blue">Check-in numbers: </span>' + checkin_num + ' / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
 
                     
 
@@ -131,6 +132,7 @@
                                 var people_comment = people_com[j].get("Comment");
                                 //alert(people_comment);
                                 if(people_com[j].get("checkin")){
+                                  checkin_num++;
                                   var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
 
                                 }
@@ -140,6 +142,8 @@
                                 
                                 q2.append(eachFriendDiv);
                               }
+
+                              $("#checkinNum").html('<span style="color:blue">Check-in numbers: </span>' + checkin_num + ' / ' + invitedNum + '');
                           },
                           error: function(error) {
                                console.log('error');
@@ -313,7 +317,7 @@
                     }
                     
                     var i = 0;
-                    $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + next_bar_leave + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + leave_time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + arrayIndex + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + arrayIndex + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
+                    $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + next_bar_leave + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + leave_time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + arrayIndex + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p id="checkinNum" class="seats"><span style="color:blue">Check-in numbers: </span>' + checkin_num + ' / ' + arrayIndex + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
 
                     $("#friendsList0").remove();
 
@@ -321,20 +325,17 @@
 
                     $("#friendsList-form").remove();
                     var q2 = $("#friendsList0");
-
+                    checkin_num = 0;
                     var people_query = new Parse.Query("userTest");
-                    alert("after click leaving, the invited friedns: " + newFriendsInParse);
+                    //alert("after click leaving, the invited friedns: " + newFriendsInParse);
                     people_query.containedIn("username", newFriendsInParse);
                           people_query.find({
                           success: function(people_com) {
-                            //var PP = people_com.get('username');
-                            //alert(PP); 
-                            //alert("success!!");
-                            
                              for (var j = 0; j < people_com.length; j++) {                                                    
                                 var people_comment = people_com[j].get("Comment");
                                 //alert(people_comment);
                                 if(people_com[j].get("checkin")){
+                                  checkin_num++;
                                   var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
 
                                 }
@@ -344,11 +345,27 @@
                                 
                                 q2.append(eachFriendDiv);
                               }
+
+                              $("#checkinNum").html('<span style="color:blue">Check-in numbers: </span>' + checkin_num + ' / ' + arrayIndex + '');
+                              arrayIndex = 0;
                           },
                           error: function(error) {
                                console.log('error');
                           }
+
                         });
+
+                    query_friend.find({
+                      success: function(results) {
+                        for (var i = 0; i < results.length; i++) {
+                          results[i].set("checkin", false);
+                          results[i].save();
+                        }
+                      },
+                      error: function(error) {
+                        console.log('error');
+                      }
+                    });
 
 
                     address = nextBarName;
@@ -358,7 +375,7 @@
                     result[0].set("invited", newFriendsInParse);
                     result[0].set("address", next_bar_leave);
                     result[0].set("time", leave_time);
-                    arrayIndex = 0;
+                    // arrayIndex = 0;
                     newFriendArray = [];
                     newTheme = "";
                     leavingTime = "";
@@ -419,9 +436,9 @@
                     }
 
                     invitedNum = result[0].get("invited").length;
-                    alert("the cur/invited people num: " + invitedNum);
+                    //alert("the cur/invited people num: " + invitedNum);
                     var i = 0;
-                    $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + nextBarName + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leavingTime + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
+                    $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + nextBarName + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leavingTime + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p id="checkinNum" class="seats"><span style="color:blue">Check-in numbers: </span>' + checkin_num + ' / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
 
 
                     $("#friendsList0").remove();
@@ -442,8 +459,9 @@
                     // q2.html(eachFriendDiv);
 
                     invited = result[0].get("invited");
+                    checkin_num = 0;
                     var people_query = new Parse.Query("userTest");
-                    alert("before next bar click, invited people: " + invited);
+                    //alert("before next bar click, invited people: " + invited);
                     people_query.containedIn("username", invited);
                           people_query.find({
                           success: function(people_com) {
@@ -452,11 +470,12 @@
                             
                              for (var j = 0; j < people_com.length; j++) {
                                 var PP = people_com[j].get('username');
-                                alert("After next bar, friends showing: " + PP); 
+                                //alert("After next bar, friends showing: " + PP); 
 
                                 var people_comment = people_com[j].get("Comment");
                                 //alert(people_comment);
                                 if(people_com[j].get("checkin")){
+                                  checkin_num++;
                                   var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
 
                                 }
@@ -466,6 +485,8 @@
                                 
                                 q2.append(eachFriendDiv);
                               }
+
+                              $("#checkinNum").html('<span style="color:blue">Check-in numbers: </span>' + checkin_num + ' / ' + invitedNum + '');
                           },
                           error: function(error) {
                                console.log('error');
@@ -563,11 +584,11 @@
 
               });
 
-              // for (var i = 0; i < friendNum; i++) {
-              //   document.getElementById(fullFriendsList[i]).checked = false;
-              //   alert(fullFriendsList[i] + ": " + "__checked status: " + x);
+              /***** Auto refresh the div ******/
+              // setInterval("#barListDiv0", 2000);
+              // setInterval("#friendsList0", 2000);
 
-              // }
+             
             }); 
 
 
