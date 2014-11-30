@@ -64,57 +64,55 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 			 productquery.find({
               success: function(results) {
 			  //to store all the barlist in a hop
-			   for (var i = results.length-1; i >= 0; i--) { 
 							
-							array = results[i].get('BarList');
+							array = results[0].get('BarList');
 							alert("CONGRATS you have hoped "+array.length+ " BARS!!");
 							
 							
 							
 								
-								if(array[0]!=null)
-								{
+							if(array[0]!=null)
+							{
 								
 								mapquery.equalTo("BarName",array[0]);
 								mapquery.find({
 									success: function(results) {
 									
-									
-									for (var k = results.length-1; k >= 0; k--) { 
 										
 											// Do something with the returned Parse.Object values
 												
-												var object = results[k];
+												var object = results[0];
 
 												
-												 marker[k] = new google.maps.Marker({
+												 marker[0] = new google.maps.Marker({
 												position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
 												icon:'Images/star-icon.png'
 												});
 												
-												  infowindow[k] = new google.maps.InfoWindow({
+												  infowindow[0] = new google.maps.InfoWindow({
 													//map: map,
 													//position: myCenter,
 													content: "hello"
 													});  
 
-													marker[k].setMap(map);
-													var innerKey = k;
-													google.maps.event.addListener(marker[k], 'click', function(innerKey) {
+													marker[0].setMap(map);
+													var innerKey = 0;
+													google.maps.event.addListener(marker[0], 'click', function(innerKey) {
 													return function() {
 													infowindow[innerKey].open(map, marker[innerKey]);
 													}
-													}(k));
+													}(0));
 
-									}
 											
 									},
 									error: function(error) {
 										alert("Error: " + error.code + " " + error.message);
 									}
 								});
-								}
-								else{ alert("no bars hopped");}
+							}
+							else{ 
+								alert("no bars hopped");
+							}
 							
 							
 							
@@ -168,7 +166,6 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 								});
 								}else{ alert("unsuccessful");}
 							}
-					}
 				},
 			error : function(error){
 					alert("error 3");
