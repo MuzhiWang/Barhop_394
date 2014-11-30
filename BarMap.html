@@ -30,16 +30,6 @@ var pathIndex = 0;
 var map;
 var mapCount = 0;
 
-function initialize()
-{
-/*var mapProp = {
-  center:,
-  zoom:15,
-  mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-
-var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-*/
 Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV"); 
 			var Map = Parse.Object.extend("Map"); 
 			var Product = Parse.Object.extend("Product");
@@ -50,6 +40,20 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 			var infowindow = [];
             var productquery = new Parse.Query('Product');
 			var mapquery= new Parse.Query('Map');
+
+
+function initialize()
+{
+/*var mapProp = {
+  center:,
+  zoom:15,
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+*/
+
+
 				var mapProp = {
 						center:new google.maps.LatLng(42.04466,-87.68238),
 						zoom:16,
@@ -258,6 +262,29 @@ function setPathInMap() {
   	//alert("get path num: " + pathIndex);
 }
 
+
+function leavingNow() {
+	//alert("leaving successfully!");
+	productquery.find({
+		success: function(deleteResult) {
+			deleteResult[0].destroy({
+			  success: function(myObject) {
+			    // The object was deleted from the Parse Cloud.
+			  },
+			  error: function(myObject, error) {
+			    // The delete failed.
+			    // error is a Parse.Error with an error code and message.
+			  }
+			});
+		},
+		error: function(error) {
+			alert("Leaving unsuccessfully!");
+		}
+		
+	});
+}
+
+
 $(document).ready(function() {
                 //autoComplete();
                 setTimeout(function(){
@@ -286,7 +313,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
           <h1>BarMap
             <span>
               <a href="./BarList.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
-              <!-- <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
+              <a href="./Index.html" id="menu" onClick="leavingNow()">Leaving Now</i></a>
             </span>
           </h1>     
         </div>
