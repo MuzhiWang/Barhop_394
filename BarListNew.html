@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,39 +27,15 @@
 
         <!--  parse connection and get data  -->
         <script type="text/javascript">
-        /******  Variables  ******/
-          var newFriendArray = [];
-          var arrayIndex = 0;
-          var friendNum = 0;
-          var fullFriendsList = [];
-          var newTheme;
-          var leavingTime;
-          var nextBarName; 
-          var fullBarList = [];
-          var fullBarListIndex = 0;
-          var newFriendsInParse = [];
-          var friendsArray = [];
-
-          var theme;
-          var time;
-          var address;
-          var description;
-          var name;
-          var date;
-          var invited = []; 
-          var invitedNum;
-
-          var global_id;
-          var check_flag = false;
-
-
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
             var product = Parse.Object.extend("Product");
             var query = new Parse.Query('Product');
+            var people = Parse.Object.extend("userTest");
 
-            var friend_invite = Parse.Object.extend("userTest");
-            var query_friend = new Parse.Query('userTest');
-            var friend_invite_id = [];
+            //妈的全局变量设起来
+            
+            var global_id;
+            var check_flag = false;
             //var date = new Date(Date.now());
             //query.lessThan("updatedAt", Date.now());
             //query.ascending("TimeStamp");
@@ -68,59 +43,60 @@
             var barListId = [];
             var friendsListId = [];
             var onClickId = [];
-            //query.containedIn("NextBar", ["BlueStone", "World of Beer", "Ward Eight", "Tommy Nevin's Pub", "Bar Louie"]);
             query.find({
               success: function(results) {
-                var firstEvent = results[0];
-                fullBarListIndex = firstEvent.get("BarList").length;
-                newFriendsInParse = firstEvent.get("NewInvited");
-                //alert("new invited: " + newFriendsInParse);
-                //alert(fullBarListIndex);
                 
                 for (var i = results.length-1; i >= 0; i--) { 
                     var q = $('#backend');
-                    theme = results[i].get('theme');
-                    time = results[i].get('time');
-                    address = results[i].get('address');
-                    description = results[i].get('description');
-                    name = results[i].get('name');
-                    date = results[i].get('date');
-                    invited = []; 
+                    var theme = results[i].get('theme');
+                    var time = results[i].get('time');
+                    var address = results[i].get('address');
+                    var description = results[i].get('description');
+                    var name = results[i].get('name');
+                    var date = results[i].get('date');
+                    var invited = []; 
                     invited = results[i].get('invited');
-                    invitedNum = invited.length;
-                    // fullBarList[fullBarListIndex] = address;
-                    // fullBarListIndex++;
+                    alert("Invited people: " + invited);
+                    var invitedNum = invited.length;
 
                     barListId[i] = "barListDiv" + i;
                     friendsListId[i] = "friendsList" + i;
                     onClickId[i] = i;
-
-                    var next_bar = results[i].get("NextBar");
-                    var leaving_time = results[i].get("LeavingTime");
-                    //alert("next bar: " + next_bar + " leaving time: " + leaving_time);
                     //console.log(invitedNum);
-                    if (!leaving_time) {
-                      leaving_time = "";
-                    }
+                    
                     //alert(friendsListId[i]);
                     // console.log(tripdate);
-
-
-
-                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i] + '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + next_bar + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leaving_time + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
+                    q.append('<div class="barList transparent-form" style="margin-top:15px;"><div id="' + barListId[i]+ '"><form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar" style="float: right; margin-right:10px;"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div></div>');
 
                     
 
                     q.append('<div class="transparent-form"><div class="filter" id="' + friendsListId[i] + '"><form id="friendsList-form" class="form-horizontal"></form></div></div>');
 
-                    friendsArray = [];
+                    var friendsArray = [];
                     var q2 = $('#' + friendsListId[i] + '');
                     var show_count = [];
                     var show_count_personal = "";
+                    
 
-                    var people_query = new Parse.Query("userTest");
+                    // people_query.find({
+                    //   success: function(results) {
+                    //     for (var j = 0; j < results.length; j++) {
+                    //       var x = results[j].get('username');
+                    //       alert(x);
+                    //     }
+                    //   }
+                    // }); 
+                    
 
-                    people_query.containedIn("username", invited);
+                   
+                      //people = Parse.Object.extend("User");
+                      var people_query = new Parse.Query("userTest");
+                      //friendsArray[j] = invited[j]; 
+
+                      //alert("before success: "+friendsArray[j]+" before "+invited[j]);
+                      
+
+                        people_query.containedIn("username", invited);
                           people_query.find({
                           success: function(people_com) {
                             //var PP = people_com.get('username');
@@ -139,44 +115,28 @@
                                 }
                                 
                                 q2.append(eachFriendDiv);
+                    
+                                
                               }
+
+
+
                           },
                           error: function(error) {
                                console.log('error');
                           }
                         });
+
                   }
-                  //console.log(q);
               },
               error: function(error) {
-                console.log('error')
+                console.log('error');
               }
             });
 
-            
-            /******** Query friend list from "userTest" *********/
-            var friends_field = "";
-            query_friend.find({
-                success: function(results) {
-                friendNum = results.length;
-                //alert(friendNum);
-                for (var i = 0; i < results.length ; i++) { 
-                    var friend_steam = results[i].get('username') + "checked";
-                    fullFriendsList[i] = results[i].get('username');
-                    // alert(friend_steam);
-                    friends_field += '<input type="checkbox" id="' + friend_steam + '" value="off"><label style="margin-right:10px" for="' + friend_steam +'">' + fullFriendsList[i]  + '</label>';
-                  }
-                  $('#friends_fieldset').html(friends_field);
-                  //console.log($("#friendsListPage").html());
-              },
-              error: function(error) {
-                console.log('error')
-              }
-            });
 
-            /*********  click people icon function  **********/
-            function myclickfunction123(id){
-                    //alert("pass people's id: " + id);
+              function myclickfunction123(id){
+                    alert("pass people's id: " + id);
                     //var people_in = Parse.Object.extend("User");
                     var people_in_query = new Parse.Query("userTest");
                     global_id = id;
@@ -207,9 +167,7 @@
 
               }
 
-
-            /********  Click people status save function  *************/  
-            function myclickSave123(){
+              function myclickSave123(){
                     //var people_save = Parse.Object.extend("User");
                     var people_in_save = new Parse.Query("userTest");
                     people_in_save.equalTo("username", global_id);
@@ -217,7 +175,7 @@
                     people_in_save.find({
                       success: function(result) {
                         var savePeople = result[0];
-                        //alert("parse connet to id:" + savePeople.get("username"));
+                        alert("parse connet to id:" + savePeople.get("username"));
                         var passcheck = $("#checkin_btn1").html();
                         var passBeers = $("#num1").html();
                         var passBeersNum = parseInt(passBeers, 10);
@@ -232,7 +190,7 @@
                         //alert("the pass beers are: " + passBeersNum);
                         //alert(savePeople.get("Beers"));
                         savePeople.set("checkin", check_flag);
-                        //alert(check_flag);
+                        alert(check_flag);
                         savePeople.set("Beers", passBeersNum);
                         savePeople.set("Wine", passWineNum);
                         savePeople.set("Shots", passShotsNum);
@@ -241,16 +199,23 @@
                         
                         savePeople.save();
 
-                        //alert("success pass the value!");
+                        alert("success pass the value!");
                       },
                       error: function(error) {
                         console.log('error');
                       }
                     });
                     
+                    //people_in_save.save();
+
+
               }
 
 
+            $(document).ready(function() {
+                //autoComplete();
+                //alert("start testing");
+            });
 
           // FAST CLICK CODE
            window.addEventListener('load', function() {
@@ -276,217 +241,12 @@
               //document.getElementById('friendsList2').toggle('slow');
            }
 
-           /****** friend selection click ******/
-           function myclick(){
-              for (var i = 0; i < friendNum; i++) {
-                var checkId = fullFriendsList[i] + "checked";
-                var x = document.getElementById(checkId).checked;
-                if (x == true) {
-                  newFriendArray[arrayIndex] = fullFriendsList[i];
-                  arrayIndex++;
-                }
-                //alert(checkId + ": " + "__checked status: " + x);
-              }
-              alert("Invited " + newFriendArray);
-
-            }
-
-            /****** Leaving click button  *******/
-            function leavingClick() {
-              //alert(nextBarName);
-              //query.equalTo("address", address);
-              query = new Parse.Query('Product');
-              query.find({
-                success: function(result) {
-                  // result[0].set("NextBar", nextBarName);
-                  // result[0].set("LeavingTime", leavingTime);
-                  // result[0].save();
-                  var next_bar_leave = result[0].get("NextBar");
-                  var leave_time = result[0].get("LeavingTime");
-                  newFriendsInParse = result[0].get("NewInvited");
-                  
-                  if (next_bar_leave) {
-                    if (newFriendsInParse) {
-                      arrayIndex = newFriendsInParse.length;
-                    } else {
-                      arrayIndex = 0;
-                    }
-                    
-                    var i = 0;
-                    $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + next_bar_leave + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>' + leave_time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>' + arrayIndex + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + arrayIndex + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
-
-                    $("#friendsList0").remove();
-
-                    $("#barListDiv0").append('<div class="transparent-form"><div class="filter" id="friendsList0"><form id="friendsList-form" class="form-horizontal"></form></div></div>');
-
-                    $("#friendsList-form").remove();
-                    var q2 = $("#friendsList0");
-
-                    var people_query = new Parse.Query("userTest");
-                    alert("after click leaving, the invited friedns: " + newFriendsInParse);
-                    people_query.containedIn("username", newFriendsInParse);
-                          people_query.find({
-                          success: function(people_com) {
-                            //var PP = people_com.get('username');
-                            //alert(PP); 
-                            //alert("success!!");
-                            
-                             for (var j = 0; j < people_com.length; j++) {                                                    
-                                var people_comment = people_com[j].get("Comment");
-                                //alert(people_comment);
-                                if(people_com[j].get("checkin")){
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
-
-                                }
-                                else{
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
-                                }
-                                
-                                q2.append(eachFriendDiv);
-                              }
-                          },
-                          error: function(error) {
-                               console.log('error');
-                          }
-                        });
-
-
-                    address = nextBarName;
-                    time = leavingTime;
-                    theme = newTheme;
-
-                    result[0].set("invited", newFriendsInParse);
-                    result[0].set("address", next_bar_leave);
-                    result[0].set("time", leave_time);
-                    arrayIndex = 0;
-                    newFriendArray = [];
-                    newTheme = "";
-                    leavingTime = "";
-                    nextBarName = "";
-
-
-                    result[0].set("NextBar", null);
-                    result[0].set("LeavingTime", null);
-                    result[0].set("NewInvited", null);
-                    result[0].save();
-                    //alert("Leaving successful! " + result[0].get("invited"));
-                  } else {
-                    alert("No next bar !");
-
-                  }
-
-                },
-                error: function(error) {
-                  alert("not success, error");
-                  console.log('error');
-                }
-              });
-              
-              // for (var i = 0; i < friendNum; i++) {
-              //   var x = document.getElementById(fullFriendsList[i]).checked;
-              //   //alert(fullFriendsList[i] + ": " + "__checked status: " + x);
-
-              // }
-            }
-
            /*** next bar show ****/
            
            function nextBarShow() {
-              newTheme = $("#theme").val();
-              leavingTime = $("#leavingTime").val();
-              nextBarName = $("#barNearbyList").val();
+              $('#barListDiv').replaceWith('<form id="barList-form" class="form-horizontal"><p class="end">Prairie Moon<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Hoster: </span>Tony<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>07/11/2014<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;"></a></p><p class="time"><span style="color:blue">Start Time: </span>7:00 PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;"></span></p><p class="driver"><span style="color:blue">Number of members: </span>7<button class="showNextBar" style="float: right; margin-right:10px;"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>4 / 7</p><a class="more" href="#" onclick="listShow()">show member list</a></form>');
 
-              //query.equalTo("address", address);
-              query.find({
-                success: function(result) {
-                  //alert("nextBarName: " + nextBarName);
-                  //var t = result[0].get("address");
-                  //alert(result[0] + " " + t);
-                  var nextBarTest = result[0].get("NextBar");
-                  if (!nextBarTest) {
-                    result[0].set("NextBar", nextBarName);
-                    result[0].set("LeavingTime", leavingTime);
-                    result[0].save();
-                    var firstEvent = result[0];
-                    var newFriendInParse = firstEvent.get("NewInvited");
-                    //alert("new invited friends in parse: " + newFriendInParse);
-                    if (!newFriendInParse) {
-                      firstEvent.set("NewInvited", newFriendArray);
-                      firstEvent.save();
-                      //alert();
-                    } else {
-                      alert("Next bar existed.You should first leave and update!");  
-                    }
-
-                    invitedNum = result[0].get("invited").length;
-                    alert("the cur/invited people num: " + invitedNum);
-                    var i = 0;
-                    $("#barListDiv0").html('<form id="barList-form" class="form-horizontal"><p class="end">' + address + '<a href="./BarMap.html" class="goToMap"><span margin-left="50px" style="color:red"><i class="fa fa-map-marker"></i> Go to map</span></a></p><p class="start"><span style="color:blue">Party name: </span>' + name + '<span style="float: right; margin-right:25px;">Next Bar</span></p><p class="date"><span style="color:blue">Party Date: </span>' + date + '<a href="#" data-toggle="modal" data-target="#modifyBarhop" class="modifyBar-btn-small" style="color:#08cbc4; float: right; margin-right:10px; font-weight:450;">' + nextBarName + '</a></p><p class="time"><span style="color:blue">Start Time: </span>' + time + ' PM</p><p class="time"><span style="color:blue">End Time: </span>12:00 PM<span style="margin-left:25%;">Leaving Time:</span><span style="float: right; margin-right:10px; color:red;">' + leavingTime + '</span></p><p class="driver"><span style="color:blue">Number of members: </span>' + invitedNum + '<button class="showNextBar a-btn-small" style="float: right; margin-right:10px;" onclick="leavingClick()"><span margin-left="30px" style="color:red; float: right; margin-right:10px;">Leaving Now!</span></button></p><p class="seats"><span style="color:blue">Check-in numbers: </span>0 / ' + invitedNum + '</p><a class="more" href="#" onclick="listShow(this)" id="' + onClickId[i] + '">show member list</a></form></div>');
-
-
-                    $("#friendsList0").remove();
-
-                    $("#barListDiv0").append('<div class="transparent-form"><div class="filter" id="friendsList0"><form id="friendsList-form" class="form-horizontal"></form></div></div>');
-
-                    $("#friendsList-form").remove();
-                    //friendsArray = [];
-                    var q2 = $("#friendsList0");
-                    //friendsArray = newFriendsInParse;
-                    // var eachFriendDiv = '<form id="friendsList-form" class="form-horizontal">';
-                    //     for (var j = 0; j < newFriendsInParse.length; j++) {
-                    //       friendsArray[j] = newFriendsInParse[j];
-                    //       alert(friendsArray[j]);
-                    //       eachFriendDiv += '<a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person1"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">' + friendsArray[j] + '</span></a>';
-                    //     }
-                    // eachFriendDiv += "</form>";
-                    // q2.html(eachFriendDiv);
-
-                    invited = result[0].get("invited");
-                    var people_query = new Parse.Query("userTest");
-                    alert("before next bar click, invited people: " + invited);
-                    people_query.containedIn("username", invited);
-                          people_query.find({
-                          success: function(people_com) {
-                            
-                            //alert("success!!");
-                            
-                             for (var j = 0; j < people_com.length; j++) {
-                                var PP = people_com[j].get('username');
-                                alert("After next bar, friends showing: " + PP); 
-
-                                var people_comment = people_com[j].get("Comment");
-                                //alert(people_comment);
-                                if(people_com[j].get("checkin")){
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
-
-                                }
-                                else{
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
-                                }
-                                
-                                q2.append(eachFriendDiv);
-                              }
-                          },
-                          error: function(error) {
-                               console.log('error');
-                          }
-                        });
-
-
-                  } else {
-                    alert("Next bar existed.You should first leave and update!");
-                    return;
-                  }
-                  
-                  //alert("next bar updated !");
-                },
-                error: function(error) {
-                  // There was an error.
-                  alert("not success, error");
-                  console.log('error');
-                }
-              });
-
+              $('#friendsListDiv').replaceWith('<div class="filter" id="friendsList"><form id="friendsList-form" class="form-horizontal"><a href="#" data-toggle="modal" data-target="#count1" class="people-btn-small"><span class="btn-symbol-small" id="icon_person'+j+'"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person1" style="margin-left:30%; color:red;">Tony</span></a><a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small"><span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Michael</span></a><a href="#" data-toggle="modal" data-target="#count2" class="people-btn-small"><span class="btn-symbol-small" id="icon_person2"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person2" style="margin-left:30%; color:red;">Marc</span></a></form></div>');
            }
 
            /*****  Drink num calculation  *****/
@@ -562,15 +322,10 @@
                  $("#checkin").text("Enjoy your BarHop !");
 
               });
-
-              // for (var i = 0; i < friendNum; i++) {
-              //   document.getElementById(fullFriendsList[i]).checked = false;
-              //   alert(fullFriendsList[i] + ": " + "__checked status: " + x);
-
-              // }
             }); 
 
 
+          
           // log out
           function logout() {
               Parse.User.logOut();
@@ -687,16 +442,16 @@
                     <div class="form-group">
                         <label for="departuretime" style="marigin-top:10px" class="col-sm-2 control-label">Leaving Time : </label>
                         <div class="col-sm-10">
-                          <input type="text" class="form-control" id="leavingTime" name="txtDepartureTime" placeholder="ex: 8:00 pm">
+                          <input type="text" class="form-control" id="time" name="txtDepartureTime" placeholder="ex: 8:00 pm">
 
                           <!-- radio buttons -->
                           <!-- <form>
-                              <fieldset data-role="controlgroup" data-type="horizontal">
-                                  <input type="radio" name="radio-choice-h-2" id="daytimeAM" value="AM" checked="checked">
-                                  <label for="daytimeAM">AM</label>
-                                  <input type="radio" name="radio-choice-h-2" id="daytimePM" value="PM">
-                                  <label for="daytimePM">PM</label>
-                              </fieldset>
+                              <fieldset data-role="controlgroup" data-type="horizontal">
+                                  <input type="radio" name="radio-choice-h-2" id="daytimeAM" value="AM" checked="checked">
+                                  <label for="daytimeAM">AM</label>
+                                  <input type="radio" name="radio-choice-h-2" id="daytimePM" value="PM">
+                                  <label for="daytimePM">PM</label>
+                              </fieldset>
                           </form>
  -->                    </div>
                     </div>
@@ -736,8 +491,8 @@
                 <div class="modal-content">
                   <h2>Friends List</h2>
                   <form method="post" action="">
-                    <fieldset data-role="controlgroup" data-iconpos="right" id="friends_fieldset">
-                      <!-- <input type="checkbox" name="interest" id="eecs214" value="off">
+                    <fieldset data-role="controlgroup" data-iconpos="right">
+                      <input type="checkbox" name="interest" id="eecs214" value="off">
                       <label for="eecs214">Tony</label>
                       <input type="checkbox" name="interest" id="eecs336" value="off">
                       <label for="eecs336">Marc</label>
@@ -746,13 +501,15 @@
                       <input type="checkbox" name="interest" id="eecs361" value="off">
                       <label for="eecs361">Kathryn</label>
                       <input type="checkbox" name="interest" id="eecs394" value="off">
-                      <label for="eecs394">Michael</label> -->
+                      <label for="eecs394">Michael</label>
+                      <!-- <input type="checkbox" name="interest" id="eecs453" value="off">
+                      <label for="eecs453">EECS 453</label> -->
                     </fieldset>
 
                       <div class="pos_right">
                         <input id="clear_button" href="#" type="reset" data-inline="true" value="Clear">
                         <!-- <a id="done_button" href="#" onclick="nextBarShow()" data-rel="close" class="modifyBar-btn-small">Post!</a> -->
-                        <button class="btn btn-default" data-dismiss="modal" onclick="myclick()">Invite!</button>
+                        <button class="btn btn-default" data-dismiss="modal">Invite!</button>
                       </div>      
                   </form>
                 </div>
@@ -762,6 +519,7 @@
 
 
         <!-- count MODAL -->
+        
         <div class="modal fade" id="count1" tabindex="-1" role="dialog" aria-labelledby="signin" aria-hidden="true"> 
                 <div class="modal-dialog">
                     <div class="modal-content">
