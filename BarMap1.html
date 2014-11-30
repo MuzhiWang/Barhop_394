@@ -92,7 +92,7 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 												  infowindow[0] = new google.maps.InfoWindow({
 													//map: map,
 													//position: myCenter,
-													content: "hello"
+													content: mapResults[0].get("BarName");
 													});  
 
 													marker[0].setMap(map);
@@ -146,10 +146,10 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 													});  
 
 													marker[mapCount].setMap(map);
-													
-													google.maps.event.addListener(marker[mapCount], 'click', function(mapCount) {
+													var innerkey = mapCount;
+													google.maps.event.addListener(marker[mapCount], 'click', function(innerkey) {
 													return function() {
-													infowindow[j].open(map, marker[mapCount]);
+													infowindow[innerkey].open(map, marker[innerkey]);
 													}
 													}(mapCount));
 													mapCount++;
