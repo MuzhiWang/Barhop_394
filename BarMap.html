@@ -149,14 +149,14 @@ function setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPla
 											// Do something with the returned Parse.Object values
 												
 												var object = mapResults[0];
-												alert("the " + 0 + " bar:" + object.get("BarName"));
+												//alert("the " + 0 + " bar:" + object.get("BarName"));
 												
 												marker[0] = new google.maps.Marker({
 												position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
 												icon:'Images/star-icon.png'
 												});
 												flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
-												alert("the " + pathIndex + " bar:" + object.get("BarName"));
+												//alert("the " + pathIndex + " bar:" + object.get("BarName"));
 												pathIndex++;
 												
 												  infowindow[0] = new google.maps.InfoWindow({
@@ -202,7 +202,7 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 												// Do something with the returned Parse.Object values
 													
 													var object = results[0];
-													alert("the " + mapCount + " bar:" + object.get("BarName"));
+													//alert("the " + mapCount + " bar:" + object.get("BarName"));
 													
 													marker[mapCount] = new google.maps.Marker({
 													position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
@@ -211,7 +211,7 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 													});
 													flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
 													pathIndex++;
-													alert("the " + pathIndex + " bar:" + object.get("BarName"));
+													//alert("the " + pathIndex + " bar:" + object.get("BarName"));
 																						
 													  infowindow[mapCount] = new google.maps.InfoWindow({
 														//map: map,
@@ -255,7 +255,7 @@ function setPathInMap() {
   	// for (var i = 0; i < pathIndex; i++) {
   	// 	alert("The" + i + "geolocation: " + flightPlanCoordinates[i]);
   	// }
-  	alert("get path num: " + pathIndex);
+  	//alert("get path num: " + pathIndex);
 }
 
 $(document).ready(function() {
@@ -264,7 +264,7 @@ $(document).ready(function() {
 					setPathInMap();
 					pathIndex = 0;
 					alert("set path successfully");
-				}, 2000);
+				}, 1500);
                 
 });
 
