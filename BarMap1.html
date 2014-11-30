@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"> </script>
+
+        <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        
+        <link href="CSS/mobile.css" rel="stylesheet" media="handheld,only screen and (max-device-width:480px)" />
+        <link href="CSS/core.css" rel="stylesheet" media="screen" />
+        <link rel="stylesheet" href="Plugins/FontAwesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="Plugins/Bootstrap/css/bootstrap.min.css">
+		
+
+        <script type='application/javascript' src='JS/fastclick.js'></script>
+        <script type="text/javascript" src="Plugins/Bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="JS/timeline.js"></script>
+        <script type="text/javascript" src="JS/parse.js"></script>
+
+<script type="text/javascript">
+
+function initialize()
+{
+/*var mapProp = {
+  center:,
+  zoom:15,
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+
+var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+*/
+Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV"); 
+			var Map = Parse.Object.extend("Map"); 
+			var Product = Parse.Object.extend("Product");
+			var bars=new Map();
+			var product= new Product();
+			var array=[];
+			var marker=[];
+			var infowindow = [];
+            var productquery = new Parse.Query('Product');
+			var mapquery= new Parse.Query('Map');
+				var mapProp = {
+						center:new google.maps.LatLng(42.04466,-87.68238),
+						zoom:16,
+						mapTypeControl:false,
+						zoomControl:true,
+						streetViewControl:false,
+						mapTypeId:google.maps.MapTypeId.ROADMAP
+					};
+				var mapDiv = document.getElementById("googleMap");
+
+				var map=new google.maps.Map(mapDiv,mapProp);
+				var lat;
+				var lon;
+
+						
+			
+			 productquery.find({
+              success: function(results) {
+			  //to store all the barlist in a hop
+			   for (var i = results.length-1; i >= 0; i--) { 
+							
+							array = results[i].get('BarList');
+							alert("CONGRATS you have hoped "+array.length+ " BARS!!");
+							
+							
+							
+								
+								if(array[0]!=null)
+								{
+								
+								mapquery.equalTo("BarName",array[0]);
+								mapquery.find({
+									success: function(results) {
+									
+									
+									for (var k = results.length-1; k >= 0; k--) { 
+										
+											// Do something with the returned Parse.Object values
+												
+												var object = results[k];
+
+												
+												 marker[k] = new google.maps.Marker({
+												position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
+												icon:'Images/star-icon.png'
+												});
+												
+												  infowindow[k] = new google.maps.InfoWindow({
+													//map: map,
+													//position: myCenter,
+													content: "hello"
+													});  
+
+													marker[k].setMap(map);
+													var innerKey = k;
+													google.maps.event.addListener(marker[k], 'click', function(innerKey) {
+													return function() {
+													infowindow[innerKey].open(map, marker[innerKey]);
+													}
+													}(k));
+
+									}
+											
+									},
+									error: function(error) {
+										alert("Error: " + error.code + " " + error.message);
+									}
+								});
+								}
+								else{ alert("no bars hopped");}
+							
+							
+							
+							
+							//to take each name of the bar and equate it to the list we have with co ordinates
+							for(var j=1 ; j< array.length ; j++)
+							{
+								if(array[j]!=null)
+								{
+								
+								mapquery.equalTo("BarName",array[j]);
+								mapquery.find({
+									success: function(results) {
+									
+									
+									for (var k = results.length-1; k >= 0; k--) { 
+										
+									
+											// Do something with the returned Parse.Object values
+												
+												var object = results[k];
+												
+												
+												 marker[k] = new google.maps.Marker({
+												position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
+												//animation:google.maps.Animation.BOUNCE
+												//icon:'111111.png'
+												});
+												
+																					
+												  infowindow[k] = new google.maps.InfoWindow({
+													//map: map,
+													//position: myCenter,
+													content: object.get('BarName')
+													});  
+
+													marker[k].setMap(map);
+													
+													google.maps.event.addListener(marker[k], 'click', function(k) {
+													return function() {
+													infowindow[k].open(map, marker[k]);
+													}
+													}(k));
+
+									}
+											
+									},
+									error: function(error) {
+										alert("Error: " + error.code + " " + error.message);
+									}
+								});
+								}else{ alert("unsuccessful");}
+							}
+					}
+				},
+			error : function(error){
+					alert("error 3");
+				}
+			});
+
+				if (navigator.geolocation) {
+							navigator.geolocation.getCurrentPosition(showPosition);
+							
+						} else { 
+							alert("Geolocation is not supported by this browser.");
+						}
+
+					  function showPosition(position) {
+
+						  lat = position.coords.latitude;
+						  lon = position.coords.longitude;
+						
+						
+						var currentmarker = new google.maps.Marker({
+												position : new google.maps.LatLng(lat,lon),
+												animation:google.maps.Animation.BOUNCE
+												});
+												currentmarker.setMap(map);
+						
+						}
+				
+						
+				 $(document).ready(function() {
+                //autoComplete();
+                
+				});
+				
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+    <header>
+    <div data-role="panel" id="formPanel" data-position="right" data-display="overlay">
+      <p>Bar map page</p>
+    
+    </div>
+    </header>
+</head>
+
+<body class="fancy">
+  <!-- HEADER -->
+        <div class="header">
+          <h1>BarMap
+            <span>
+              <a href="./BarList.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
+              <!-- <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
+            </span>
+          </h1>     
+        </div>
+
+<div id="googleMap" style="margin-top:20px; height:568px;"></div>
+
+</body>
+</html>
