@@ -76,12 +76,12 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 								
 								mapquery.equalTo("BarName",array[0]);
 								mapquery.find({
-									success: function(results) {
+									success: function(mapResults) {
 									
 										
 											// Do something with the returned Parse.Object values
 												
-												var object = results[0];
+												var object = mapResults[0];
 
 												
 												 marker[0] = new google.maps.Marker({
@@ -118,54 +118,45 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 							
 							
 							//to take each name of the bar and equate it to the list we have with co ordinates
-							for(var j=1 ; j< array.length ; j++)
-							{
-								if(array[j]!=null)
-								{
-								
-								mapquery.equalTo("BarName",array[j]);
+								mapquery.equalTo("BarName",array);
 								mapquery.find({
 									success: function(results) {
-									
-									
-									for (var k = results.length-1; k >= 0; k--) { 
-										
-									
 											// Do something with the returned Parse.Object values
+											for(var j=1 ; j< array.length ; j++)
+											{
+												if(array[j]!=null)
+												{
+												var object = results[j];
 												
-												var object = results[k];
 												
-												
-												 marker[k] = new google.maps.Marker({
+												marker[j] = new google.maps.Marker({
 												position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
 												//animation:google.maps.Animation.BOUNCE
 												//icon:'111111.png'
 												});
 												
 																					
-												  infowindow[k] = new google.maps.InfoWindow({
+												  infowindow[j] = new google.maps.InfoWindow({
 													//map: map,
 													//position: myCenter,
 													content: object.get('BarName')
 													});  
 
-													marker[k].setMap(map);
+													marker[j].setMap(map);
 													
-													google.maps.event.addListener(marker[k], 'click', function(k) {
+													google.maps.event.addListener(marker[j], 'click', function(j) {
 													return function() {
-													infowindow[k].open(map, marker[k]);
+													infowindow[j].open(map, marker[j]);
 													}
-													}(k));
-
-									}
+													}(j));
+												}
+											}
 											
 									},
 									error: function(error) {
 										alert("Error: " + error.code + " " + error.message);
 									}
 								});
-								}else{ alert("unsuccessful");}
-							}
 				},
 			error : function(error){
 					alert("error 3");
