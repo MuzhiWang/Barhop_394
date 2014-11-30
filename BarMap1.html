@@ -118,18 +118,20 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 							
 							
 							//to take each name of the bar and equate it to the list we have with co ordinates
-								mapquery.equalTo("BarName",array);
+							for(var j=1 ; j< array.length ; j++)
+							{
+								if(array[j]!=null)
+								{
+								
+								mapquery.equalTo("BarName",array[j]);
 								mapquery.find({
 									success: function(results) {
 											// Do something with the returned Parse.Object values
-											for(var j=1 ; j< array.length ; j++)
-											{
-												if(array[j]!=null)
-												{
-												var object = results[j];
+												
+												var object = results[0];
 												
 												
-												marker[j] = new google.maps.Marker({
+												 marker[j] = new google.maps.Marker({
 												position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
 												//animation:google.maps.Animation.BOUNCE
 												//icon:'111111.png'
@@ -149,14 +151,14 @@ Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpO
 													infowindow[j].open(map, marker[j]);
 													}
 													}(j));
-												}
-											}
 											
 									},
 									error: function(error) {
 										alert("Error: " + error.code + " " + error.message);
 									}
 								});
+								}else{ alert("unsuccessful");}
+							}
 				},
 			error : function(error){
 					alert("error 3");
