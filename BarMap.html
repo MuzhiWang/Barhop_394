@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script
-src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
-</script>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"> </script>
 
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
         <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -18,55 +16,259 @@ src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6
         <link href="CSS/core.css" rel="stylesheet" media="screen" />
         <link rel="stylesheet" href="Plugins/FontAwesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="Plugins/Bootstrap/css/bootstrap.min.css">
+		
 
         <script type='application/javascript' src='JS/fastclick.js'></script>
         <script type="text/javascript" src="Plugins/Bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="JS/timeline.js"></script>
         <script type="text/javascript" src="JS/parse.js"></script>
 
-<script>
-var myCenter=new google.maps.LatLng(42.05059,-87.67660);
-var bar1=new google.maps.LatLng(42.05525,-87.67497);
-var bar2=new google.maps.LatLng(42.05416,-87.67480);
-var bar3=new google.maps.LatLng(42.05569,-87.67291);
+<script type="text/javascript">
+
+var flightPlanCoordinates = [];
+var pathIndex = 0;
+var map;
+var mapCount = 0;
 
 function initialize()
 {
-var mapProp = {
-  center:myCenter,
+/*var mapProp = {
+  center:,
   zoom:15,
   mapTypeId:google.maps.MapTypeId.ROADMAP
   };
 
 var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+*/
+Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV"); 
+			var Map = Parse.Object.extend("Map"); 
+			var Product = Parse.Object.extend("Product");
+			var bars=new Map();
+			var product= new Product();
+			var array=[];
+			var marker=[];
+			var infowindow = [];
+            var productquery = new Parse.Query('Product');
+			var mapquery= new Parse.Query('Map');
+				var mapProp = {
+						center:new google.maps.LatLng(42.04466,-87.68238),
+						zoom:16,
+						mapTypeControl:false,
+						zoomControl:true,
+						streetViewControl:false,
+						mapTypeId:google.maps.MapTypeId.ROADMAP
+					};
+				var mapDiv = document.getElementById("googleMap");
 
-var marker=new google.maps.Marker({
-  position:myCenter,
-  animation:google.maps.Animation.BOUNCE,
-  });
+				map=new google.maps.Map(mapDiv,mapProp);
+				var lat;
+				var lon;
 
-marker.setMap(map);
+						
+			
+			 productquery.find({
+              success: function(results) {
+			  //to store all the barlist in a hop
+							
+							array = results[0].get('BarList');
+							alert("CONGRATS you have hoped "+array.length+ " BARS!!");
+							
+							
+							// setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
+							
+							setMarkerInOrder(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
+							
+							
+							// //to take each name of the bar and equate it to the list we have with co ordinates
+							// var mapCount = 1;
+							// //setTimeout(function(){}, 1600);
+							// // for(var j=1 ; j< array.length ; j++)
+							// // {
+							// // 	//setTimeout(function(){}, 200);
+							// // 	if(array[j]!=null)
+							// // 	{
+								
+							// setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow);
 
-var marker2=new google.maps.Marker({
-  position:bar1,
-  });
+								
+	
+							// 	//setTimeout(function(){}, 400);
+							// 	}else{ alert("unsuccessful");}
+							// }
 
-marker2.setMap(map);
+							  
+				},
+			error : function(error){
+					alert("error 3");
+				}
+			});
 
-var marker3=new google.maps.Marker({
-  position:bar2,
-  });
+				if (navigator.geolocation) {
+							navigator.geolocation.getCurrentPosition(showPosition);
+							
+						} else { 
+							alert("Geolocation is not supported by this browser.");
+						}
 
-marker3.setMap(map);
+					  function showPosition(position) {
 
-var marker4=new google.maps.Marker({
-  position:bar3,
-  });
+						  lat = position.coords.latitude;
+						  lon = position.coords.longitude;
+						
+						
+						var currentmarker = new google.maps.Marker({
+												position : new google.maps.LatLng(lat,lon),
+												animation:google.maps.Animation.BOUNCE
+												});
+												currentmarker.setMap(map);
 
-marker4.setMap(map);
+						
+						}
+}
+
+
+function setMarkerInOrder(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex) {
+	setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
+	var mapCount = 1;
+	setTimeout(function(){}, 800);
+	setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow);
+}
+
+
+
+
+function setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex) {
+	if(array[0]!=null)
+							{
+								
+								mapquery.equalTo("BarName",array[0]);
+								mapquery.find({
+									success: function(mapResults) {
+									
+										
+											// Do something with the returned Parse.Object values
+												
+												var object = mapResults[0];
+												alert("the " + 0 + " bar:" + object.get("BarName"));
+												
+												marker[0] = new google.maps.Marker({
+												position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
+												icon:'Images/star-icon.png'
+												});
+												flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
+												alert("the " + pathIndex + " bar:" + object.get("BarName"));
+												pathIndex++;
+												
+												  infowindow[0] = new google.maps.InfoWindow({
+													//map: map,
+													//position: myCenter,
+													content: mapResults[0].get("BarName")
+													});  
+
+													marker[0].setMap(map);
+													var innerKey = 0;
+													google.maps.event.addListener(marker[0], 'click', function(innerKey) {
+													return function() {
+													infowindow[innerKey].open(map, marker[innerKey]);
+													}
+													}(0));
+
+											
+									},
+									error: function(error) {
+										alert("Error: " + error.code + " " + error.message);
+									}
+								});
+							}
+							else{ 
+								alert("no bars hopped");
+							}
 
 
 }
+
+
+
+function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow) {
+							for(var j=1 ; j< array.length ; j++)
+							{
+								//setTimeout(function(){}, 200);
+								if(array[j]!=null)
+								{
+								
+									mapquery.equalTo("BarName",array[j]);
+									mapquery.find({
+										success: function(results) {
+												// Do something with the returned Parse.Object values
+													
+													var object = results[0];
+													alert("the " + mapCount + " bar:" + object.get("BarName"));
+													
+													marker[mapCount] = new google.maps.Marker({
+													position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
+													//animation:google.maps.Animation.BOUNCE
+													//icon:'111111.png'
+													});
+													flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
+													pathIndex++;
+													alert("the " + pathIndex + " bar:" + object.get("BarName"));
+																						
+													  infowindow[mapCount] = new google.maps.InfoWindow({
+														//map: map,
+														//position: myCenter,
+														content: object.get('BarName')
+														});  
+
+														marker[mapCount].setMap(map);
+														var innerkey = mapCount;
+														google.maps.event.addListener(marker[mapCount], 'click', function(innerkey) {
+														return function() {
+														infowindow[innerkey].open(map, marker[innerkey]);
+														}
+														}(mapCount));
+														mapCount++;
+												
+										},
+										error: function(error) {
+											alert("Error: " + error.code + " " + error.message);
+										}
+									});
+								
+	
+								//setTimeout(function(){}, 400);
+								}else{ alert("unsuccessful");}
+							}
+}
+
+
+
+function setPathInMap() {
+	var flightPath = new google.maps.Polyline({
+    path: flightPlanCoordinates,
+    geodesic: true,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  	});
+
+  	flightPath.setMap(map);
+  	// for (var i = 0; i < pathIndex; i++) {
+  	// 	alert("The" + i + "geolocation: " + flightPlanCoordinates[i]);
+  	// }
+  	alert("get path num: " + pathIndex);
+}
+
+$(document).ready(function() {
+                //autoComplete();
+                setTimeout(function(){
+					setPathInMap();
+					pathIndex = 0;
+					alert("set path successfully");
+				}, 2000);
+                
+});
+
+
 
 google.maps.event.addDomListener(window, 'load', initialize);
 </script>
@@ -81,7 +283,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <body class="fancy">
   <!-- HEADER -->
         <div class="header">
-          <h1>Bars nearby
+          <h1>BarMap
             <span>
               <a href="./BarList.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
               <!-- <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
