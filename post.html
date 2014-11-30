@@ -91,7 +91,8 @@
 
              
               var Product = new Prod();
-              
+              var barlistStart = []
+              barlistStart[0] = address;
                 Product.set("name", name);
                 Product.set("theme", theme);
                 Product.set("address", address);
@@ -99,6 +100,7 @@
                 Product.set("date", date);
                 Product.set("description", description);
                 Product.set("invited", array);
+                Product.set("BarList", barlistStart);
                 alert(array);
                 Product.save(null, {
                 success: function(Product) {

@@ -74,6 +74,7 @@
               success: function(results) {
                 var firstEvent = results[0];
                 fullBarListIndex = firstEvent.get("BarList").length;
+                fullBarList = firstEvent.get("BarList");
                 newFriendsInParse = firstEvent.get("NewInvited");
                 //alert("new invited: " + newFriendsInParse);
                 //alert(fullBarListIndex);
@@ -371,10 +372,12 @@
                     address = nextBarName;
                     time = leavingTime;
                     theme = newTheme;
+                    fullBarList[fullBarListIndex] = next_bar_leave;
 
                     result[0].set("invited", newFriendsInParse);
                     result[0].set("address", next_bar_leave);
                     result[0].set("time", leave_time);
+                    result[0].set("BarList", fullBarList);
                     // arrayIndex = 0;
                     newFriendArray = [];
                     newTheme = "";
