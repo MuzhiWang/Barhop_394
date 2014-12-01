@@ -219,6 +219,36 @@ h2, p, ol, ul, li {
         transition:box-shadow 0.3s ease-in-out;
     }
 	
+	.leaving-btn-small{
+        -webkit-border-radius:12px;
+        -moz-border-radius:12px;
+        border-radius:12px;
+        /* padding:0px 0px 10px 70px; */
+        position:relative;
+        /*float:left;*/
+        display:block;
+        overflow:hidden;
+        /* margin:10px; */
+        background:#fff;
+        text-decoration: none;
+        width: 100px;
+        height: 16px;
+        color:#555;
+        background:-webkit-gradient(linear,left top,left bottom,color-stop(rgba(255,255,255,1),0),color-stop(rgba(246,246,246,1),0.74),color-stop(rgba(237,237,237,1),1));
+        background:-webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
+        background:-moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
+        background:-o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
+        background:linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+        -webkit-box-shadow:0px 0px 7px rgba(0,0,0,0.2), 0px 0px 0px 1px rgba(188,188,188,0.1);
+        -moz-box-shadow:0px 0px 7px rgba(0,0,0,0.2), 0px 0px 0px 1px rgba(188,188,188,0.1);
+        box-shadow:0px 0px 7px rgba(0,0,0,0.2), 0px 0px 0px 1px rgba(188,188,188,0.1);
+        -webkit-transition:box-shadow 0.3s ease-in-out;
+        -moz-transition:box-shadow 0.3s ease-in-out;
+        -o-transition:box-shadow 0.3s ease-in-out;
+        transition:box-shadow 0.3s ease-in-out;
+    }
+	
     .people-btn-small{
         -webkit-border-radius:4px;
         -moz-border-radius:4px;
@@ -267,7 +297,7 @@ h2, p, ol, ul, li {
         text-decoration: none;
         /*width: 150px;*/
         height: 20px;
-		width: 70px;
+		width: 100px;
         color:#555;
         background:-webkit-gradient(linear,left top,left bottom,color-stop(rgba(255,255,255,1),0),color-stop(rgba(246,246,246,1),0.74),color-stop(rgba(237,237,237,1),1));
         background:-webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 74%, rgba(237,237,237,1) 100%);
@@ -367,6 +397,13 @@ h2, p, ol, ul, li {
     }
 	
     .a-btn-small:active{
+        background: #08cbc4;
+        -webkit-box-shadow:0px 2px 2px rgba(0,0,0,0.6) inset, 0px 0px 0px 1px rgba(188,188,188,0.1);
+        -moz-box-shadow:0px 2px 2px rgba(0,0,0,0.6) inset, 0px 0px 0px 1px rgba(188,188,188,0.1);
+        box-shadow:0px 2px 2px rgba(0,0,0,0.6) inset, 0px 0px 0px 1px rgba(188,188,188,0.1);
+    }
+	
+    .leaving-btn-small:active{
         background: #08cbc4;
         -webkit-box-shadow:0px 2px 2px rgba(0,0,0,0.6) inset, 0px 0px 0px 1px rgba(188,188,188,0.1);
         -moz-box-shadow:0px 2px 2px rgba(0,0,0,0.6) inset, 0px 0px 0px 1px rgba(188,188,188,0.1);
@@ -578,6 +615,14 @@ h2, p, ol, ul, li {
         padding: 0;
         font-size: 0.85em;
     }
+	
+    .leaving {
+		/* margin-left:15px; */
+		font-size:1em; 
+		color:red; 
+		float: middle; 
+		/* margin-right:10px; */
+	}
 
     .more {
         color: #08cbc4;
@@ -607,7 +652,7 @@ h2, p, ol, ul, li {
 	
     .showNextBar {
 		border-bottom: black solid 1px;
-        font-size: 0.7em;
+        /* font-size: 0.7em; */
         padding-right: 10px;
 		margin-left: 10px;
 		margin-right: 50px;
