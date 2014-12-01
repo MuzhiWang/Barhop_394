@@ -134,7 +134,8 @@ var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 function setMarkerInOrder(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex) {
 	setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
 	var mapCount = 1;
-	setTimeout(function(){}, 800);
+	//alert();
+	setTimeout(function(){}, 2000);
 	setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow);
 }
 
@@ -160,7 +161,7 @@ function setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPla
 												icon:'Images/star-icon.png'
 												});
 												flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
-												//alert("the " + pathIndex + " bar:" + object.get("BarName"));
+												alert("the " + pathIndex + " bar set in coordinate:" + object.get("BarName"));
 												pathIndex++;
 												
 												  infowindow[0] = new google.maps.InfoWindow({
@@ -177,7 +178,7 @@ function setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPla
 													}
 													}(0));
 
-											
+											alert("Set start marker successfully!");
 									},
 									error: function(error) {
 										alert("Error: " + error.code + " " + error.message);
@@ -194,6 +195,8 @@ function setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPla
 
 
 function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow) {
+	pathIndex = 1;
+	mapCount = 1;
 							for(var j=1 ; j< array.length ; j++)
 							{
 								setTimeout(function(){}, 100);
@@ -214,9 +217,9 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 													//icon:'111111.png'
 													});
 													flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
-													pathIndex++;
-													//alert("the " + pathIndex + " bar:" + object.get("BarName"));
-																						
+													
+													alert("the " + pathIndex + " bar set in coordinate:" + object.get("BarName"));
+													pathIndex++;								
 													  infowindow[mapCount] = new google.maps.InfoWindow({
 														//map: map,
 														//position: myCenter,
@@ -230,6 +233,7 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 														infowindow[innerkey].open(map, marker[innerkey]);
 														}
 														}(mapCount));
+														alert("Set the " + mapCount + " marker successfully!");
 														mapCount++;
 												
 										},
@@ -256,29 +260,35 @@ function setPathInMap() {
   	});
 
   	flightPath.setMap(map);
-  	// for (var i = 0; i < pathIndex; i++) {
+  	// for (var i = 0; i < flightPlanCoordinates.length; i++) {
   	// 	alert("The" + i + "geolocation: " + flightPlanCoordinates[i]);
   	// }
-  	//alert("get path num: " + pathIndex);
+  	alert("get path num: " + flightPlanCoordinates.length);
 }
 
 
 function leavingNow() {
 	//alert("leaving successfully!");
-	productquery.find({
+	var productNew = new Parse.Query("Product");
+	//productNew.notEqualTo("address", "tonyBar");
+	//setTimeout(function(){}, 1000);
+	productNew.find({
 		success: function(deleteResult) {
 			deleteResult[0].destroy({
 			  success: function(myObject) {
 			    // The object was deleted from the Parse Cloud.
+			    alert("Leaving successfully! Clear the previous event!");
 			  },
 			  error: function(myObject, error) {
 			    // The delete failed.
 			    // error is a Parse.Error with an error code and message.
 			  }
 			});
+			alert("query successfully!");
 		},
 		error: function(error) {
 			alert("Leaving unsuccessfully!");
+			console.log('error');
 		}
 		
 	});
@@ -291,13 +301,15 @@ $(document).ready(function() {
 					setPathInMap();
 					pathIndex = 0;
 					alert("set path successfully");
-				}, 1500);
+				}, 2000);
                 
 });
 
 
 
 google.maps.event.addDomListener(window, 'load', initialize);
+
+
 </script>
     <header>
     <div data-role="panel" id="formPanel" data-position="right" data-display="overlay">
@@ -313,7 +325,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
           <h1>BarMap
             <span>
               <a href="./BarList.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
-              <a href="./index.html" id="menu" onClick="leavingNow()">Leaving Now</i></a>
+              <a href="./index.html" id="leavingNow" onClick="leavingNow()">Leaving Now</i></a>
             </span>
           </h1>     
         </div>

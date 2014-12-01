@@ -490,6 +490,12 @@ h2, p, ol, ul, li {
         margin-right: 15px;
         padding: 2px 10px 2px 8px;
     }
+	
+    #leavingNow {
+        float: right;
+        margin-right: 15px;
+        /* padding: 2px 10px 2px 8px; */
+    }
 
     #rides {
         position: relative;
