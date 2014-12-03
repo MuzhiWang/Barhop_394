@@ -77,28 +77,10 @@ var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 							array = results[0].get('BarList');
 							alert("CONGRATS you have hoped "+array.length+ " BARS!!");
 							
-							
-							// setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
-							
-							setMarkerInOrder(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
-							
-							
-							// //to take each name of the bar and equate it to the list we have with co ordinates
-							// var mapCount = 1;
-							// //setTimeout(function(){}, 1600);
-							// // for(var j=1 ; j< array.length ; j++)
-							// // {
-							// // 	//setTimeout(function(){}, 200);
-							// // 	if(array[j]!=null)
-							// // 	{
-								
-							// setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow);
 
-								
-	
-							// 	//setTimeout(function(){}, 400);
-							// 	}else{ alert("unsuccessful");}
-							// }
+							setMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
+							
+							
 
 							  
 				},
@@ -131,7 +113,7 @@ var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 }
 
 
-function setMarkerInOrder(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex) {
+function setMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex) {
 	setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
 	var mapCount = 1;
 	//alert();
@@ -162,9 +144,9 @@ function setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPla
 												position : new google.maps.LatLng(object.get('geoLa'), object.get('geoLo')),
 												icon:'Images/star-icon.png'
 												});
-												flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
-												alert("the " + pathIndex + " bar set in coordinate:" + object.get("BarName"));
-												pathIndex++;
+												// flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
+												// alert("the " + pathIndex + " bar set in coordinate:" + object.get("BarName"));
+												// pathIndex++;
 												
 												  infowindow[0] = new google.maps.InfoWindow({
 													//map: map,
@@ -217,10 +199,10 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 													//animation:google.maps.Animation.BOUNCE
 													//icon:'111111.png'
 													});
-													flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
+													// flightPlanCoordinates[pathIndex] = new google.maps.LatLng(object.get('geoLa'), object.get('geoLo'));
 													
-													alert("the " + pathIndex + " bar set in coordinate:" + object.get("BarName"));
-													pathIndex++;								
+													// alert("the " + pathIndex + " bar set in coordinate:" + object.get("BarName"));
+													// pathIndex++;								
 													  infowindow[mapCount] = new google.maps.InfoWindow({
 														//map: map,
 														//position: myCenter,
@@ -252,6 +234,9 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 
 
 function setPathInMap() {
+	
+
+	
 	var flightPath = new google.maps.Polyline({
     path: flightPlanCoordinates,
     geodesic: true,
