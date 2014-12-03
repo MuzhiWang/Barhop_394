@@ -92,7 +92,7 @@
                 }
                 LatArray = firstEvent.get("LatArray");
                 LonArray = firstEvent.get("LonArray");
-                alert("the geolocation's index: " + LatArrayIndex + " " + LonArrayIndex);
+                //alert("the geolocation's index: " + LatArrayIndex + " " + LonArrayIndex);
                 //alert("new invited: " + newFriendsInParse);
                 //alert(fullBarListIndex);
                 
@@ -151,11 +151,11 @@
                                 //alert(people_comment);
                                 if(people_com[j].get("checkin")){
                                   checkin_num++;
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
+                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:20%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
 
                                 }
                                 else{
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
+                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:20%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
                                 }
                                 
                                 q2.append(eachFriendDiv);
@@ -354,11 +354,11 @@
                                 //alert(people_comment);
                                 if(people_com[j].get("checkin")){
                                   checkin_num++;
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
+                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:20%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
 
                                 }
                                 else{
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
+                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:20%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
                                 }
                                 
                                 q2.append(eachFriendDiv);
@@ -397,8 +397,8 @@
                         result[0].save();
                         LatArrayIndex++;
                         LonArrayIndex++;
-                        alert(result[0].get("address"));
-                        alert(geoLa + " " + geoLo);
+                        //alert(result[0].get("address"));
+                        //alert(geoLa + " " + geoLo);
                       },
                       error: function(error) {
                         console.log(error.code);
@@ -473,7 +473,7 @@
                       firstEvent.save();
                       //alert();
                     } else {
-                      alert("Next bar existed.You should first leave and update!");  
+                      alert("Next bar existed. You should first leave and update!");  
                     }
 
                     invitedNum = result[0].get("invited").length;
@@ -517,11 +517,11 @@
                                 //alert(people_comment);
                                 if(people_com[j].get("checkin")){
                                   checkin_num++;
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
+                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:20%; color:blue;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
 
                                 }
                                 else{
-                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:30%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
+                                  var eachFriendDiv = '<a href="#" data-toggle="modal" data-target="#count1" onclick = "myclickfunction123(this.id)" id="'+people_com[j].get("username")+'" class="people-btn-small"><span class="btn-symbol-small"><i class="fa fa-user fa-lg"></i></span><span class="btn-text-small" id="person"'+ j +' style="margin-left:20%; color:red;">' + people_com[j].get("username") +'    :      '+people_comment+'</span></a>';
                                 }
                                 
                                 q2.append(eachFriendDiv);
