@@ -73,9 +73,15 @@ var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
 			 productquery.find({
               success: function(results) {
 			  //to store all the barlist in a hop
+			  				var firstEvent = results[0];
+			  				var latArray = firstEvent.get("LatArray");
+			  				var lonArray = firstEvent.get("LonArray");
+			  				for (var i = 0; i < latArray.length; i++) {
+			  					flightPlanCoordinates[i] = new google.maps.LatLng(latArray[i], lonArray[i]);
+			  				}
 							
 							array = results[0].get('BarList');
-							alert("CONGRATS you have hoped "+array.length+ " BARS!!");
+							alert("CONGRATS you have been through "+array.length+ " BARS!!");
 							
 
 							setMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
@@ -162,7 +168,7 @@ function setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPla
 													}
 													}(0));
 
-											alert("Set start marker successfully!");
+											//alert("Set start marker successfully!");
 									},
 									error: function(error) {
 										alert("Error: " + error.code + " " + error.message);
@@ -216,7 +222,7 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 														infowindow[innerkey].open(map, marker[innerkey]);
 														}
 														}(mapCount));
-														alert("Set the " + mapCount + " marker successfully!");
+														//alert("Set the " + mapCount + " marker successfully!");
 														mapCount++;
 												
 										},
@@ -234,9 +240,9 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 
 
 function setPathInMap() {
-	
 
-	
+
+
 	var flightPath = new google.maps.Polyline({
     path: flightPlanCoordinates,
     geodesic: true,
@@ -249,7 +255,7 @@ function setPathInMap() {
   	// for (var i = 0; i < flightPlanCoordinates.length; i++) {
   	// 	alert("The" + i + "geolocation: " + flightPlanCoordinates[i]);
   	// }
-  	alert("get path num: " + flightPlanCoordinates.length);
+  	//alert("get path number: " + flightPlanCoordinates.length);
 }
 
 
@@ -292,7 +298,7 @@ $(document).ready(function() {
 					setPathInMap();
 					pathIndex = 0;
 					alert("set path successfully");
-				}, 2000);
+				}, 1000);
                 
 });
 
