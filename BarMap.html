@@ -135,8 +135,10 @@ function setMarkerInOrder(array, mapquery, marker, infowindow, mapCount, flightP
 	setStartMarker(array, mapquery, marker, infowindow, mapCount, flightPlanCoordinates, pathIndex);
 	var mapCount = 1;
 	//alert();
-	setTimeout(function(){}, 2000);
-	setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow);
+	setTimeout(function(){
+		setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow);
+	}, 500);
+	// setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pathIndex, marker, infowindow);
 }
 
 
@@ -199,9 +201,8 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 	mapCount = 1;
 							for(var j=1 ; j< array.length ; j++)
 							{
-								setTimeout(function(){}, 100);
-								if(array[j]!=null)
-								{
+								//setTimeout(function(){}, 100);
+								
 								
 									mapquery.equalTo("BarName",array[j]);
 									mapquery.find({
@@ -244,7 +245,7 @@ function setTheOtherMarker(mapquery, array, mapCount, flightPlanCoordinates, pat
 								
 	
 								//setTimeout(function(){}, 400);
-								}else{ alert("unsuccessful");}
+								// }else{ alert("unsuccessful");}
 							}
 }
 
@@ -269,10 +270,11 @@ function setPathInMap() {
 
 function leavingNow() {
 	//alert("leaving successfully!");
-	var productNew = new Parse.Query("Product");
+	productquery = new Parse.Query("Product");
 	//productNew.notEqualTo("address", "tonyBar");
 	//setTimeout(function(){}, 1000);
-	productNew.find({
+	
+	productquery.find({
 		success: function(deleteResult) {
 			deleteResult[0].destroy({
 			  success: function(myObject) {
@@ -284,14 +286,18 @@ function leavingNow() {
 			    // error is a Parse.Error with an error code and message.
 			  }
 			});
-			alert("query successfully!");
+			//alert("query successfully!");
 		},
 		error: function(error) {
-			alert("Leaving unsuccessfully!");
+			alert("Leaving unsuccessfully! " + error.code);
 			console.log('error');
 		}
 		
 	});
+	setTimeout(function(){
+		window.location.href = "./index.html";
+	}, 1000);
+	
 }
 
 
@@ -325,7 +331,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
           <h1>BarMap
             <span>
               <a href="./BarList.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
-              <a href="./index.html" id="leavingNow" onClick="leavingNow()">Leaving Now</i></a>
+              <a href="#" id="leavingNow" onClick="leavingNow()">Leaving Now</i></a>
             </span>
           </h1>     
         </div>

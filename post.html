@@ -35,8 +35,8 @@
         <script type="text/javascript">
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
             var Prod = Parse.Object.extend("Product");
-            
-
+            //var product_query = Parse.Query('Product');
+            var map_query = new Parse.Query('Map');
             var friend_invite = Parse.Object.extend("userTest");
             var query_friend = new Parse.Query('userTest');
             var friend_invite_id = [];
@@ -70,15 +70,20 @@
 
             });
 
+            
+
             var origin;
             var destination;  
             var currentUser;
             var isVerified;
             var array = [];
             var arrayIndex = 0;
+            var lat = [];
+            var lon = [];
 
             function enroll(frm)
               {
+                var Product = new Prod();
               
               var name = $("input[name=txtName]").val();
               var theme = $("#theme").val();
@@ -86,11 +91,10 @@
               var time = $("#time").val();
               var date = $("#date").val();
               var description = $("#description").val();
+              //alert(address);
+              uploadGeo(address, Product, map_query, lat, lon);
               
               
-
-             
-              var Product = new Prod();
               var barlistStart = []
               barlistStart[0] = address;
                 Product.set("name", name);
@@ -101,14 +105,18 @@
                 Product.set("description", description);
                 Product.set("invited", array);
                 Product.set("BarList", barlistStart);
-                alert(array);
+                alert("Invited friends: " + array);
                 Product.save(null, {
                 success: function(Product) {
                 alert("New Barhop successfully created !");
                     // Hooray! Let them use the app now.
                     array = [];
                     arrayIndex = 0;
-                    window.location.href = "BarList.html";
+                    setTimeout(function() {
+                       
+                        window.location.href = "BarList.html";
+                    }, 500);
+                    
                     },
                         error: function(Product, error) {
                         // Show the error message somewhere and let the user try again.
@@ -119,27 +127,32 @@
   
             }
 
-            // $(document).ready(function(){
-            //     $('#Tony').click(function(){
-            //         myclick(this.id);
-            //     })
-            //     $('#Marc').click(function(){
-            //         myclick(this.id);
-            //     })
-            //     $('#Ajay').click(function(){
-            //         myclick(this.id);
-            //     })
-            //     $('#Kathryn').click(function(){
-            //         myclick(this.id);
-            //     })
-            //     $('#Michael').click(function(){
-            //         myclick(this.id);
-            //     })
-            // })
-
             function myclick(id){
                 array[arrayIndex] = id;
                 arrayIndex = arrayIndex + 1;
+            }
+
+            function turnBack() {
+                window.location.href = "./index.html";
+            }
+
+            function uploadGeo(address, Product, map_query, lat, lon) {
+                map_query.equalTo("BarName", "BlueStone");
+                          map_query.find({
+                            success: function(result) {
+                                //alert("map query successfully!");
+                                var firstEvent = result[0];
+                                lat[0] = firstEvent.get("geoLa");
+                                lon[0] = firstEvent.get("geoLo");
+                                Product.set("LatArray", lat);
+                                Product.set("LonArray", lon);
+                                Product.save();
+                            },
+                            error: function(error) {
+                                console.log(error.code);
+                            }
+                            
+                          });
             }
 
         </script>
@@ -157,7 +170,7 @@
         <div class="header">
           <h1>Create your Own Hop Event
             <span>
-              <a href="index.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
+              <a href="#" onclick="turnBack()" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
               <!-- <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
             </span>
           </h1>     

@@ -53,6 +53,10 @@
           var global_id;
           var check_flag = false;
           var checkin_num = 0;
+          var LatArray = [];
+          var LatArrayIndex = 0;
+          var LonArray = [];
+          var LonArrayIndex = 0;
 
 
            Parse.initialize("LOuRF1Ii3g5o4strZmXPKuTKx2KojiZsE5TRHTNe", "5Hyjb0QwQzP0H3VmpOiWRrJ5DgAJUapzBMSTaADV");
@@ -61,6 +65,9 @@
 
             var friend_invite = Parse.Object.extend("userTest");
             var query_friend = new Parse.Query('userTest');
+
+            var query_map = new Parse.Query('Map');
+
             var friend_invite_id = [];
             //var date = new Date(Date.now());
             //query.lessThan("updatedAt", Date.now());
@@ -76,6 +83,14 @@
                 fullBarListIndex = firstEvent.get("BarList").length;
                 fullBarList = firstEvent.get("BarList");
                 newFriendsInParse = firstEvent.get("NewInvited");
+                if (!firstEvent.get("LatArray")) {
+                  LatArrayIndex = 0;
+                  LonArrayIndex = 0;
+                } else {
+                  LatArrayIndex = firstEvent.get("LatArray").length;
+                  LonArrayIndex = firstEvent.get("LonArray").length;
+                }
+                alert("the geolocation's index: " + LatArrayIndex + " " + LonArrayIndex);
                 //alert("new invited: " + newFriendsInParse);
                 //alert(fullBarListIndex);
                 
@@ -368,6 +383,26 @@
                       }
                     });
 
+                    query_map.equalTo("BarName", next_bar_leave);
+                    query_map.find({
+                      success: function(map_result) {
+                        var geoLa = map_result[0].get("geoLa");
+                        var geoLo = map_result[0].get("geoLo");
+                        LatArray[LatArrayIndex] = geoLa;
+                        LonArray[LonArrayIndex] = geoLo;
+                        result[0].set("LatArray", LatArray);
+                        result[0].set("LonArray", LonArray);
+                        result[0].save();
+                        LatArrayIndex++;
+                        LonArrayIndex++;
+                        alert(result[0].get("address"));
+                        alert(geoLa + " " + geoLo);
+                      },
+                      error: function(error) {
+                        console.log(error.code);
+                      }
+                    });
+
 
                     address = nextBarName;
                     time = leavingTime;
@@ -398,8 +433,8 @@
 
                 },
                 error: function(error) {
-                  alert("not success, error");
-                  console.log('error');
+                  alert("not success, error " + error.code);
+                  console.log(error.code);
                 }
               });
               
