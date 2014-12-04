@@ -137,7 +137,7 @@
             }
 
             function uploadGeo(address, Product, map_query, lat, lon) {
-                map_query.equalTo("BarName", "BlueStone");
+                map_query.equalTo("BarName", address);
                           map_query.find({
                             success: function(result) {
                                 //alert("map query successfully!");
