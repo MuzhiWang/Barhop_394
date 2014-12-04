@@ -431,6 +431,10 @@
                     result[0].set("LeavingTime", null);
                     result[0].set("NewInvited", null);
                     result[0].save();
+
+                    setTimeout(function() {
+                      location.reload(true);
+                    }, 200);
                     //alert("Leaving successful! " + result[0].get("invited"));
                   } else {
                     alert("No next bar !");
@@ -440,6 +444,9 @@
                 },
                 error: function(error) {
                   alert("not success, error " + error.code);
+                  // setTimeout(function() {
+                  //   location.reload(true);
+                  // }, 100);
                   console.log(error.code);
                 }
               });
