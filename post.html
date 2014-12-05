@@ -40,6 +40,7 @@
             var friend_invite = Parse.Object.extend("userTest");
             var query_friend = new Parse.Query('userTest');
             var friend_invite_id = [];
+            var fullFriendsList = [];
             //var friends_invite_list = $('#friend_list_fieldset');
             //var ss = $('#friend_list_fieldset').html();
             //var friendListDivSet = $('#friendListDiv');
@@ -50,8 +51,9 @@
                 
                 for (var i = 0; i < results.length ; i++) { 
                     var friend_steam = results[i].get('username');
+                    fullFriendsList[i] = friend_steam;
                     // alert(friend_steam);
-                    field += '<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off" onClick="myclick(this.id)"><label for="' + friend_steam +'">' + friend_steam  + '</label></div>';
+                    field += '<div class="ui-checkbox"><input type="checkbox" id="' + friend_steam + '" value="off"><label for="' + friend_steam +'">' + friend_steam  + '</label></div>';
 
                     // <input type="checkbox" id="Tony" value="off">
                     // <label for="Tony">Tony</label>
@@ -105,7 +107,7 @@
                 Product.set("description", description);
                 Product.set("invited", array);
                 Product.set("BarList", barlistStart);
-                alert("Invited friends: " + array);
+                //alert("Invited friends: " + array);
                 Product.save(null, {
                 success: function(Product) {
                 alert("New Barhop successfully created !");
@@ -127,9 +129,24 @@
   
             }
 
-            function myclick(id){
-                array[arrayIndex] = id;
-                arrayIndex = arrayIndex + 1;
+            // function myclick(id){
+            //     array[arrayIndex] = id;
+            //     arrayIndex = arrayIndex + 1;
+            // }
+
+            /****** friend selection click ******/
+           function myclick(){
+              for (var i = 0; i < fullFriendsList.length; i++) {
+                var checkId = fullFriendsList[i];
+                var x = document.getElementById(checkId).checked;
+                if (x == true) {
+                  array[arrayIndex] = fullFriendsList[i];
+                  arrayIndex++;
+                }
+                //alert(checkId + ": " + "__checked status: " + x);
+              }
+              alert("Invited " + array);
+
             }
 
             function turnBack() {
@@ -302,7 +319,7 @@
                 </fieldset>
 
                 <div class="pos_right">
-                    <a id="done_button" data-rel="close" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a>
+                    <a id="done_button" data-rel="close"  onclick="myclick()" class="ui-btn ui-btn-inline ui-shadow ui-corner-all">Invite !</a>
                 </div>      
               </form>
             </div>
